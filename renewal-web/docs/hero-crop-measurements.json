@@ -1,0 +1,38 @@
+[
+  {
+    "viewport": "3840x2160",
+    "hero_height": 2160,
+    "visible_width_percent": 100.0,
+    "visible_height_percent": 99.95
+  },
+  {
+    "viewport": "2560x1440",
+    "hero_height": 1440,
+    "visible_width_percent": 100.0,
+    "visible_height_percent": 99.95
+  },
+  {
+    "viewport": "1920x1080",
+    "hero_height": 1080,
+    "visible_width_percent": 100.0,
+    "visible_height_percent": 99.95
+  },
+  {
+    "viewport": "1440x900",
+    "hero_height": 900,
+    "visible_width_percent": 90.05,
+    "visible_height_percent": 100.0
+  },
+  {
+    "viewport": "1366x768",
+    "hero_height": 768,
+    "visible_width_percent": 100.0,
+    "visible_height_percent": 99.9
+  },
+  {
+    "viewport": "390x844",
+    "hero_height": 292.5,
+    "visible_width_percent": 75.04,
+    "visible_height_percent": 100.0
+  }
+]

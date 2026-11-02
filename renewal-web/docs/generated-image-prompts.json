@@ -1,0 +1,34 @@
+[
+  {
+    "name": "solo",
+    "prompt": "Use case: photorealistic-natural. Asset: temporary editorial tennis photograph for a Korean ONCOURT portfolio website. Premium understated documentary sports photography, neutral natural daylight, authentic Korean recreational tennis environment, natural skin texture and subtle asymmetry, believable anatomy and racket size, no beauty smoothing, no text, no letters, no logos, no watermark. Single photographic scene, NOT collage. Generous crop-safe framing, 3:2 landscape composition. One adult Korean woman standing alone at the baseline of an outdoor green hard tennis court, holding a racket and quietly looking across the empty court, full body with generous surroundings, 50mm eye-level."
+  },
+  {
+    "name": "empty",
+    "prompt": "Use case: photorealistic-natural. Asset: temporary editorial tennis photograph for a Korean ONCOURT portfolio website. Premium understated documentary sports photography, neutral natural daylight, authentic Korean recreational tennis environment, natural skin texture and subtle asymmetry, believable anatomy and racket size, no beauty smoothing, no text, no letters, no logos, no watermark. Single photographic scene, NOT collage. Generous crop-safe framing, 3:2 landscape composition. An empty outdoor tennis court seen behind a baseline, blue-green surface, correct tennis markings, low net and calm trees, no people, soft morning light, quiet athletic setting, 35mm."
+  },
+  {
+    "name": "equipment",
+    "prompt": "Use case: photorealistic-natural. Asset: temporary editorial tennis photograph for a Korean ONCOURT portfolio website. Premium understated documentary sports photography, neutral natural daylight, authentic Korean recreational tennis environment, natural skin texture and subtle asymmetry, believable anatomy and racket size, no beauty smoothing, no text, no letters, no logos, no watermark. Single photographic scene, NOT collage. Generous crop-safe framing, 3:2 landscape composition. A tennis racket with a realistically strung oval head, two yellow tennis balls and a plain towel resting beside an outdoor tennis court bench, natural felt and worn racket grip, close documentary still life, soft daylight."
+  },
+  {
+    "name": "practice",
+    "prompt": "Use case: photorealistic-natural. Asset: temporary editorial tennis photograph for a Korean ONCOURT portfolio website. Premium understated documentary sports photography, neutral natural daylight, authentic Korean recreational tennis environment, natural skin texture and subtle asymmetry, believable anatomy and racket size, no beauty smoothing, no text, no letters, no logos, no watermark. Single photographic scene, NOT collage. Generous crop-safe framing, 3:2 landscape composition. One adult Korean man practicing a forehand on an outdoor hard tennis court, full body with natural athletic posture and correct racket grip, candid recreational player, ball visible at a plausible distance, 70mm sports photograph."
+  },
+  {
+    "name": "aerial",
+    "prompt": "Use case: photorealistic-natural. Asset: temporary editorial tennis photograph for a Korean ONCOURT portfolio website. Premium understated documentary sports photography, neutral natural daylight, authentic Korean recreational tennis environment, natural skin texture and subtle asymmetry, believable anatomy and racket size, no beauty smoothing, no text, no letters, no logos, no watermark. Single photographic scene, NOT collage. Generous crop-safe framing, 3:2 landscape composition. True elevated overhead photographic view of a real outdoor green tennis court with exact court lines and one net. Two adult recreational Korean tennis partners are small full-body figures meeting near opposite sides of the net before starting a game. Broad court geometry, no typography, calm welcoming encounter, documentary drone photograph."
+  },
+  {
+    "name": "ready",
+    "prompt": "Use case: photorealistic-natural. Asset: temporary editorial tennis photograph for a Korean ONCOURT portfolio website. Premium understated documentary sports photography, neutral natural daylight, authentic Korean recreational tennis environment, natural skin texture and subtle asymmetry, believable anatomy and racket size, no beauty smoothing, no text, no letters, no logos, no watermark. Single photographic scene, NOT collage. Generous crop-safe framing, 3:2 landscape composition. Three adult Korean recreational tennis friends, two women and one man, standing beside an outdoor court bench holding rackets and talking naturally before a game, candid relaxed smiles, authentic sports outfits, eye-level documentary photo, inclusive low-key club atmosphere."
+  },
+  {
+    "name": "partners",
+    "prompt": "Use case: photorealistic-natural. Asset: temporary editorial tennis photograph for a Korean ONCOURT portfolio website. Premium understated documentary sports photography, neutral natural daylight, authentic Korean recreational tennis environment, natural skin texture and subtle asymmetry, believable anatomy and racket size, no beauty smoothing, no text, no letters, no logos, no watermark. Single photographic scene, NOT collage. Generous crop-safe framing, 3:2 landscape composition. Two adult Korean recreational tennis partners naturally greeting one another across the net on an outdoor court, each holding a tennis racket, candid friendly expressions, full bodies and generous crop-safe court surroundings, no staged commercial handshake."
+  },
+  {
+    "name": "play",
+    "prompt": "Use case: photorealistic-natural. Asset: temporary editorial tennis photograph for a Korean ONCOURT portfolio website. Premium understated documentary sports photography, neutral natural daylight, authentic Korean recreational tennis environment, natural skin texture and subtle asymmetry, believable anatomy and racket size, no beauty smoothing, no text, no letters, no logos, no watermark. Single photographic scene, NOT collage. Generous crop-safe framing, 3:2 landscape composition. Two adult Korean recreational tennis partners exchanging a friendly rally on a real court, wide landscape composition with near player preparing a forehand and second partner across the net, physically plausible positions, full bodies and rackets within frame, candid action without advertising theatrics."
+  }
+]

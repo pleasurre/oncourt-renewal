@@ -1,0 +1,72 @@
+'use strict';
+document.documentElement.classList.add('js');
+// Native anchors; static bilingual copy remains readable without language swaps.
+if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}},{threshold:.08});document.querySelectorAll('.section>.container').forEach(el=>{el.classList.add('reveal');observer.observe(el);});}
+
+// 05: user-controlled tabs. No autoplay; reduced motion keeps immediate state updates.
+(() => {
+ const section=document.querySelector('#why-oncourt.why-editorial');
+ if(!section||section.dataset.whyInitialized)return;
+ section.dataset.whyInitialized='true';
+ const tabs=[...section.querySelectorAll('[data-why-tab]')];
+ const image=section.querySelector('#why-feature-image');
+ const panel=section.querySelector('#why-feature-panel');
+ const title=section.querySelector('#why-feature-title');
+ const description=section.querySelector('#why-feature-description');
+ const caption=section.querySelector('#why-image-caption');
+ const reduced=matchMedia('(prefers-reduced-motion:reduce)');
+ const features=[
+  {key:'match',title:'가까운 코트, 원하는 시간에',description:'내 위치를 기준으로 주변 코트에서 열리는 경기를 살펴보세요. 원하는 날짜와 경기 유형을 확인하고, 일정에 맞는 매칭을 골라 앱에서 참여 신청을 이어갈 수 있습니다.',image:'img/why-match.webp',alt:'자연광이 드는 테니스 코트의 라인 위에 놓인 테니스공',caption:'온코트 브랜드 비주얼 · AI 생성 이미지'},
+  {key:'free',title:'매칭 수수료는 0원',description:'매칭을 열거나 참가할 때 별도의 매칭 수수료가 없습니다. 함께할 파트너를 찾는 데 집중하고, 원하는 일정에 맞춰 경기를 시작해 보세요. 코트 대여료 등 실제 운동 비용은 별도입니다.',image:'img/why-free-match.webp',alt:'코트 옆에 놓인 테니스 라켓과 두 개의 테니스공',caption:'온코트 브랜드 비주얼 · AI 생성 이미지'},
+  {key:'trust',title:'실력과 매너를 미리 확인',description:'NTRP 정보로 상대의 실력 수준을 살펴보고, 함께 경기한 플레이어가 남긴 리뷰도 참고하세요. 첫 만남 전에 필요한 정보를 확인하며 나에게 맞는 테니스 파트너를 찾아보세요.',image:'img/why-trust.webp',alt:'네트를 사이에 두고 인사하는 두 테니스 플레이어',caption:'온코트 브랜드 비주얼 · AI 생성 이미지'},
+  {key:'tournament',title:'매칭을 넘어 대회까지',description:'함께하는 한 경기에서 더 나아가, 다양한 테니스 대회에 참여해 보세요. 개인전과 단체전 등 새로운 경기 경험을 만나고, 더 넓은 코트에서 나만의 플레이를 이어갈 수 있습니다.',image:'img/why-tournament.webp',alt:'야외 테니스 코트에서 복식 경기를 하는 동호인 플레이어들',caption:'테니스 활동을 표현한 AI 생성 이미지 · 실제 대회 기록이 아닙니다'}
+ ];
+ let current=0;
+ function select(index,focus=false){
+  current=(index+features.length)%features.length;
+  const feature=features[current];
+  tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===current));tab.tabIndex=i===current?0:-1;});
+  title.textContent=feature.title;
+  description.textContent=feature.description;
+  image.src=feature.image;image.alt=feature.alt;caption.textContent=feature.caption;
+  panel.setAttribute('aria-labelledby',tabs[current].id);
+  if(!reduced.matches&&image.animate){for(const el of [image,panel]){el.getAnimations().forEach(animation=>animation.cancel());el.animate([{opacity:.15},{opacity:1}],{duration:220,easing:'ease-out'});}}
+  if(focus)tabs[current].focus({preventScroll:true});
+ }
+ tabs.forEach((tab,index)=>{
+  tab.addEventListener('click',()=>select(index));
+  tab.addEventListener('keydown',event=>{
+   let next;
+   if(event.key==='ArrowRight')next=current+1;
+   if(event.key==='ArrowLeft')next=current-1;
+   if(event.key==='Home')next=0;
+   if(event.key==='End')next=features.length-1;
+   if(next!==undefined){event.preventDefault();select(next,true);}
+  });
+ });
+ section.querySelector('[data-why-prev]').addEventListener('click',()=>select(current-1));
+ section.querySelector('[data-why-next]').addEventListener('click',()=>select(current+1));
+})();
+
+
+
+// Hide on downward scroll and reveal on upward scroll without layout shifts.
+(() => {
+ const header=document.querySelector('.site-header');
+ if(!header)return;
+ let anchor=Math.max(0,scrollY),pending=false;
+ function update(){
+  pending=false;
+  const y=Math.max(0,scrollY),delta=y-anchor;
+  const menuOpen=header.querySelector('.menu-toggle')?.getAttribute('aria-expanded')==='true';
+  if(y<24||menuOpen||header.contains(document.activeElement)){
+   header.classList.remove('is-scroll-hidden');anchor=y;return;
+  }
+  if(Math.abs(delta)<8)return;
+  header.classList.toggle('is-scroll-hidden',delta>0&&y>header.offsetHeight);
+  anchor=y;
+ }
+ addEventListener('scroll',()=>{if(!pending){pending=true;requestAnimationFrame(update);}},{passive:true});
+ header.addEventListener('focusin',()=>header.classList.remove('is-scroll-hidden'));
+ header.addEventListener('click',()=>{if(header.querySelector('.menu-toggle')?.getAttribute('aria-expanded')==='true')header.classList.remove('is-scroll-hidden');});
+})();

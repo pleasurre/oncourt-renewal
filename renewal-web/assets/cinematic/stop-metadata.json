@@ -1,0 +1,29 @@
+{
+  "time": 7.5,
+  "frameIndexZeroBased": 180,
+  "frameNumberOneBased": 181,
+  "fps": 24,
+  "sourceSize": [
+    1920,
+    1080
+  ],
+  "ballCenter": [
+    936,
+    459
+  ],
+  "ballSize": [
+    218,
+    218
+  ],
+  "unseenHemisphere": "estimated",
+  "ballCenterPixels": {
+    "x": 936,
+    "y": 459
+  },
+  "ballCropPixels": {
+    "x": 827,
+    "y": 350,
+    "width": 218,
+    "height": 218
+  }
+}

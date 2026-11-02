@@ -1,0 +1,564 @@
+{
+  "$meta": {
+    "brand": "ONCOURT",
+    "reference": "https://waabi.ai/",
+    "date": "2026-10-25",
+    "priority": "custom.md > embedded jy-ux-lab.md > Waabi observation > temporary",
+    "statuses": [
+      "verified",
+      "needs-check",
+      "temporary"
+    ],
+    "caution": "Waabi original precise CSS cannot be measured here; do not treat temporary values as Waabi measurements."
+  },
+  "color": {
+    "primary": {
+      "value": "#172E28",
+      "status": "verified"
+    },
+    "accent": {
+      "value": "#E4F35A",
+      "status": "verified"
+    },
+    "background": {
+      "value": "#FFFFFF",
+      "status": "verified"
+    },
+    "surface": {
+      "value": "#FFFFFF",
+      "status": "verified"
+    },
+    "text": {
+      "value": "#252725",
+      "status": "verified"
+    },
+    "text-inverse": {
+      "value": "#FFFFFF",
+      "status": "temporary"
+    },
+    "accent-foreground": {
+      "value": "#172E28",
+      "status": "temporary",
+      "note": "contrast on lime"
+    },
+    "border": {
+      "value": "#D9DFD6",
+      "status": "temporary"
+    },
+    "waabi-captured-palette": {
+      "value": [
+        "#FFFFFF",
+        "#FF2C6B",
+        "#191818",
+        "#000000"
+      ],
+      "status": "needs-check",
+      "note": "UI Discovery capture only"
+    }
+  },
+  "typography": {
+    "font-family": {
+      "display-en": {
+        "value": "Manrope, Pretendard, Noto Sans KR, sans-serif",
+        "status": "verified"
+      },
+      "body-ko": {
+        "value": "Pretendard, Noto Sans KR, sans-serif",
+        "status": "verified"
+      },
+      "waabi": {
+        "value": "Zagma",
+        "status": "needs-check",
+        "note": "Third-party capture, not DevTools-confirmed"
+      }
+    },
+    "font-weight": {
+      "regular": {
+        "value": 400,
+        "status": "verified"
+      },
+      "semibold": {
+        "value": 600,
+        "status": "verified"
+      },
+      "extrabold": {
+        "value": 800,
+        "status": "verified"
+      }
+    },
+    "hero": {
+      "font-size": {
+        "value": "clamp(58px, 7vw, 112px)",
+        "status": "temporary"
+      },
+      "font-weight": {
+        "value": 800,
+        "status": "verified"
+      },
+      "line-height": {
+        "value": 0.98,
+        "status": "temporary"
+      },
+      "letter-spacing": {
+        "value": "-0.045em",
+        "status": "temporary"
+      }
+    },
+    "hero-ko": {
+      "font-size": {
+        "value": "clamp(28px, 4vw, 52px)",
+        "status": "temporary"
+      },
+      "font-weight": {
+        "value": 600,
+        "status": "verified"
+      },
+      "line-height": {
+        "value": 1.2,
+        "status": "temporary"
+      },
+      "letter-spacing": {
+        "value": "-0.025em",
+        "status": "temporary"
+      }
+    },
+    "section-title": {
+      "font-size": {
+        "value": "clamp(32px, 5vw, 72px)",
+        "status": "temporary"
+      },
+      "font-weight": {
+        "value": 800,
+        "status": "verified"
+      },
+      "line-height": {
+        "value": 1.08,
+        "status": "temporary"
+      },
+      "letter-spacing": {
+        "value": "-0.035em",
+        "status": "temporary"
+      }
+    },
+    "page-title": {
+      "font-size": {
+        "value": "clamp(36px, 5vw, 64px)",
+        "status": "temporary"
+      },
+      "font-weight": {
+        "value": 800,
+        "status": "verified"
+      },
+      "line-height": {
+        "value": 1.1,
+        "status": "temporary"
+      },
+      "letter-spacing": {
+        "value": "-0.035em",
+        "status": "temporary"
+      }
+    },
+    "subtitle": {
+      "font-size": {
+        "value": "clamp(18px, 3vw, 28px)",
+        "status": "verified"
+      },
+      "font-weight": {
+        "value": 600,
+        "status": "verified"
+      },
+      "line-height": {
+        "value": 1.3,
+        "status": "verified"
+      },
+      "letter-spacing": {
+        "value": "-0.02em",
+        "status": "verified"
+      }
+    },
+    "body": {
+      "font-size": {
+        "value": "clamp(14px, 1.5vw, 16px)",
+        "status": "verified"
+      },
+      "font-weight": {
+        "value": 400,
+        "status": "verified"
+      },
+      "line-height": {
+        "value": 1.6,
+        "status": "verified"
+      },
+      "letter-spacing": {
+        "value": "-0.02em",
+        "status": "verified"
+      }
+    },
+    "caption": {
+      "font-size": {
+        "value": "clamp(12px, 1.2vw, 14px)",
+        "status": "verified"
+      },
+      "font-weight": {
+        "value": 400,
+        "status": "verified"
+      },
+      "line-height": {
+        "value": 1.4,
+        "status": "verified"
+      },
+      "letter-spacing": {
+        "value": "0",
+        "status": "temporary"
+      }
+    },
+    "cta": {
+      "font-size": {
+        "value": "clamp(14px, 1.2vw, 16px)",
+        "status": "temporary"
+      },
+      "font-weight": {
+        "value": 600,
+        "status": "verified"
+      },
+      "line-height": {
+        "value": 1.2,
+        "status": "temporary"
+      },
+      "letter-spacing": {
+        "value": "-0.01em",
+        "status": "temporary"
+      }
+    },
+    "waabi-exact-size": {
+      "value": "needs-check",
+      "status": "needs-check"
+    },
+    "waabi-exact-weight": {
+      "value": "needs-check",
+      "status": "needs-check"
+    },
+    "waabi-exact-line-height": {
+      "value": "needs-check",
+      "status": "needs-check"
+    },
+    "waabi-exact-letter-spacing": {
+      "value": "needs-check",
+      "status": "needs-check"
+    }
+  },
+  "layout": {
+    "full-bleed-width": {
+      "value": "100%",
+      "status": "temporary"
+    },
+    "container-max-width": {
+      "value": "1200px",
+      "status": "verified"
+    },
+    "container-margin-inline": {
+      "value": "auto",
+      "status": "temporary"
+    },
+    "body-text-max-width": {
+      "value": "680px",
+      "status": "verified"
+    },
+    "grid-columns-desktop": {
+      "value": 12,
+      "status": "verified"
+    },
+    "grid-columns-tablet": {
+      "value": 8,
+      "status": "temporary"
+    },
+    "grid-columns-mobile": {
+      "value": 4,
+      "status": "temporary"
+    },
+    "gutter-desktop": {
+      "value": "24px",
+      "status": "temporary"
+    },
+    "gutter-tablet": {
+      "value": "20px",
+      "status": "temporary"
+    },
+    "gutter-mobile": {
+      "value": "12px",
+      "status": "temporary"
+    },
+    "page-padding-mobile": {
+      "value": "20px",
+      "status": "temporary"
+    },
+    "page-padding-tablet": {
+      "value": "32px",
+      "status": "temporary"
+    },
+    "page-padding-desktop": {
+      "value": "48px",
+      "status": "temporary"
+    },
+    "split-columns": {
+      "value": "5fr 7fr",
+      "status": "temporary"
+    },
+    "waabi-original-container": {
+      "value": "needs-check",
+      "status": "needs-check"
+    },
+    "waabi-original-grid": {
+      "value": "needs-check",
+      "status": "needs-check"
+    }
+  },
+  "spacing": {
+    "section-padding-block": {
+      "value": "clamp(80px, 10vw, 160px)",
+      "status": "verified"
+    },
+    "section-gap": {
+      "value": "clamp(80px, 10vw, 160px)",
+      "status": "temporary"
+    },
+    "heading-body-gap": {
+      "value": "clamp(16px, 2vw, 30px)",
+      "status": "verified"
+    },
+    "component-gap": {
+      "value": "clamp(12px, 1.5vw, 24px)",
+      "status": "verified"
+    },
+    "card-padding": {
+      "value": "clamp(20px, 3vw, 32px)",
+      "status": "verified"
+    },
+    "card-gap": {
+      "value": "clamp(12px, 1.5vw, 24px)",
+      "status": "temporary"
+    },
+    "waabi-original-section-spacing": {
+      "value": "needs-check",
+      "status": "needs-check"
+    }
+  },
+  "radius": {
+    "button": {
+      "value": "12px",
+      "status": "verified"
+    },
+    "card": {
+      "value": "16px",
+      "status": "verified"
+    },
+    "tag": {
+      "value": "8px",
+      "status": "verified"
+    },
+    "image": {
+      "value": "0px",
+      "status": "temporary"
+    },
+    "waabi-original-radius": {
+      "value": "needs-check",
+      "status": "needs-check"
+    }
+  },
+  "image": {
+    "hero-ratio": {
+      "value": "16 / 9",
+      "status": "temporary"
+    },
+    "editorial-ratio": {
+      "value": "4 / 5",
+      "status": "temporary"
+    },
+    "card-ratio": {
+      "value": "3 / 2",
+      "status": "temporary"
+    },
+    "object-fit": {
+      "value": "cover",
+      "status": "temporary"
+    },
+    "object-position": {
+      "value": "center",
+      "status": "temporary"
+    },
+    "waabi-original-ratios": {
+      "value": "needs-check",
+      "status": "needs-check"
+    },
+    "asset-order": {
+      "value": "OnCourt official assets before approved generated images; no stock-first",
+      "status": "verified"
+    },
+    "asset-manifest": {
+      "value": "img/README.md",
+      "status": "verified"
+    }
+  },
+  "component": {
+    "button": {
+      "height-md": {
+        "value": "48px",
+        "status": "verified"
+      },
+      "height-lg": {
+        "value": "56px",
+        "status": "verified"
+      },
+      "min-touch-target": {
+        "value": "44px",
+        "status": "verified"
+      },
+      "padding-inline": {
+        "value": "clamp(16px, 2vw, 24px)",
+        "status": "verified"
+      },
+      "radius": {
+        "value": "12px",
+        "status": "verified"
+      }
+    },
+    "card": {
+      "padding": {
+        "value": "clamp(20px, 3vw, 32px)",
+        "status": "verified"
+      },
+      "gap": {
+        "value": "clamp(12px, 1.5vw, 24px)",
+        "status": "temporary"
+      },
+      "radius": {
+        "value": "16px",
+        "status": "verified"
+      },
+      "border-width": {
+        "value": "1px",
+        "status": "temporary"
+      }
+    },
+    "header": {
+      "height": {
+        "value": "80px",
+        "status": "temporary"
+      },
+      "container-max-width": {
+        "value": "1200px",
+        "status": "verified"
+      },
+      "waabi-sticky-behavior": {
+        "value": "needs-check",
+        "status": "needs-check"
+      }
+    },
+    "footer": {
+      "padding-block": {
+        "value": "clamp(48px, 6vw, 96px)",
+        "status": "temporary"
+      },
+      "container-max-width": {
+        "value": "1200px",
+        "status": "verified"
+      }
+    },
+    "page-title": {
+      "margin-bottom": {
+        "value": "clamp(24px, 4vw, 56px)",
+        "status": "temporary"
+      }
+    },
+    "list": {
+      "columns-mobile": {
+        "value": 1,
+        "status": "temporary"
+      },
+      "columns-tablet": {
+        "value": 2,
+        "status": "temporary"
+      },
+      "columns-desktop": {
+        "value": 3,
+        "status": "temporary"
+      },
+      "gap": {
+        "value": "clamp(12px, 1.5vw, 24px)",
+        "status": "verified"
+      }
+    },
+    "detail": {
+      "body-max-width": {
+        "value": "680px",
+        "status": "verified"
+      },
+      "aside-width": {
+        "value": "280px",
+        "status": "temporary"
+      }
+    },
+    "form": {
+      "max-width": {
+        "value": "680px",
+        "status": "temporary"
+      },
+      "input-height": {
+        "value": "56px",
+        "status": "verified"
+      },
+      "input-font-size": {
+        "value": "16px",
+        "status": "verified"
+      }
+    }
+  },
+  "breakpoint": {
+    "xs": {
+      "value": "375px",
+      "status": "verified"
+    },
+    "sm": {
+      "value": "480px",
+      "status": "verified"
+    },
+    "md": {
+      "value": "768px",
+      "status": "verified"
+    },
+    "lg": {
+      "value": "1024px",
+      "status": "verified"
+    },
+    "xl": {
+      "value": "1440px",
+      "status": "verified"
+    },
+    "media-query": {
+      "value": "mobile-first min-width",
+      "status": "verified"
+    },
+    "waabi-original-breakpoints": {
+      "value": "needs-check",
+      "status": "needs-check"
+    }
+  },
+  "motion": {
+    "first-phase": {
+      "value": "static responsive page",
+      "status": "verified"
+    },
+    "waabi-duration": {
+      "value": "needs-check",
+      "status": "needs-check"
+    },
+    "waabi-easing": {
+      "value": "needs-check",
+      "status": "needs-check"
+    },
+    "reduced-motion": {
+      "value": "prefers-reduced-motion: reduce",
+      "status": "verified"
+    }
+  }
+}
