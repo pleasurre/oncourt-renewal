@@ -70,3 +70,32 @@ if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion:
  header.addEventListener('focusin',()=>header.classList.remove('is-scroll-hidden'));
  header.addEventListener('click',()=>{if(header.querySelector('.menu-toggle')?.getAttribute('aria-expanded')==='true')header.classList.remove('is-scroll-hidden');});
 })();
+
+// Keep CSS's seamless track, varying playback speed without restarting its phase.
+(() => {
+ const band=document.querySelector('.rally-marquee');
+ const track=band?.querySelector('.rally-marquee__track');
+ if(!track)return;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ let animation=null,raf=0,lastY=scrollY,lastAt=performance.now(),speed=1,boost=0;
+ function tick(now){
+  const dt=Math.min(64,Math.max(0,now-lastAt));lastAt=now;
+  const y=scrollY;
+  const velocity=Math.abs(y-lastY)/Math.max(dt,1)*1000;lastY=y;
+  boost=Math.max(Math.min(velocity/450,7),boost*Math.exp(-dt/180));
+  const target=1+boost;
+  speed+=(target-speed)*(1-Math.exp(-dt/100));
+  animation?.updatePlaybackRate(speed);
+  raf=requestAnimationFrame(tick);
+ }
+ function sync(){
+  cancelAnimationFrame(raf);animation=track.getAnimations()[0]||null;
+  if(reduced.matches){if(animation)animation.updatePlaybackRate(1);return;}
+  lastAt=performance.now();lastY=scrollY;speed=1;boost=0;
+  raf=requestAnimationFrame(tick);
+ }
+ reduced.addEventListener('change',sync);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(raf);else sync();});
+ addEventListener('pagehide',()=>cancelAnimationFrame(raf));
+ requestAnimationFrame(sync);
+})();
