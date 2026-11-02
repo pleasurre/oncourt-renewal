@@ -49,3 +49,5 @@ html.cinematic-ready { scroll-behavior:auto; }
 .connection-invitation .connection-card::after{display:none;}
 .connection-invitation .connection-outro{text-align:center;font-family:var(--font-display-en);font-size:clamp(12px,1vw,15px);font-weight:600;letter-spacing:.14em;line-height:1.5;color:#68716a;margin:clamp(28px,4svh,48px) 0 0;}
 @media(max-width:767px){.connection-invitation .connection-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}.connection-invitation .connection-card{border-radius:14px;}.connection-dot-ball{width:140%;max-width:none;}.connection-invitation .connection-heading .connection-summary{max-width:290px;word-break:keep-all;}}
+
+.connection-invitation .connection-outro{display:block;text-align:center;}
