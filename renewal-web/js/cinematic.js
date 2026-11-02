@@ -13,13 +13,22 @@ function requestTime(time){desired=Math.round(clamp(time,0,CONFIG.stopTime)*24)/
 video.addEventListener('seeked',()=>{if(!disposed&&Math.abs(video.currentTime-desired)>.018)requestTime(desired);});
 video.addEventListener('loadeddata',()=>{ready=true;requestTime(desired);draw(progress);});
 video.addEventListener('error',()=>{story.dataset.videoError='true';});
+// Generate a complete opaque felt surface; no photographic background can wrap onto the back.
+function tennisTexture(){
+ const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=512;
+ const ctx=canvas.getContext('2d');ctx.fillStyle='#b4cd28';ctx.fillRect(0,0,1024,512);
+ let seed=42;for(let i=0;i<70000;i++){seed=(seed*1664525+1013904223)>>>0;const x=seed%1024;seed=(seed*1664525+1013904223)>>>0;const y=seed%512;ctx.fillStyle=i%2?'rgba(255,255,210,.10)':'rgba(69,91,8,.08)';ctx.fillRect(x,y,1,1);}
+ ctx.strokeStyle='#edf0c6';ctx.lineWidth=6;ctx.lineJoin='round';
+ for(const offset of [0,Math.PI]){ctx.beginPath();for(let i=0;i<=512;i++){const v=i/512,longitude=offset+.68*Math.sin(2*Math.PI*v),x=(longitude/(2*Math.PI)+.25)*1024;const y=v*512;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();}
+ const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return texture;
+}
 async function setupMesh(){
  try{
   renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setClearColor(0,0);renderer.outputColorSpace=THREE.SRGBColorSpace;host.append(renderer.domElement);
   scene=new THREE.Scene();camera=new THREE.OrthographicCamera(0,innerWidth,0,innerHeight,.1,2000);camera.position.z=1000;
-  const loader=new THREE.TextureLoader();const [map,bump]=await Promise.all([loader.loadAsync('assets/cinematic/ball-uv.png'),loader.loadAsync('assets/cinematic/felt-bump.png')]);
+  const loader=new THREE.TextureLoader();const map=tennisTexture();const bump=await loader.loadAsync('assets/cinematic/felt-bump.png');
   map.colorSpace=THREE.SRGBColorSpace;
-  // The source face carries its real seam and illumination. The unseen back is estimated.
+  // Opaque tennis felt covers the entire sphere, including the rotating back.
   const material=new THREE.MeshStandardMaterial({map,bumpMap:bump,bumpScale:.0015,roughness:1,metalness:0,transparent:true,opacity:0});
   mesh=new THREE.Mesh(new THREE.SphereGeometry(1,64,48),material);scene.add(mesh);scene.add(new THREE.AmbientLight(0xffffff,Math.PI));
   story.dataset.renderer='three-webgl';resize();draw(progress);
@@ -45,11 +54,11 @@ function draw(p){
  const r=hole.getBoundingClientRect(),sr=stage.getBoundingClientRect(),tx=r.left-sr.left+r.width/2,ty=r.top-sr.top+r.height/2;
  const fall=range(p,CONFIG.meshEnd,CONFIG.fallEnd),ease=fall*fall,entry=range(p,CONFIG.fallEnd,CONFIG.entryEnd);
  const landingDiameter=Math.min(d0*.68,r.width*.8);
- const x=mix(x0,tx,smooth(fall)),y=mix(y0,ty-landingDiameter*.32,ease)+entry*(r.height+landingDiameter*.25),d=mix(d0,landingDiameter,fall)*Math.pow(1-entry,1.2);
- const handoff=smooth(range(p,CONFIG.darkEnd,CONFIG.meshEnd)),isolated=p>=CONFIG.darkStart&&p<CONFIG.entryEnd;
+ const x=mix(x0,tx,smooth(fall)),y=mix(y0,ty-landingDiameter*.62,ease)+smooth(entry)*landingDiameter*.62,d=mix(d0,landingDiameter,fall);
+ const handoff=smooth(range(p,CONFIG.darkEnd,CONFIG.meshEnd)),isolated=p>=CONFIG.darkStart&&p<=1;
  Object.assign(reference.style,{left:(x-d/2)+'px',top:(y-d/2)+'px',width:d+'px',height:d+'px',opacity:String(isolated?(renderer?1-handoff:1):0)});
  // Clip the sphere's lower half behind the actual hole's front rim during entry.
- const rim=r.bottom-sr.top-2;reference.style.clipPath=entry>0?`inset(0 0 ${Math.max(0,y+d/2-rim)}px 0)`:'none';host.style.clipPath=entry>0?`inset(0 0 ${Math.max(0,h-rim)}px 0)`:'none';
+ const rim=ty;reference.style.clipPath=entry>0?`inset(0 0 ${Math.max(0,y+d/2-rim)}px 0)`:'none';host.style.clipPath=entry>0?`inset(0 0 ${Math.max(0,h-rim)}px 0)`:'none';
  if(mesh&&renderer){mesh.visible=isolated&&handoff>0&&d>.1;mesh.position.set(x,y,0);mesh.scale.setScalar(d/2);mesh.rotation.set(fall*.5,fall*1.15,fall*.7);mesh.material.opacity=handoff;renderer.render(scene,camera);}
  headerColor(p>.88);story.dataset.phase=p<.16?'curtains':p<.65?'film':p<.74?'isolate':p<.8?'handoff':p<.94?'fall':p<.975?'hole':'problem';story.dataset.progress=p.toFixed(4);
 }

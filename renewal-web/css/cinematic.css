@@ -37,3 +37,15 @@ html.cinematic-ready { scroll-behavior:auto; }
 }
 
 .cinema-film video,.cinema-film .cinema-freeze { mask-image: radial-gradient(ellipse at 49% 54%,black 38%,rgba(0,0,0,.96) 65%,transparent 100%); }
+
+/* Quiet invitation: an accessible foreground over a dotted tennis silhouette. */
+#connection.connection-invitation{position:relative;isolation:isolate;overflow:hidden;background:#f8f8f5;border-radius:0;padding:clamp(64px,8svh,100px) 0;}
+.connection-invitation>.container{position:relative;z-index:1;}
+.connection-dot-ball{position:absolute;z-index:0;pointer-events:none;width:min(78vw,820px);height:auto;left:50%;top:48%;transform:translate(-50%,-50%) rotate(-18deg);fill:#e1e2dd;}
+.connection-invitation .connection-heading h2{font-family:var(--font-body-ko);font-size:clamp(30px,3.5vw,50px);font-weight:750;line-height:1.3;color:#18211c;}
+.connection-invitation .connection-heading .connection-summary{color:#727872;font-size:clamp(15px,1.4vw,19px);margin:20px auto 0;}
+.connection-invitation .connection-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.8vw,24px);margin-top:clamp(32px,5svh,56px);}
+.connection-invitation .connection-card,.connection-invitation .connection-card:nth-child(even){margin:0;max-width:none;aspect-ratio:4/5;border-radius:18px;}
+.connection-invitation .connection-card::after{display:none;}
+.connection-invitation .connection-outro{text-align:center;font-family:var(--font-display-en);font-size:clamp(12px,1vw,15px);font-weight:600;letter-spacing:.14em;line-height:1.5;color:#68716a;margin:clamp(28px,4svh,48px) 0 0;}
+@media(max-width:767px){.connection-invitation .connection-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}.connection-invitation .connection-card{border-radius:14px;}.connection-dot-ball{width:140%;max-width:none;}.connection-invitation .connection-heading .connection-summary{max-width:290px;word-break:keep-all;}}
