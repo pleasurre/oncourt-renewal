@@ -47,5 +47,21 @@ html.cinematic-ready { scroll-behavior:auto; }
 .connection-invitation .connection-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.8vw,24px);margin-top:clamp(32px,5svh,56px);}
 .connection-invitation .connection-card,.connection-invitation .connection-card:nth-child(even){margin:0;max-width:none;aspect-ratio:4/5;border-radius:18px;}
 .connection-invitation .connection-card::after{display:none;}
-.connection-invitation .connection-outro{text-align:center;font-family:var(--font-display-en);font-size:clamp(12px,1vw,15px);font-weight:600;letter-spacing:.14em;line-height:1.5;color:#68716a;margin:clamp(28px,4svh,48px) 0 0;}
+
 @media(max-width:767px){.connection-invitation .connection-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}.connection-invitation .connection-card{border-radius:14px;}.connection-dot-ball{width:140%;max-width:none;}.connection-invitation .connection-heading .connection-summary{max-width:290px;word-break:keep-all;}}
+
+/* Identical groups include their own trailing gap: -50% is exactly one group. */
+.rally-marquee{position:relative;isolation:isolate;width:100%;max-width:100%;overflow:hidden;background:#080A09;color:#fff;padding:48px 0;margin:0;}
+.rally-marquee__track{display:flex;width:max-content;animation:rally-marquee-travel 22s linear infinite;will-change:transform;}
+.rally-marquee__group{display:flex;flex:0 0 auto;align-items:center;gap:64px;padding-right:64px;}
+.rally-marquee__group span{display:block;flex:none;white-space:nowrap;font-family:var(--font-display-en,'Manrope',sans-serif);font-size:clamp(96px,9.7222vw,180px);font-weight:800;line-height:1.08;letter-spacing:-.045em;color:#fff;}
+.rally-marquee__pause{position:absolute;top:12px;right:16px;width:88px;height:44px;opacity:0;z-index:3;cursor:pointer;}
+.rally-marquee__control{position:absolute;right:16px;top:12px;z-index:2;display:grid;place-items:center;min-width:88px;min-height:44px;border:1px solid #777;border-radius:24px;background:#080a09;color:#fff;font:12px var(--font-body-ko,sans-serif);cursor:pointer;}
+.rally-marquee__resume-label{display:none;}
+.rally-marquee__pause:checked~.rally-marquee__track{animation-play-state:paused;}
+.rally-marquee__pause:checked+.rally-marquee__control .rally-marquee__pause-label{display:none;}
+.rally-marquee__pause:checked+.rally-marquee__control .rally-marquee__resume-label{display:inline;}
+.rally-marquee__pause:focus-visible+.rally-marquee__control{outline:2px solid #fff;outline-offset:4px;}
+@keyframes rally-marquee-travel{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@media(max-width:767px){.rally-marquee{padding:68px 0 36px;}.rally-marquee__group{gap:32px;padding-right:32px;}.rally-marquee__group span{font-size:clamp(56px,10vw,76px);}}
+@media(prefers-reduced-motion:reduce){.rally-marquee__track{animation:none;transform:none;will-change:auto;}.rally-marquee__control,.rally-marquee__pause{display:none;}}
