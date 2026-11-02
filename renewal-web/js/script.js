@@ -99,3 +99,17 @@ if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion:
  addEventListener('pagehide',()=>cancelAnimationFrame(raf));
  requestAnimationFrame(sync);
 })();
+
+
+// Muted inline background playback with user and reduced-motion controls.
+(() => {
+ const video=document.querySelector('#hero .court-hero-video');
+ const button=document.querySelector('#hero .court-hero-playback');
+ if(!video||!button)return;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ function syncButton(){const label=video.paused?'재생':'일시정지';button.textContent=label;button.setAttribute('aria-label','배경 영상 '+label);}
+ function preference(){video.autoplay=!reduced.matches;if(reduced.matches)video.pause();else video.play().catch(syncButton);syncButton();}
+ button.addEventListener('click',()=>{if(video.paused)video.play().catch(syncButton);else video.pause();});
+ video.addEventListener('play',syncButton);video.addEventListener('pause',syncButton);
+ reduced.addEventListener('change',preference);preference();
+})();
