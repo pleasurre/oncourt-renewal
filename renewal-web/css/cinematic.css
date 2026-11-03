@@ -99,3 +99,14 @@ html.cinematic-ready { scroll-behavior:auto; }
 
 /* Wider GNB container. */
 .site-header .container.header-row{max-width:1600px;}
+
+/* Hero guide positions and full-height horizontal closing shutters. */
+#hero .hero-guides{display:block;}
+#hero .hero-guides i{position:absolute;top:0;bottom:0;width:1px;}
+#hero .hero-guides i:nth-child(1){left:16.6666667%;}
+#hero .hero-guides i:nth-child(2){left:50%;}
+#hero .hero-guides i:nth-child(3){left:83.3333333%;}
+#hero.hero-shutters-ready{height:220svh;}
+#hero.hero-shutters-ready .court-hero-stage{position:sticky;top:0;height:100svh;}
+#hero .hero-shutters{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;}
+#hero .hero-shutters i{position:absolute;top:0;bottom:0;width:calc(100% / 6 + 1px);background:#000;transform:scaleX(0);transform-origin:left;will-change:transform;}
