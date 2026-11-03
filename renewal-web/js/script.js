@@ -114,6 +114,7 @@ if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion:
  ];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let active=0,pending=-1,ticket=0,wantsPlayback=!reduced.matches,fade=null;
+ first.parentElement.style.isolation='isolate';
  const videos=playlist.map((src,index)=>{
   const clip=index===0?first:document.createElement('video');
   clip.className=first.className;
