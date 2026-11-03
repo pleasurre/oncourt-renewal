@@ -96,13 +96,17 @@ html.cinematic-ready { scroll-behavior:auto; }
 #hero .court-hero-playback:focus-visible{outline:2px solid #fff;outline-offset:4px;}
 @media(max-width:767px){#hero .court-hero-playback{right:16px;bottom:16px;}}
 
-/* Hero only: keep the viewport pinned while four staggered curtains descend. */
+/* Hero only: keep the viewport pinned while eight staggered curtains descend. */
 #hero.hero-curtain-enabled{height:230svh;min-height:0;}
 #hero.hero-curtain-enabled .court-hero-stage{position:sticky;top:0;height:100svh;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;}
 #hero.hero-curtain-enabled .court-hero-stage.is-curtain-dragging{cursor:grabbing;}
 #hero .hero-scroll-curtains{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;}
-#hero .hero-scroll-curtains i{position:absolute;top:0;bottom:0;width:calc(25% + 1px);background:#000;transform:scaleY(0);transform-origin:50% 0;will-change:transform;}
-#hero .hero-scroll-curtains i:nth-child(1){left:0;}
-#hero .hero-scroll-curtains i:nth-child(2){left:25%;}
-#hero .hero-scroll-curtains i:nth-child(3){left:50%;}
-#hero .hero-scroll-curtains i:nth-child(4){left:75%;}
+#hero .hero-scroll-curtains i{position:absolute;top:0;bottom:0;width:calc(12.5% + 1px);background:#000;transform:scaleY(0);transform-origin:50% 0;will-change:transform;}
+#hero .hero-scroll-curtains i:nth-child(1){left:0%;}
+#hero .hero-scroll-curtains i:nth-child(2){left:12.5%;}
+#hero .hero-scroll-curtains i:nth-child(3){left:25%;}
+#hero .hero-scroll-curtains i:nth-child(4){left:37.5%;}
+#hero .hero-scroll-curtains i:nth-child(5){left:50%;}
+#hero .hero-scroll-curtains i:nth-child(6){left:62.5%;}
+#hero .hero-scroll-curtains i:nth-child(7){left:75%;}
+#hero .hero-scroll-curtains i:nth-child(8){left:87.5%;}

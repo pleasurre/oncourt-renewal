@@ -8,7 +8,7 @@ addEventListener('scroll',updateHeaderContrast,{passive:true});
 addEventListener('resize',updateHeaderContrast);
 updateHeaderContrast();
 
-// Four downward curtains: each starts when the previous has filled 10%.
+// Eight downward curtains: each starts when the previous has filled 10%.
 (() => {
  if(!hero)return;
  const stage=hero.querySelector('.court-hero-stage');
@@ -16,7 +16,7 @@ updateHeaderContrast();
  const curtains=document.createElement('div');
  curtains.className='hero-scroll-curtains';
  curtains.setAttribute('aria-hidden','true');
- const panels=Array.from({length:4},()=>{
+ const panels=Array.from({length:8},()=>{
   const panel=document.createElement('i');
   curtains.appendChild(panel);
   return panel;
@@ -29,7 +29,7 @@ updateHeaderContrast();
   frame=0;
   const distance=Math.max(1,hero.offsetHeight-stage.offsetHeight);
   const progress=clamp(-hero.getBoundingClientRect().top/distance);
-  const travel=progress*1.3;
+  const travel=progress*(1+(panels.length-1)*.1);
   panels.forEach((panel,index)=>{
    panel.style.transform='scaleY('+clamp(travel-index*.1)+')';
   });
