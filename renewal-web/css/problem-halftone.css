@@ -13,3 +13,17 @@
 #problem .problem-message>h2,#problem .problem-message>.problem-description{position:relative;z-index:1;}
 
 #problem .problem-message > h2{margin-bottom:32px;}
+
+
+@property --ball-reveal {syntax:'<percentage>';inherits:false;initial-value:0%;}
+#problem .problem-ball-reveal{position:absolute;left:50%;top:50%;width:min(760px,calc(100vw - 32px));aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;mask-image:linear-gradient(to bottom,#000 calc(var(--ball-reveal) - 12%),transparent var(--ball-reveal));-webkit-mask-image:linear-gradient(to bottom,#000 calc(var(--ball-reveal) - 12%),transparent var(--ball-reveal));}
+#problem .problem-halftone{width:100%;height:100%;left:0;top:0;transform:none;mask-image:none;-webkit-mask-image:none;}
+#problem.motion-ready .problem-message>h2,#problem.motion-ready .problem-description{opacity:0;transform:translateY(20px);}
+#problem.is-visible .problem-ball-reveal{animation:ball-reveal 1.1s cubic-bezier(.22,.61,.36,1) forwards;}
+#problem.is-visible .problem-message>h2{animation:copy-reveal .6s cubic-bezier(.22,.61,.36,1) .9s both;}
+#problem.is-visible .problem-description{animation:copy-reveal .6s cubic-bezier(.22,.61,.36,1) 1.05s both;}
+#problem.is-visible .problem-halftone{animation:ball-breathe 7s ease-in-out 1.7s infinite;}
+@keyframes ball-reveal{from{--ball-reveal:0%}to{--ball-reveal:112%}}
+@keyframes copy-reveal{to{opacity:1;transform:translateY(0)}}
+@keyframes ball-breathe{0%,100%{transform:scale(1);opacity:.94}50%{transform:scale(1.017);opacity:1}}
+@media(prefers-reduced-motion:reduce){#problem.motion-ready .problem-message>h2,#problem.motion-ready .problem-description{opacity:1;transform:none;animation:none}#problem .problem-ball-reveal{--ball-reveal:112%;animation:none}#problem .problem-halftone{animation:none!important}}

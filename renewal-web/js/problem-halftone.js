@@ -23,42 +23,5 @@
  measure();
 })();
 
-// Scroll-linked reading reveal, preserving the original sentence wrappers.
-(() => {
- const section=document.querySelector('#problem');
- const paragraph=section?.querySelector('.problem-description');
- if(!paragraph)return;
- const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- const originalColor=getComputedStyle(paragraph).color;
- const channels=originalColor.match(/[\d.]+/g)?.slice(0,3).map(Number)||[37,39,37];
- const letters=[];
- for(const sentence of [...paragraph.children]){
-  const text=sentence.textContent;
-  sentence.textContent='';
-  for(const character of text){
-   if(/\s/.test(character)){sentence.append(document.createTextNode(character));continue;}
-   const glyph=document.createElement('b');
-   glyph.textContent=character;
-   glyph.style.font='inherit';
-   glyph.style.letterSpacing='inherit';
-   sentence.append(glyph);
-   letters.push(glyph);
-  }
- }
- let scheduled=false;
- function paint(){
-  scheduled=false;
-  const progress=reduced.matches?1:Math.max(0,Math.min(1,-section.getBoundingClientRect().top/(innerHeight*.28)));
-  const cursor=progress*(letters.length+4);
-  letters.forEach((glyph,index)=>{
-   const strength=Math.max(0,Math.min(1,(cursor-index)/4));
-   const rgb=channels.map(value=>Math.round(200+(value-200)*strength));
-   glyph.style.color='rgb('+rgb.join(',')+')';
-  });
- }
- function queue(){if(!scheduled){scheduled=true;requestAnimationFrame(paint);}}
- addEventListener('scroll',queue,{passive:true});
- addEventListener('resize',queue,{passive:true});
- reduced.addEventListener('change',queue);
- paint();
-})();
+
+const section=document.querySelector('#problem');section.classList.add('motion-ready');const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting)section.classList.add('is-visible');else section.classList.remove('is-visible');}},{threshold:.55});observer.observe(section);
