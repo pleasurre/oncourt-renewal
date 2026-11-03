@@ -109,7 +109,7 @@ html.cinematic-ready { scroll-behavior:auto; }
 
 /* The original playing stage shrinks into the Problem video slot. */
 .problem-video-slot{position:relative;width:min(680px,100%);aspect-ratio:16/9;margin:0 auto 36px;z-index:2;}
-body>.hero-flight{position:fixed;z-index:20;overflow:hidden;isolation:isolate;pointer-events:none;}
+body>.hero-flight{position:fixed;z-index:19;overflow:hidden;isolation:isolate;pointer-events:none;}
 .problem-video-slot>.hero-flight.is-landed{position:absolute;overflow:hidden;isolation:isolate;}
 .hero-flight .court-hero-video{display:block;width:100%;height:100%;object-fit:cover;object-position:center;}
 .hero-flight .court-hero-copy{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none;}
