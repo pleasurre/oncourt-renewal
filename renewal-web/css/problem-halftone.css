@@ -11,3 +11,5 @@
 
 
 #problem .problem-message>h2,#problem .problem-message>.problem-description{position:relative;z-index:1;}
+
+#problem .problem-message > h2{margin-bottom:32px;}
