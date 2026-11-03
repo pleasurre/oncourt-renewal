@@ -115,8 +115,8 @@ html.cinematic-ready { scroll-behavior:auto; }
  #connection.connection-invitation .connection-heading h2{font-size:clamp(30px,8vw,46px);}
 }
 
-/* Connection: approved height and one-time heading fade only. */
-#connection.connection-invitation{height:140svh;min-height:140svh;}
+/* Problem height and one-time Connection heading fade. */
+#problem.problem-gallery{height:140svh;min-height:140svh;}
 #connection.connection-fade-ready .connection-heading h2,
 #connection.connection-fade-ready .connection-summary{opacity:0;}
 #connection.connection-fade-visible .connection-heading h2{animation:connection-text-fade .7s ease-out both;}
