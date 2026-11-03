@@ -3,9 +3,11 @@
 #problem .problem-halftone{
  position:absolute;left:50%;top:50%;width:min(700px,calc(100vw - 32px));height:auto;
  max-width:none;aspect-ratio:1;transform:translate(-50%,-50%);
- z-index:-1;pointer-events:none;user-select:none;
+ z-index:0;opacity:1;pointer-events:none;user-select:none;
  mask-image:radial-gradient(ellipse var(--problem-mask-x,370px) var(--problem-mask-y,230px) at 50% 50%,rgba(0,0,0,.2) 0%,rgba(0,0,0,.2) 68%,#000 100%);
  -webkit-mask-image:radial-gradient(ellipse var(--problem-mask-x,370px) var(--problem-mask-y,230px) at 50% 50%,rgba(0,0,0,.2) 0%,rgba(0,0,0,.2) 68%,#000 100%);
 }
 @media(max-width:767px){#problem .problem-halftone{opacity:.75;}}
 
+
+#problem .problem-message>h2,#problem .problem-message>.problem-description{position:relative;z-index:1;}
