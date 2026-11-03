@@ -3,6 +3,8 @@
  const section=document.querySelector('#problem.problem-connection-story');
  if(!section)return;
  const stage=section.querySelector('.story-stage');
+ const bridge=document.querySelector('.hero-bridge-scroll');
+ const awaitingBridge=()=>bridge?.classList.contains('bridge-transition-ready')&&!reduced.matches&&bridge.dataset.problemReady==='false';
  const question=section.querySelector('.story-question');
  const answer=section.querySelector('.story-answer');
  const body=question.querySelector('.problem-description');
@@ -31,7 +33,7 @@
   }
   if(rect.top>=innerHeight){
    if(introduced){introduced=false;complete=false;clearTimeout(timer);section.classList.remove('is-visible','story-skip-intro');}
-  }else if(!introduced&&rect.top<=innerHeight*.23){intro(false);}
+  }else if(!introduced&&!awaitingBridge()&&rect.top<=innerHeight*.23){intro(rect.top < -vh);}
   const style=getComputedStyle(section);
   const lead=parseFloat(style.getPropertyValue('--story-lead'))*vh;
   const distance=parseFloat(style.getPropertyValue('--story-cross'))*vh;
@@ -50,7 +52,8 @@
  }
  function queue(){if(!queued){queued=true;requestAnimationFrame(paint);}}
  // Restored deep scroll starts at its matching scene without flashing the intro.
- if(section.getBoundingClientRect().top < -8)intro(true);
+ if(!awaitingBridge()&&section.getBoundingClientRect().top < -8)intro(true);
  addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue,{passive:true});
- addEventListener('pageshow',queue);reduced.addEventListener('change',queue);paint();
+ addEventListener('bridge-handoff',queue);addEventListener('pageshow',queue);reduced.addEventListener('change',queue);paint();
 })();
+

@@ -24,3 +24,25 @@ html{scroll-behavior:auto;}
 /* Clear word boundaries in the bridge copy. */
 .bridge-copy h2{word-spacing:.18em;letter-spacing:-.015em;}
 .bridge-kicker{word-spacing:.12em;}
+
+
+/* Final white transition is isolated inside the existing clipped sticky stage.
+   Base bridge remains 320svh desktop / 210svh mobile; only this final beat is new. */
+.hero-bridge-scroll{--bridge-white-distance:1;}
+.hero-bridge-scroll.bridge-transition-ready{height:520svh;}
+.bridge-transition-ready .cinematic-bridge{z-index:auto;}
+.bridge-transition-ready .bridge-curtains{z-index:1;}
+.bridge-transition-ready .bridge-guides{z-index:2;}
+.bridge-transition-ready .bridge-art{z-index:3;}
+.bridge-white-panels{display:none;position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden;}
+.bridge-transition-ready .bridge-white-panels{display:block;}
+.bridge-white-panels i{position:absolute;top:0;bottom:0;background:#fff;transform:translate3d(0,100%,0);will-change:transform;}
+.bridge-white-panels i:nth-child(1){left:0;width:calc(16.6666667% + 1.5px);}
+.bridge-white-panels i:nth-child(2){left:16.6666667%;width:calc(33.3333333% + 1.5px);}
+.bridge-white-panels i:nth-child(3){left:50%;width:calc(33.3333333% + 1.5px);}
+.bridge-white-panels i:nth-child(4){left:83.3333333%;width:calc(16.6666667% + 1.5px);}
+/* Share a single viewport at handoff: no duplicate white page or spacer. */
+.hero-bridge-scroll.bridge-transition-ready + #problem{margin-top:-100svh;}
+#problem.bridge-awaiting{opacity:0;pointer-events:none;}
+@media(max-width:767px){.hero-bridge-scroll{--bridge-white-distance:.8;}.hero-bridge-scroll.bridge-transition-ready{height:390svh;}}
+@media(prefers-reduced-motion:reduce){.hero-bridge-scroll.bridge-transition-ready{height:200svh}.bridge-white-panels{display:none!important}.hero-bridge-scroll.bridge-transition-ready + #problem{margin-top:0}#problem.bridge-awaiting{opacity:1;pointer-events:auto;}}
