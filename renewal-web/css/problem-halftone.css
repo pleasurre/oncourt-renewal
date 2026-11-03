@@ -27,3 +27,6 @@
 @keyframes copy-reveal{to{opacity:1;transform:translateY(0)}}
 @keyframes ball-breathe{0%,100%{transform:scale(1);opacity:.94}50%{transform:scale(1.017);opacity:1}}
 @media(prefers-reduced-motion:reduce){#problem.motion-ready .problem-message>h2,#problem.motion-ready .problem-description{opacity:1;transform:none;animation:none}#problem .problem-ball-reveal{--ball-reveal:112%;animation:none}#problem .problem-halftone{animation:none!important}}
+
+/* Center the content in the arrival viewport while keeping the 140svh section. */
+#problem > .container{position:relative;top:-20svh;}
