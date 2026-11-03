@@ -114,3 +114,15 @@ html.cinematic-ready { scroll-behavior:auto; }
  #problem .problem-message > h2,
  #connection.connection-invitation .connection-heading h2{font-size:clamp(30px,8vw,46px);}
 }
+
+/* Connection: approved height and one-time heading fade only. */
+#connection.connection-invitation{height:140svh;min-height:140svh;}
+#connection.connection-fade-ready .connection-heading h2,
+#connection.connection-fade-ready .connection-summary{opacity:0;}
+#connection.connection-fade-visible .connection-heading h2{animation:connection-text-fade .7s ease-out both;}
+#connection.connection-fade-visible .connection-summary{animation:connection-text-fade .7s ease-out .15s both;}
+@keyframes connection-text-fade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+ #connection.connection-fade-ready .connection-heading h2,
+ #connection.connection-fade-ready .connection-summary{opacity:1;animation:none;}
+}

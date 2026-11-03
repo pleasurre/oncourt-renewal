@@ -87,3 +87,18 @@ updateHeaderContrast();
   section.addEventListener('touchcancel',()=>{touchY=null;},{passive:true});
  }
 })();
+
+/* Reveal the Connection copy once, when its heading enters view. */
+(() => {
+ const section=document.querySelector('#connection');
+ const heading=section?.querySelector('.connection-heading');
+ if(!heading||!('IntersectionObserver' in window))return;
+ section.classList.add('connection-fade-ready');
+ const observer=new IntersectionObserver(entries=>{
+  if(entries.some(entry=>entry.isIntersecting)){
+   section.classList.add('connection-fade-visible');
+   observer.disconnect();
+  }
+ },{threshold:.4});
+ observer.observe(heading);
+})();
