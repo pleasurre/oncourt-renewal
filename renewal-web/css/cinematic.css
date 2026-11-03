@@ -106,3 +106,11 @@ html.cinematic-ready { scroll-behavior:auto; }
 #hero .hero-guides i:nth-child(1){left:16.6666667%;}
 #hero .hero-guides i:nth-child(2){left:50%;}
 #hero .hero-guides i:nth-child(3){left:83.3333333%;}
+
+/* Requested section heading size. */
+#problem .problem-message > h2,
+#connection.connection-invitation .connection-heading h2{font-size:60px;}
+@media(max-width:767px){
+ #problem .problem-message > h2,
+ #connection.connection-invitation .connection-heading h2{font-size:clamp(30px,8vw,46px);}
+}
