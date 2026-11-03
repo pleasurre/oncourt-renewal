@@ -96,3 +96,6 @@ html.cinematic-ready { scroll-behavior:auto; }
 #hero .court-hero-playback:focus-visible{outline:2px solid #fff;outline-offset:4px;}
 @media(max-width:767px){#hero .court-hero-playback{right:16px;bottom:16px;}}
 
+
+/* Wider GNB container. */
+.site-header .container.header-row{max-width:1600px;}
