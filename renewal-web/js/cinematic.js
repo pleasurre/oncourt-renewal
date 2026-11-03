@@ -8,26 +8,39 @@ addEventListener('scroll',updateHeaderContrast,{passive:true});
 addEventListener('resize',updateHeaderContrast);
 updateHeaderContrast();
 
-
 (() => {
- if(!hero)return;
- const stage=hero.querySelector('.court-hero-stage');
- if(!stage)return;
- const layer=document.createElement('div');
- layer.className='hero-shutters';layer.setAttribute('aria-hidden','true');
- const panels=Array.from({length:6},(_,i)=>{
-  const panel=document.createElement('i');panel.style.left=(i*100/6)+'%';layer.appendChild(panel);return panel;
- });
- stage.appendChild(layer);hero.classList.add('hero-shutters-ready');
+ const stage=hero?.querySelector('.court-hero-stage');
+ const message=document.querySelector('#problem .problem-message');
+ if(!stage||!message)return;
+ const slot=document.createElement('div');
+ slot.className='problem-video-slot';slot.setAttribute('aria-hidden','true');
+ message.prepend(slot);
+ const copy=stage.querySelector('.court-hero-copy'),guides=stage.querySelector('.hero-guides');
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let frame=0;
+ stage.classList.add('hero-flight');
  function render(){
   frame=0;
-  const p=Math.max(0,Math.min(1,-hero.getBoundingClientRect().top/Math.max(1,hero.offsetHeight-stage.offsetHeight)));
-  panels.forEach(panel=>panel.style.transform='scaleX('+p+')');
+  const hr=hero.getBoundingClientRect(),target=slot.getBoundingClientRect();
+  const p=Math.max(0,Math.min(1,-hr.top/Math.max(1,hero.offsetHeight)));
+  if(p>=1){
+   if(stage.parentElement!==slot)slot.appendChild(stage);
+   stage.classList.add('is-landed');
+   Object.assign(stage.style,{left:'0px',top:'0px',width:'100%',height:'100%',borderRadius:'16px'});
+  }else{
+   if(stage.parentElement!==document.body)document.body.appendChild(stage);
+   stage.classList.remove('is-landed');
+   const t=reduced.matches?0:p*p*(3-2*p);
+   Object.assign(stage.style,{left:(target.left*t)+'px',top:(target.top*t)+'px',width:(hero.clientWidth+(target.width-hero.clientWidth)*t)+'px',height:(innerHeight+(target.height-innerHeight)*t)+'px',borderRadius:(16*t)+'px'});
+  }
+  if(copy)copy.style.opacity=String(Math.max(0,1-p*3));
+  if(guides)guides.style.opacity=String(Math.max(0,1-p*3));
+  const ball=message.querySelector('.problem-halftone'),title=message.querySelector('h2'),body=message.querySelector('.problem-description');
+  if(ball&&title&&body)ball.style.top=((title.offsetTop+body.offsetTop+body.offsetHeight)/2)+'px';
  }
  function request(){if(!frame)frame=requestAnimationFrame(render);}
- addEventListener('scroll',request,{passive:true});
- addEventListener('resize',request);
- new ResizeObserver(request).observe(stage);
+ addEventListener('scroll',request,{passive:true});addEventListener('resize',request);
+ new ResizeObserver(request).observe(slot);
+ document.fonts?.ready.then(request);
  render();
 })();

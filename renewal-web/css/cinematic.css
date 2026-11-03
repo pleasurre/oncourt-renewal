@@ -106,7 +106,18 @@ html.cinematic-ready { scroll-behavior:auto; }
 #hero .hero-guides i:nth-child(1){left:16.6666667%;}
 #hero .hero-guides i:nth-child(2){left:50%;}
 #hero .hero-guides i:nth-child(3){left:83.3333333%;}
-#hero.hero-shutters-ready{height:220svh;}
-#hero.hero-shutters-ready .court-hero-stage{position:sticky;top:0;height:100svh;}
-#hero .hero-shutters{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;}
-#hero .hero-shutters i{position:absolute;top:0;bottom:0;width:calc(100% / 6 + 1px);background:#fff;transform:scaleX(0);transform-origin:left;will-change:transform;}
+
+/* The original playing stage shrinks into the Problem video slot. */
+.problem-video-slot{position:relative;width:min(680px,100%);aspect-ratio:16/9;margin:0 auto 36px;z-index:2;}
+body>.hero-flight{position:fixed;z-index:20;overflow:hidden;isolation:isolate;pointer-events:none;}
+.problem-video-slot>.hero-flight.is-landed{position:absolute;overflow:hidden;isolation:isolate;}
+.hero-flight .court-hero-video{display:block;width:100%;height:100%;object-fit:cover;object-position:center;}
+.hero-flight .court-hero-copy{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none;}
+.hero-flight .court-hero-copy h1{margin:0;color:#fff;font-family:var(--font-display-en);font-size:clamp(60px,13vw,208px);line-height:1;letter-spacing:-.055em;font-weight:800;text-shadow:0 2px 24px rgba(0,0,0,.2);}
+.hero-flight .court-hero-contrast{background:rgba(8,10,9,.12);}
+.hero-flight .hero-guides{display:block;}
+.hero-flight .hero-guides i{position:absolute;top:0;bottom:0;width:1px;}
+.hero-flight .hero-guides i:nth-child(1){left:16.6666667%;}
+.hero-flight .hero-guides i:nth-child(2){left:50%;}
+.hero-flight .hero-guides i:nth-child(3){left:83.3333333%;}
+@media(max-width:767px){.problem-video-slot{margin-bottom:28px;}}
