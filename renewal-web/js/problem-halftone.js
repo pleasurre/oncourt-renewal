@@ -24,20 +24,3 @@
 })();
 
 
-// Keep the completed scene when returning from below.
-// Re-arm only after scrolling above the entire Problem section.
-(() => {
- const section=document.querySelector('#problem');
- if(!section||!('IntersectionObserver' in window))return;
- section.classList.add('motion-ready');
- const observer=new IntersectionObserver(entries=>{
-  for(const entry of entries){
-   if(entry.isIntersecting&&entry.intersectionRatio>=.55){
-    section.classList.add('is-visible');
-   }else if(!entry.isIntersecting&&entry.boundingClientRect.top>=(entry.rootBounds?.bottom??innerHeight)-1){
-    section.classList.remove('is-visible');
-   }
-  }
- },{threshold:[0,.55]});
- observer.observe(section);
-})();
