@@ -15,7 +15,7 @@ updateHeaderContrast();
  if(!hero||!problem)return;
  const requiredGestures=4;
  let gestures=0;
- let lastWheelGesture=0;
+ let lastWheelGesture=null;
  let pointerStartY=null;
  let touchStartY=null;
  let advancing=false;
@@ -36,7 +36,7 @@ updateHeaderContrast();
   if(event.deltaY<=0||!atHeroStart())return;
   event.preventDefault();
   const now=performance.now();
-  if(now-lastWheelGesture>650){
+  if(lastWheelGesture===null||now-lastWheelGesture>650){
    lastWheelGesture=now;
    registerGesture();
   }
