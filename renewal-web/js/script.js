@@ -105,7 +105,7 @@ if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion:
 (() => {
  const first=document.querySelector('#hero .court-hero-video');
  const button=document.querySelector('#hero .court-hero-playback');
- if(!first||!button)return;
+ if(!first)return;
  const playlist=[
   'media/result-8da97a2f-3cf5-4931-b38f-9716395e2a40.mp4', // Hard
   'media/ONCOURT-grass-court-camera-adjusted.mp4', // Grass
@@ -129,6 +129,7 @@ if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion:
   return clip;
  });
  function syncButton(){
+  if(!button)return;
   const label=wantsPlayback?'일시정지':'재생';
   button.textContent=label;
   button.setAttribute('aria-label','배경 영상 '+label);
@@ -184,7 +185,7 @@ if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion:
   clip.addEventListener('ended',()=>{if(index===active)nextClip();});
   clip.addEventListener('error',stop);
  });
- button.addEventListener('click',()=>{if(wantsPlayback)stop();else resume();});
+ button?.addEventListener('click',()=>{if(wantsPlayback)stop();else resume();});
  reduced.addEventListener('change',()=>{if(reduced.matches)stop();else resume();});
  if(wantsPlayback)resume();else syncButton();
 })();
