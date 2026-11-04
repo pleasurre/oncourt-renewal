@@ -4,9 +4,12 @@
 #problem .story-container{position:relative;top:auto;width:calc(100% - 2 * var(--page-padding));margin-inline:auto;}
 #problem .story-scene{display:grid;grid-template-columns:minmax(0,1fr);width:100%;max-width:none;margin:0 auto;text-align:center;}
 #problem .story-question{position:relative;z-index:1;width:100%;max-width:680px;margin:0 auto;}
-#problem .story-question>h2{font-family:var(--font-body-ko);font-size:60px;font-weight:600;line-height:1.2;letter-spacing:-.035em;margin:0 0 32px;}
+#problem .story-question>h2,
+#problem .story-answer h2,
+#why-oncourt .why-values-title{font-family:var(--font-body-ko);font-size:60px;font-weight:600;}
+#problem .story-question>h2{line-height:1.2;letter-spacing:-.035em;margin:0 0 32px;}
 #problem .story-answer{position:relative;z-index:2;text-align:center;margin:80px auto 0;width:100%;}
-#problem .story-answer h2{font-family:var(--font-body-ko);font-size:60px;font-weight:750;line-height:1.3;letter-spacing:-.035em;color:#18211c;margin:0;}
+#problem .story-answer h2{line-height:1.3;letter-spacing:-.035em;color:#18211c;margin:0;}
 #problem .story-answer .connection-summary{font-family:var(--font-body-ko);font-size:clamp(15px,1.4vw,19px);font-weight:400;line-height:1.75;letter-spacing:-.02em;color:#727872;max-width:700px;margin:16px auto 0;}
 #problem.story-ready{height:240svh;min-height:240svh;}
 #problem.story-ready .story-stage{position:sticky;top:0;height:100svh;min-height:100svh;}
@@ -16,5 +19,5 @@
 #problem.is-visible .story-question>h2{animation:copy-reveal .6s cubic-bezier(.22,.61,.36,1) .9s both;}
 #problem.story-skip-intro .story-question>h2,#problem.story-skip-intro .problem-description{animation:none;opacity:1;transform:none;}
 #problem.story-skip-intro .problem-ball-reveal{animation:none;--ball-reveal:112%;}
-@media(max-width:767px){#problem.problem-connection-story{--story-lead:.3;--story-cross:.45;}#problem.story-ready{height:220svh;min-height:220svh;}#problem .story-question>h2,#problem .story-answer h2{font-size:clamp(30px,8vw,46px);}#problem .story-answer .connection-summary{max-width:290px;}}
+@media(max-width:767px){#problem.problem-connection-story{--story-lead:.3;--story-cross:.45;}#problem.story-ready{height:220svh;min-height:220svh;}#problem .story-question>h2,#problem .story-answer h2,#why-oncourt .why-values-title{font-size:clamp(30px,8vw,46px);}#problem .story-answer .connection-summary{max-width:290px;}}
 @media(prefers-reduced-motion:reduce){#problem.story-ready{height:auto;min-height:140svh;padding:80px 0;}#problem.story-ready .story-stage{position:relative;height:auto;min-height:0;}#problem .story-scene{display:block;}#problem.story-ready .story-question,#problem.story-ready .story-answer{opacity:1!important;transform:none!important;will-change:auto;}#problem.story-ready .story-answer{margin:80px auto 0;}#problem .story-question>h2{opacity:1!important;transform:none!important;animation:none!important;}}
