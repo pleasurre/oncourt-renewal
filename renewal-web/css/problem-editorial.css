@@ -55,3 +55,8 @@
 @media(prefers-reduced-motion:reduce){.site-header,.site-header .brand img{transition:none;}}
 
 .declaration-brand{font-weight:inherit;color:color-mix(in srgb,#91AD36 var(--brand-progress,100%),#d9d9d9);}
+
+.problem-nav-dock{height:var(--problem-nav-height,64px);background:#fff;}
+.site-header.is-problem-nav-hidden{visibility:hidden;}
+.site-header.is-problem-docked{top:var(--problem-nav-top);transition:none;}
+.declaration-stage{padding-bottom:clamp(60px,16svh,160px);}

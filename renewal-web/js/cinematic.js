@@ -6,6 +6,17 @@ function updateHeaderContrast(){
  if(!header||!bridgeRegion)return;
  const y=header.offsetHeight/2;
  const bridgeEnd=document.querySelector('#problem').getBoundingClientRect().top;
+ const dock=document.querySelector('.problem-nav-dock');
+ if(dock){
+  dock.style.setProperty('--problem-nav-height',header.offsetHeight+'px');
+  const top=dock.getBoundingClientRect().top;
+  const docking=bridgeEnd<=0&&top>0;
+  header.classList.toggle('is-problem-docked',docking);
+  if(docking)header.style.setProperty('--problem-nav-top',top+'px');
+  const hiding=top>0&&(bridgeEnd<=0?top>=innerHeight:bridgeRegion.dataset.whiteTransition==='true');
+  header.classList.toggle('is-problem-nav-hidden',hiding);
+  header.inert=hiding;
+ }
  const dark=bridgeEnd>y&&bridgeRegion.dataset.headerLight!=='true'||darkBands.some(el=>{
   const bounds=el.getBoundingClientRect();return bounds.top<=y&&bounds.bottom>y;
  });
@@ -81,6 +92,7 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    title.classList.remove('is-flying');
    copy.insertBefore(title,parts[2]);
   }
+  region.dataset.whiteTransition=String(active&&whiteProgress>0&&!done);
   region.dataset.headerLight=String(active&&whitePanels.every(panel=>panel.getBoundingClientRect().top<=header.offsetHeight/2));
   updateHeaderContrast();
   title.style.visibility=active&&done?'hidden':'';
