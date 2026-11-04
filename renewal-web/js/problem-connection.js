@@ -1,4 +1,4 @@
-// Reveal Problem at the bridge handoff without changing scroll position.
+// Hold the completed bridge handoff until the Problem copy is readable.
 (() => {
  const section=document.querySelector('#problem');
  if(!section)return;
@@ -6,9 +6,24 @@
  const title=section.querySelector('#problem-title');
  const copy=section.querySelector('.problem-description');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- let state='before',previous=scrollY;
+ let state='before',previous=scrollY,timer=0;
  section.classList.add('motion-ready');
+ function release(){
+  if(!timer)return;
+  clearTimeout(timer);
+  timer=0;
+  document.documentElement.classList.remove('problem-scroll-hold');
+  dispatchEvent(new CustomEvent('problem-scroll-hold',{detail:null}));
+ }
+ function hold(position,duration){
+  timer=setTimeout(release,duration);
+  scrollTo({top:position,behavior:'instant'});
+  dispatchEvent(new CustomEvent('problem-scroll-hold',{detail:position}));
+  document.documentElement.classList.add('problem-scroll-hold');
+  previous=scrollY;
+ }
  function paint(){
+  if(timer)return;
   const y=scrollY;
   const top=section.getBoundingClientRect().top;
   const movingDown=y>previous;
@@ -34,15 +49,18 @@
   if(state==='before'){
    state='reading';
    section.classList.add('is-visible');
+   hold(Math.ceil(y+top)+2,1850);
   }else if(state==='reading'&&movingDown&&top < -8){
    state='done';
    section.style.setProperty('--problem-copy-rise',(title.getBoundingClientRect().top-copy.getBoundingClientRect().top)+'px');
    section.classList.add('problem-copy-exiting');
+   hold(Math.ceil(y),650);
   }
  }
  addEventListener('scroll',paint,{passive:true});
  addEventListener('bridge-handoff',paint);
- reduced.addEventListener('change',paint);
+ addEventListener('pagehide',release);
+ reduced.addEventListener('change',()=>{release();paint();});
  paint();
 })();
 
