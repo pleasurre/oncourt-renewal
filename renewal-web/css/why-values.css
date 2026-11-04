@@ -49,3 +49,7 @@
  #why-oncourt .why-value{padding-top:0;}
  #why-oncourt .why-values-group[aria-hidden="true"]{display:none;}
 }
+
+.why-values-ready .why-value-placeholder{cursor:grab;}
+.why-values-ready .why-values-viewport.is-dragging,
+.why-values-ready .why-values-viewport.is-dragging .why-value-placeholder{cursor:grabbing;}
