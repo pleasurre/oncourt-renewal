@@ -15,7 +15,7 @@
  top:calc(var(--flight-start) + (var(--flight-end) - var(--flight-start))*var(--flight-progress));
  font-size:calc(var(--flight-size) + (var(--editorial-size) - var(--flight-size))*var(--flight-progress));
  color:#fff;white-space:nowrap;transform:none!important;pointer-events:none;
- -webkit-text-stroke:1px color-mix(in srgb,#171c19 min(100%, calc(var(--flight-progress)*400%)),white);
+ filter:url(#editorial-flight-outline);
 }
 #problem.problem-connection-story{background:#fff}
 #problem.problem-connection-story{height:auto;min-height:100svh;padding:0;}

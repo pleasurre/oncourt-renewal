@@ -13,11 +13,11 @@ function updateHeaderContrast(){
   const docking=bridgeEnd<=0&&top>0;
   header.classList.toggle('is-problem-docked',docking);
   if(docking)header.style.setProperty('--problem-nav-top',top+'px');
-  const hiding=top>0&&(bridgeEnd<=0?top>=innerHeight:bridgeRegion.dataset.whiteTransition==='true');
+  const hiding=top>0&&bridgeEnd<=0&&top>=innerHeight;
   header.classList.toggle('is-problem-nav-hidden',hiding);
   header.inert=hiding;
  }
- const dark=bridgeEnd>y&&bridgeRegion.dataset.headerLight!=='true'||darkBands.some(el=>{
+ const dark=bridgeRegion.dataset.whiteTransition==='true'||bridgeEnd>y&&bridgeRegion.dataset.headerLight!=='true'||darkBands.some(el=>{
   const bounds=el.getBoundingClientRect();return bounds.top<=y&&bounds.bottom>y;
  });
  header.classList.toggle('header-on-light',!dark);
@@ -103,6 +103,19 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    titleSpacer=null;
   }
   region.dataset.whiteTransition=String(active&&whiteProgress>0&&!done);
+  if(preview){
+   const bounds=header.getBoundingClientRect();
+   const panels=whitePanels.map(panel=>panel.getBoundingClientRect());
+   const lowerEdge=panels.flatMap((panel,i)=>{
+    const left=i===0?0:panel.left-bounds.left;
+    const right=i===panels.length-1?bounds.width:panels[i+1].left-bounds.left;
+    const y=Math.max(0,Math.min(bounds.height,panel.top-bounds.top));
+    return [left+'px '+y+'px',right+'px '+y+'px'];
+   });
+   header.style.clipPath='polygon('+['0 0','100% 0',...lowerEdge.reverse()].join(',')+')';
+  }else{
+   header.style.clipPath='';
+  }
   region.dataset.headerLight=String(active&&whitePanels.every(panel=>panel.getBoundingClientRect().top<=header.offsetHeight/2));
   updateHeaderContrast();
   title.style.visibility=active&&done?'hidden':'';
