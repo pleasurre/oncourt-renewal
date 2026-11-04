@@ -3,27 +3,6 @@ document.documentElement.classList.add('js');
 // Native anchors; static bilingual copy remains readable without language swaps.
 if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}},{threshold:.08});document.querySelectorAll('.section>.container').forEach(el=>{el.classList.add('reveal');observer.observe(el);});}
 
-// Hide on downward scroll and reveal on upward scroll without layout shifts.
-(() => {
- const header=document.querySelector('.site-header');
- if(!header)return;
- let anchor=Math.max(0,scrollY),pending=false;
- function update(){
-  pending=false;
-  const y=Math.max(0,scrollY),delta=y-anchor;
-  const menuOpen=header.querySelector('.menu-toggle')?.getAttribute('aria-expanded')==='true';
-  if(y<24||menuOpen||header.contains(document.activeElement)){
-   header.classList.remove('is-scroll-hidden');anchor=y;return;
-  }
-  if(Math.abs(delta)<8)return;
-  header.classList.toggle('is-scroll-hidden',delta>0&&y>header.offsetHeight);
-  anchor=y;
- }
- addEventListener('scroll',()=>{if(!pending){pending=true;requestAnimationFrame(update);}},{passive:true});
- header.addEventListener('focusin',()=>header.classList.remove('is-scroll-hidden'));
- header.addEventListener('click',()=>{if(header.querySelector('.menu-toggle')?.getAttribute('aria-expanded')==='true')header.classList.remove('is-scroll-hidden');});
-})();
-
 // Advance the same repeating track in either direction without resetting its phase.
 (() => {
  const track=document.querySelector('.rally-marquee__track');

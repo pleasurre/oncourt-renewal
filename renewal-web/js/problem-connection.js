@@ -22,3 +22,28 @@
  addEventListener('pageshow',paint);
  paint();
 })();
+
+// One scroll clock drives three staggered color ramps.
+(() => {
+ const section=document.querySelector('.editorial-connection');
+ if(!section)return;
+ const stage=section.querySelector('.declaration-stage');
+ const lines=[...stage.querySelectorAll('span')];
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ let frame=0;
+ function paint(){
+  frame=0;
+  const distance=Math.max(1,section.offsetHeight-stage.offsetHeight);
+  const progress=-section.getBoundingClientRect().top/distance;
+  lines.forEach((line,index)=>{
+   const phase=reduced.matches?1:Math.max(0,Math.min(1,(progress-index*.29)/.42));
+   const ink=Math.round(217-194*phase*phase*(3-2*phase));
+   line.style.setProperty('--declaration-ink','rgb('+ink+' '+ink+' '+ink+')');
+  });
+ }
+ function queue(){if(!frame)frame=requestAnimationFrame(paint);}
+ addEventListener('scroll',queue,{passive:true});
+ addEventListener('resize',queue);
+ reduced.addEventListener('change',queue);
+ paint();
+})();

@@ -1,8 +1,15 @@
 // Keep the existing header contrast and Hero/black-bridge choreography.
 const header=document.querySelector('.site-header');
-const hero=document.querySelector('#hero');
+const bridgeRegion=document.querySelector('.hero-bridge-scroll');
+const darkBands=[...document.querySelectorAll('#rally-marquee,#beyond')];
 function updateHeaderContrast(){
- if(header&&hero)header.classList.toggle('header-on-light',hero.getBoundingClientRect().bottom<=header.offsetHeight);
+ if(!header||!bridgeRegion)return;
+ const y=header.offsetHeight/2;
+ const bridgeEnd=document.querySelector('#problem').getBoundingClientRect().top;
+ const dark=bridgeEnd>y&&bridgeRegion.dataset.headerLight!=='true'||darkBands.some(el=>{
+  const bounds=el.getBoundingClientRect();return bounds.top<=y&&bounds.bottom>y;
+ });
+ header.classList.toggle('header-on-light',!dark);
 }
 addEventListener('scroll',updateHeaderContrast,{passive:true});
 addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
@@ -64,14 +71,20 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    if(!title.classList.contains('is-flying')){
     const from=title.getBoundingClientRect().top-stage.getBoundingClientRect().top;
     title.style.setProperty('--flight-start',from+'px');
-   }
-   title.classList.add('is-flying');
+    title.classList.add('is-flying');
     stage.append(title);
+   }
+   const target=problem.querySelector('.editorial-title').getBoundingClientRect().top-problem.getBoundingClientRect().top;
+   title.style.setProperty('--flight-end',target+'px');
    title.style.setProperty('--flight-progress',ease(whiteProgress));
+   const top=title.getBoundingClientRect().top;
+   title.classList.toggle('flight-on-white',whitePanels.every(panel=>panel.getBoundingClientRect().top<=top));
   }else if(title.classList.contains('is-flying')){
-   title.classList.remove('is-flying');
+   title.classList.remove('is-flying','flight-on-white');
    copy.insertBefore(title,parts[2]);
   }
+  region.dataset.headerLight=String(active&&whitePanels.every(panel=>panel.getBoundingClientRect().top<=header.offsetHeight/2));
+  updateHeaderContrast();
   title.style.visibility=active&&done?'hidden':'';
   handoff(done);
  }
