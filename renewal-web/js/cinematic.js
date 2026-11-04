@@ -58,7 +58,22 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    panel.style.transform='translate3d(0,'+(100*(1-t))+'%,0)';
   });
   // Sticky's lower edge and Problem's top coincide exactly, with no scroll jump.
-  handoff(!active||travelled>=base+distance-.01);
+  const done=!active||travelled>=base+distance-.01;
+  const title=parts[1];
+  if(active&&whiteProgress>0&&!done){
+   if(!title.classList.contains('is-flying')){
+    const from=title.getBoundingClientRect().top-stage.getBoundingClientRect().top;
+    title.style.setProperty('--flight-start',from+'px');
+   }
+   title.classList.add('is-flying');
+    stage.append(title);
+   title.style.setProperty('--flight-progress',ease(whiteProgress));
+  }else if(title.classList.contains('is-flying')){
+   title.classList.remove('is-flying');
+   copy.insertBefore(title,parts[2]);
+  }
+  title.style.visibility=active&&done?'hidden':'';
+  handoff(done);
  }
  function queue(){if(!queued){queued=true;requestAnimationFrame(paint);}}
  addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue,{passive:true});
