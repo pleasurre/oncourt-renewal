@@ -1,0 +1,48 @@
+
+html{scroll-behavior:auto;}
+.hero-bridge-scroll{position:relative;height:420svh;background:#050706;}
+.hero-bridge-stage{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate;}
+.hero-bridge-stage #hero{position:absolute;inset:0;height:100svh;}
+.hero-bridge-stage .hero-guides{display:none!important;}
+.cinematic-bridge{position:absolute;inset:0;z-index:5;color:#fff;pointer-events:none;}
+.bridge-curtains{position:absolute;inset:0;display:flex;}
+.bridge-curtains i{position:absolute;top:0;bottom:0;width:calc(100% / 6 + 2px);background:#050706;transform:scaleX(0);transform-origin:left;will-change:transform;}
+.bridge-curtains i:nth-child(1){left:0}.bridge-curtains i:nth-child(2){left:16.6666667%}.bridge-curtains i:nth-child(3){left:33.3333333%}.bridge-curtains i:nth-child(4){left:50%}.bridge-curtains i:nth-child(5){left:66.6666667%}.bridge-curtains i:nth-child(6){left:83.3333333%}
+.bridge-guides{position:absolute;inset:0;z-index:8;pointer-events:none;}
+.bridge-guides i{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.15);}
+.bridge-guides i:nth-child(1){left:16.6666667%}.bridge-guides i:nth-child(2){left:50%}.bridge-guides i:nth-child(3){left:83.3333333%}
+.bridge-art{position:absolute;inset:0;opacity:0;}
+.bridge-racket{position:absolute;left:50%;top:4svh;height:33svh;width:32svh;transform:translateX(-50%);overflow:visible;}
+.racket-strings{stroke-width:.8;opacity:.65;}
+.bridge-copy{position:absolute;left:50%;top:63%;width:min(960px,calc(100% - 48px));transform:translate(-50%,-50%);text-align:center;}
+.bridge-kicker{font-family:var(--font-display-en);font-size:clamp(12px,1.2vw,17px);letter-spacing:.12em;color:#a9b2aa;margin:0 0 20px;opacity:0;}
+.bridge-copy h2{font-family:var(--font-display-en);font-size:clamp(28px,4.3vw,64px);line-height:1.12;letter-spacing:-.035em;color:#fff;margin:0;opacity:0;}
+.bridge-accent{display:block;width:52px;height:3px;background:#d1eb72;margin:28px auto 0;opacity:0;}
+@media(max-width:767px){.hero-bridge-scroll{height:310svh}.bridge-racket{top:4svh;height:29svh;width:27svh}.bridge-copy{width:calc(100% - 40px)}.bridge-copy h2{font-size:clamp(28px,7.8vw,44px)}.bridge-kicker{font-size:11px;margin-bottom:16px}.bridge-accent{margin-top:22px}}
+@media(prefers-reduced-motion:reduce){.hero-bridge-scroll{height:200svh}.hero-bridge-stage{position:relative;height:200svh}.cinematic-bridge{top:100svh;height:100svh;background:#050706}.bridge-art{opacity:1}.bridge-copy{top:50%}.bridge-copy>*{opacity:1}.bridge-racket{height:30svh}.bridge-curtains{display:none}}
+
+/* Clear word boundaries in the bridge copy. */
+.bridge-copy h2{word-spacing:.18em;letter-spacing:-.015em;}
+.bridge-kicker{word-spacing:.12em;}
+
+
+/* Final white transition is isolated inside the existing clipped sticky stage.
+   Base bridge remains 320svh desktop / 210svh mobile; only this final beat is new. */
+.hero-bridge-scroll{--bridge-white-distance:1;}
+.hero-bridge-scroll.bridge-transition-ready{height:520svh;}
+.bridge-transition-ready .cinematic-bridge{z-index:auto;}
+.bridge-transition-ready .bridge-curtains{z-index:1;}
+.bridge-transition-ready .bridge-guides{z-index:2;}
+.bridge-transition-ready .bridge-art{z-index:3;}
+.bridge-white-panels{display:none;position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden;}
+.bridge-transition-ready .bridge-white-panels{display:block;}
+.bridge-white-panels i{position:absolute;top:0;bottom:0;background:#fff;transform:translate3d(0,100%,0);will-change:transform;}
+.bridge-white-panels i:nth-child(1){left:0;width:calc(16.6666667% + 1.5px);}
+.bridge-white-panels i:nth-child(2){left:16.6666667%;width:calc(33.3333333% + 1.5px);}
+.bridge-white-panels i:nth-child(3){left:50%;width:calc(33.3333333% + 1.5px);}
+.bridge-white-panels i:nth-child(4){left:83.3333333%;width:calc(16.6666667% + 1.5px);}
+/* Share a single viewport at handoff: no duplicate white page or spacer. */
+.hero-bridge-scroll.bridge-transition-ready + #problem{margin-top:-100svh;}
+#problem.bridge-awaiting{opacity:0;pointer-events:none;}
+@media(max-width:767px){.hero-bridge-scroll{--bridge-white-distance:.8;}.hero-bridge-scroll.bridge-transition-ready{height:390svh;}}
+@media(prefers-reduced-motion:reduce){.hero-bridge-scroll.bridge-transition-ready{height:200svh}.bridge-white-panels{display:none!important}.hero-bridge-scroll.bridge-transition-ready + #problem{margin-top:0}#problem.bridge-awaiting{opacity:1;pointer-events:auto;}}

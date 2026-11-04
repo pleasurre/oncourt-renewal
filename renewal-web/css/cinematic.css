@@ -54,7 +54,8 @@ html.cinematic-ready { scroll-behavior:auto; }
 .rally-marquee{position:relative;isolation:isolate;width:100%;max-width:100%;overflow:hidden;background:#080A09;color:#fff;padding:48px 0;margin:0;}
 .rally-marquee__track{display:flex;width:max-content;animation:rally-marquee-travel 22s linear infinite;will-change:transform;}
 .rally-marquee__group{display:flex;flex:0 0 auto;align-items:center;gap:64px;padding-right:64px;}
-.rally-marquee__group span{display:block;flex:none;white-space:nowrap;font-family:var(--font-display-en,'Manrope',sans-serif);font-size:clamp(96px,9.7222vw,180px);font-weight:800;line-height:1.08;letter-spacing:-.045em;color:#fff;}
+.rally-marquee__ball{display:block;flex:none;width:clamp(48px,6.5vw,112px);height:auto;}
+.rally-marquee__group span{display:block;word-spacing:.18em;flex:none;white-space:nowrap;font-family:var(--font-display-en,'Manrope',sans-serif);font-size:clamp(96px,9.7222vw,180px);font-weight:800;line-height:1.08;letter-spacing:-.045em;color:#fff;}
 .rally-marquee__pause{position:absolute;top:12px;right:16px;width:88px;height:44px;opacity:0;z-index:3;cursor:pointer;}
 .rally-marquee__control{position:absolute;right:16px;top:12px;z-index:2;display:grid;place-items:center;min-width:88px;min-height:44px;border:1px solid #777;border-radius:24px;background:#080a09;color:#fff;font:12px var(--font-body-ko,sans-serif);cursor:pointer;}
 .rally-marquee__resume-label{display:none;}
@@ -95,3 +96,35 @@ html.cinematic-ready { scroll-behavior:auto; }
 #hero .court-hero-playback{position:absolute;z-index:3;right:24px;bottom:24px;min-width:88px;min-height:44px;padding:8px 16px;border:1px solid rgba(255,255,255,.65);border-radius:24px;background:rgba(8,10,9,.4);color:#fff;font:12px var(--font-body-ko);cursor:pointer;}
 #hero .court-hero-playback:focus-visible{outline:2px solid #fff;outline-offset:4px;}
 @media(max-width:767px){#hero .court-hero-playback{right:16px;bottom:16px;}}
+
+
+/* Wider GNB container. */
+.site-header .container.header-row{max-width:1600px;}
+
+/* Hero guide positions and full-height horizontal closing shutters. */
+#hero .hero-guides{display:block;}
+#hero .hero-guides i{position:absolute;top:0;bottom:0;width:1px;}
+#hero .hero-guides i:nth-child(1){left:16.6666667%;}
+#hero .hero-guides i:nth-child(2){left:50%;}
+#hero .hero-guides i:nth-child(3){left:83.3333333%;}
+
+/* Requested section heading size. */
+#problem .problem-message > h2,
+#connection.connection-invitation .connection-heading h2{font-size:60px;}
+@media(max-width:767px){
+ #problem .problem-message > h2,
+ #connection.connection-invitation .connection-heading h2{font-size:clamp(30px,8vw,46px);}
+}
+
+/* Problem height and one-time Connection heading fade. */
+#problem.problem-gallery{height:140svh;min-height:140svh;}
+#connection.connection-fade-ready .connection-heading h2,
+#connection.connection-fade-ready .connection-summary{opacity:0;}
+#connection.connection-fade-visible .connection-heading h2{animation:connection-text-fade .7s ease-out both;}
+#connection.connection-fade-visible .connection-summary{animation:connection-text-fade .7s ease-out .15s both;}
+@keyframes connection-text-fade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+ #connection.connection-fade-ready .connection-heading h2,
+ #connection.connection-fade-ready .connection-summary{opacity:1;animation:none;}
+}
+
