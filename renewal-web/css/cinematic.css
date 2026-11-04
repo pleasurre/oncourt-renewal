@@ -54,7 +54,8 @@ html.cinematic-ready { scroll-behavior:auto; }
 .rally-marquee{position:relative;isolation:isolate;width:100%;max-width:100%;overflow:hidden;background:#080A09;color:#fff;padding:48px 0;margin:0;}
 .rally-marquee__track{display:flex;width:max-content;animation:rally-marquee-travel 22s linear infinite;will-change:transform;}
 .rally-marquee__group{display:flex;flex:0 0 auto;align-items:center;gap:64px;padding-right:64px;}
-.rally-marquee__group span{display:block;flex:none;white-space:nowrap;font-family:var(--font-display-en,'Manrope',sans-serif);font-size:clamp(96px,9.7222vw,180px);font-weight:800;line-height:1.08;letter-spacing:-.045em;color:#fff;}
+.rally-marquee__ball{display:block;flex:none;width:clamp(48px,6.5vw,112px);height:auto;}
+.rally-marquee__group span{display:block;word-spacing:.18em;flex:none;white-space:nowrap;font-family:var(--font-display-en,'Manrope',sans-serif);font-size:clamp(96px,9.7222vw,180px);font-weight:800;line-height:1.08;letter-spacing:-.045em;color:#fff;}
 .rally-marquee__pause{position:absolute;top:12px;right:16px;width:88px;height:44px;opacity:0;z-index:3;cursor:pointer;}
 .rally-marquee__control{position:absolute;right:16px;top:12px;z-index:2;display:grid;place-items:center;min-width:88px;min-height:44px;border:1px solid #777;border-radius:24px;background:#080a09;color:#fff;font:12px var(--font-body-ko,sans-serif);cursor:pointer;}
 .rally-marquee__resume-label{display:none;}
@@ -126,3 +127,4 @@ html.cinematic-ready { scroll-behavior:auto; }
  #connection.connection-fade-ready .connection-heading h2,
  #connection.connection-fade-ready .connection-summary{opacity:1;animation:none;}
 }
+

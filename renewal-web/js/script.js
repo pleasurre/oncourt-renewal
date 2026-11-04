@@ -24,32 +24,49 @@ if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion:
  header.addEventListener('click',()=>{if(header.querySelector('.menu-toggle')?.getAttribute('aria-expanded')==='true')header.classList.remove('is-scroll-hidden');});
 })();
 
-// Keep CSS's seamless track, varying playback speed without restarting its phase.
+// Advance the same repeating track in either direction without resetting its phase.
 (() => {
- const band=document.querySelector('.rally-marquee');
- const track=band?.querySelector('.rally-marquee__track');
- if(!track)return;
+ const track=document.querySelector('.rally-marquee__track');
+ if(!track?.getAnimations)return;
+ const pause=document.querySelector('.rally-marquee__pause');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- let animation=null,raf=0,lastY=scrollY,lastAt=performance.now(),speed=1,boost=0;
+ let animation,raf,lastY,lastAt,lastMotion,speed,target,direction=1;
  function tick(now){
-  const dt=Math.min(64,Math.max(0,now-lastAt));lastAt=now;
-  const y=scrollY;
-  const velocity=Math.abs(y-lastY)/Math.max(dt,1)*1000;lastY=y;
-  boost=Math.max(Math.min(velocity/450,7),boost*Math.exp(-dt/180));
-  const target=1+boost;
-  speed+=(target-speed)*(1-Math.exp(-dt/100));
-  animation?.updatePlaybackRate(speed);
+  const dt=Math.min(64,Math.max(0,now-lastAt));
+  const y=scrollY,delta=y-lastY;
+  lastAt=now;
+  lastY=y;
+  if(delta){
+   const boost=Math.min(Math.abs(delta)/Math.max(dt,1)*1000/450,7);
+   direction=Math.sign(delta);
+   target=direction*(1+boost);
+   lastMotion=now;
+  }else if(now-lastMotion>90){
+   target=direction;
+  }
+  speed+=(target-speed)*(1-Math.exp(-dt/80));
+  if(!pause?.checked){
+   const duration=animation.effect.getComputedTiming().duration;
+   const phase=(Number(animation.currentTime)||0)+dt*speed;
+   animation.currentTime=((phase%duration)+duration)%duration;
+  }
   raf=requestAnimationFrame(tick);
  }
  function sync(){
-  cancelAnimationFrame(raf);animation=track.getAnimations()[0]||null;
-  if(reduced.matches){if(animation)animation.updatePlaybackRate(1);return;}
-  lastAt=performance.now();lastY=scrollY;speed=1;boost=0;
+  cancelAnimationFrame(raf);
+  animation=track.getAnimations()[0];
+  if(reduced.matches||document.hidden||!animation)return;
+  animation.pause();
+  lastAt=performance.now();
+  lastY=scrollY;
+  lastMotion=lastAt;
+  speed=target=direction;
   raf=requestAnimationFrame(tick);
  }
  reduced.addEventListener('change',sync);
- document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(raf);else sync();});
+ document.addEventListener('visibilitychange',sync);
  addEventListener('pagehide',()=>cancelAnimationFrame(raf));
+ addEventListener('pageshow',sync);
  requestAnimationFrame(sync);
 })();
 
