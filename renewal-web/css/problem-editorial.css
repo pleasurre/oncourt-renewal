@@ -2,7 +2,7 @@
 :root{
  --editorial-inset:0px;
  --editorial-gap:clamp(10px,2svh,20px);
- --editorial-size:14vw;
+ --editorial-size:11.2vw;
 }
 .bridge-copy .editorial-flight,
 .editorial-flight.is-flying,
