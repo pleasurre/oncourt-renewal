@@ -77,10 +77,8 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    const target=problem.querySelector('.editorial-title').getBoundingClientRect().top-problem.getBoundingClientRect().top;
    title.style.setProperty('--flight-end',target+'px');
    title.style.setProperty('--flight-progress',ease(whiteProgress));
-   const top=title.getBoundingClientRect().top;
-   title.classList.toggle('flight-on-white',whitePanels.every(panel=>panel.getBoundingClientRect().top<=top));
   }else if(title.classList.contains('is-flying')){
-   title.classList.remove('is-flying','flight-on-white');
+   title.classList.remove('is-flying');
    copy.insertBefore(title,parts[2]);
   }
   region.dataset.headerLight=String(active&&whitePanels.every(panel=>panel.getBoundingClientRect().top<=header.offsetHeight/2));

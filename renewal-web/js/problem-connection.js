@@ -37,7 +37,9 @@
   const progress=-section.getBoundingClientRect().top/distance;
   lines.forEach((line,index)=>{
    const phase=reduced.matches?1:Math.max(0,Math.min(1,(progress-index*.29)/.42));
-   const ink=Math.round(217-194*phase*phase*(3-2*phase));
+   const blend=phase*phase*(3-2*phase);
+   const ink=Math.round(217-194*blend);
+   line.querySelector('.declaration-brand')?.style.setProperty('--brand-progress',(blend*100)+'%');
    line.style.setProperty('--declaration-ink','rgb('+ink+' '+ink+' '+ink+')');
   });
  }
