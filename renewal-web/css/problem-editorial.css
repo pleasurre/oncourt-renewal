@@ -13,9 +13,9 @@
 .editorial-flight.is-flying{
  position:absolute;z-index:5;left:0;width:100%;
  top:calc(var(--flight-start) + (var(--flight-end) - var(--flight-start))*var(--flight-progress));
- font-size:calc(clamp(28px,4.3vw,64px) + (var(--editorial-size) - clamp(28px,4.3vw,64px))*var(--flight-progress));
+ font-size:calc(var(--flight-size) + (var(--editorial-size) - var(--flight-size))*var(--flight-progress));
  color:#fff;white-space:nowrap;transform:none!important;pointer-events:none;
- filter:url(#editorial-flight-outline);
+ -webkit-text-stroke:1px color-mix(in srgb,#171c19 min(100%, calc(var(--flight-progress)*400%)),white);
 }
 #problem.problem-connection-story{background:#fff}
 #problem.problem-connection-story{height:auto;min-height:100svh;padding:0;}
@@ -23,7 +23,8 @@
 #problem .story-container{width:100%;max-width:none;padding:0;}
 #problem .story-scene{position:relative;display:block;}
 #problem .story-question{max-width:none;padding:var(--editorial-inset) 20px var(--editorial-gap);}
-#problem .editorial-title{white-space:nowrap;margin-inline:-20px;font-size:var(--editorial-size);color:#171c19;filter:url(#editorial-outline);}
+#problem .editorial-title-screen{height:100svh;display:grid;align-items:center;margin-inline:-20px;}
+#problem .editorial-title{white-space:nowrap;font-size:var(--editorial-size);color:#171c19;filter:url(#editorial-outline);}
 #problem .story-question>h2{font-size:min(4.6vw,52px);white-space:nowrap;font-weight:700;color:#1c231f;margin:0 0 var(--editorial-gap);}
 #problem .story-question .problem-description{font-size:clamp(16px,1.7vw,20px);color:#626b64;margin:0 auto;line-height:1.45;}
 .editorial-connection{min-height:100svh;display:grid;place-items:center;padding:24px;text-align:center;background:#fff;}
@@ -36,9 +37,7 @@
  #problem.is-visible .editorial-video{animation:editorial-video-in .65s ease-out both;}
  #problem.story-skip-intro .editorial-video{animation:none;opacity:1;}
  @keyframes editorial-video-in{from{opacity:0;}to{opacity:1;}}
-@media(max-width:767px){
- .editorial-flight.is-flying{font-size:calc(clamp(28px,7.8vw,44px) + (var(--editorial-size) - clamp(28px,7.8vw,44px))*var(--flight-progress));}
-}
+
 
 .site-header{position:fixed;inset:0 0 auto;z-index:100;background:transparent;transform:none;transition:color 180ms ease;}
 .site-header .brand img{transition:filter 180ms ease;}

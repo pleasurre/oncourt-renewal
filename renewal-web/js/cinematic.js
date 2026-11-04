@@ -49,7 +49,6 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
  }
  let queued=false,ready,titleSpacer;
  function handoff(done){
-  // Opacity on the whole section also hides descendants with explicit visibility.
   problem.classList.toggle('bridge-awaiting',!done);
   problem.inert=!done;
   region.dataset.problemReady=done?'true':'false';
@@ -78,13 +77,16 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   // Sticky's lower edge and Problem's top coincide exactly, with no scroll jump.
   const done=!active||travelled>=base+distance-.01;
   const title=parts[1];
-  if(active&&whiteProgress>0&&!done){
+  const settledTitle=problem.querySelector('.editorial-title');
+  const preview=active&&whiteProgress>0&&!done;
+  if(preview){
    const outro=ease(whiteProgress/.28);
    parts[0].style.opacity=1-outro;
    parts[0].style.transform='translateY('+12*outro+'px)';
    if(!title.classList.contains('is-flying')){
     const from=title.getBoundingClientRect().top-stage.getBoundingClientRect().top;
     title.style.setProperty('--flight-start',from+'px');
+    title.style.setProperty('--flight-size',getComputedStyle(title).fontSize);
     titleSpacer=title.cloneNode(true);
     titleSpacer.setAttribute('aria-hidden','true');
     titleSpacer.style.visibility='hidden';
@@ -92,7 +94,7 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
     title.classList.add('is-flying');
     stage.append(title);
    }
-   const target=problem.querySelector('.editorial-title').getBoundingClientRect().top-problem.getBoundingClientRect().top;
+   const target=settledTitle.getBoundingClientRect().top-problem.getBoundingClientRect().top;
    title.style.setProperty('--flight-end',target+'px');
    title.style.setProperty('--flight-progress',ease(whiteProgress));
   }else if(title.classList.contains('is-flying')){
