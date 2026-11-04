@@ -1,4 +1,4 @@
-// Hold at Problem for its entrance and the downward copy transition.
+// Reveal Problem at the bridge handoff without changing scroll position.
 (() => {
  const section=document.querySelector('#problem');
  if(!section)return;
@@ -6,28 +6,11 @@
  const title=section.querySelector('#problem-title');
  const copy=section.querySelector('.problem-description');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- let state='before',previous=scrollY,timer=0,holding=false;
+ let state='before',previous=scrollY;
  section.classList.add('motion-ready');
- function release(){
-  clearTimeout(timer);
-  if(!holding)return;
-  holding=false;
-  document.documentElement.classList.remove('problem-scroll-hold');
-  dispatchEvent(new CustomEvent('problem-scroll-hold',{detail:null}));
- }
- function hold(position,ms,next){
-  holding=true;
-  scrollTo({top:position,behavior:'instant'});
-  dispatchEvent(new CustomEvent('problem-scroll-hold',{detail:position}));
-  document.documentElement.classList.add('problem-scroll-hold');
-  previous=scrollY;
-  timer=setTimeout(()=>{state=next;release();},ms);
- }
  function paint(){
-  if(holding)return;
   const y=scrollY;
   const top=section.getBoundingClientRect().top;
-  const start=y+top;
   const movingDown=y>previous;
   previous=y;
   if(reduced.matches||location.hash==='#problem'&&state==='before'&&top < -8){
@@ -49,26 +32,17 @@
    return;
   }
   if(state==='before'){
-   state='entering';
+   state='reading';
    section.classList.add('is-visible');
-   hold(start,1800,'reading');
-  }else if(state==='reading'&&movingDown&&y>start+8){
-   state='exiting';
+  }else if(state==='reading'&&movingDown&&top < -8){
+   state='done';
    section.style.setProperty('--problem-copy-rise',(title.getBoundingClientRect().top-copy.getBoundingClientRect().top)+'px');
    section.classList.add('problem-copy-exiting');
-   hold(start,650,'done');
   }
  }
  addEventListener('scroll',paint,{passive:true});
  addEventListener('bridge-handoff',paint);
- addEventListener('pagehide',release);
- addEventListener('keydown',event=>{
-  if(event.key==='Escape'&&holding){state='done';release();}
- });
- reduced.addEventListener('change',()=>{
-  if(reduced.matches)release();
-  paint();
- });
+ reduced.addEventListener('change',paint);
  paint();
 })();
 
@@ -82,8 +56,8 @@
  let frame=0;
  function paint(){
   frame=0;
-  const distance=Math.max(1,section.offsetHeight-stage.offsetHeight);
-  const progress=-section.getBoundingClientRect().top/distance;
+  const viewport = document.documentElement.clientHeight;
+  const progress = (viewport * .45 - section.getBoundingClientRect().top) / Math.max(1, viewport * .63);
   lines.forEach((line,index)=>{
    const phase=reduced.matches?1:Math.max(0,Math.min(1,(progress-index*.29)/.42));
    const blend=phase*phase*(3-2*phase);
