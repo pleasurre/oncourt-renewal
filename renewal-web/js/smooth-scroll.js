@@ -9,4 +9,9 @@
     syncTouch: false,
     anchors: { offset: -80 }
   });
+  addEventListener("problem-scroll-hold",({detail})=>{
+    if(detail===null){lenis.start();return;}
+    lenis.scrollTo(detail,{immediate:true,force:true});
+    lenis.stop();
+  });
 })();

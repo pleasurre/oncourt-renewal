@@ -1,7 +1,7 @@
 // Keep the existing header contrast and Hero/black-bridge choreography.
 const header=document.querySelector('.site-header');
 const bridgeRegion=document.querySelector('.hero-bridge-scroll');
-const darkBands=[...document.querySelectorAll('#rally-marquee,#beyond')];
+const darkBands=[...document.querySelectorAll('#rally-marquee,#brand-message,#beyond')];
 function updateHeaderContrast(){
  if(!header||!bridgeRegion)return;
  const y=header.offsetHeight/2;
@@ -47,7 +47,7 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   for(let n=0;n<12;n++){u=(lo+hi)/2;const x=3*(1-u)*(1-u)*u*.25+3*(1-u)*u*u*.45+u*u*u;if(x<t)lo=u;else hi=u;}
   return t===0?0:t===1?1:3*(1-u)*(1-u)*u*.46+3*(1-u)*u*u*.94+u*u*u;
  }
- let queued=false,ready;
+ let queued=false,ready,titleSpacer;
  function handoff(done){
   // Opacity on the whole section also hides descendants with explicit visibility.
   problem.classList.toggle('bridge-awaiting',!done);
@@ -79,9 +79,16 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   const done=!active||travelled>=base+distance-.01;
   const title=parts[1];
   if(active&&whiteProgress>0&&!done){
+   const outro=ease(whiteProgress/.28);
+   parts[0].style.opacity=1-outro;
+   parts[0].style.transform='translateY('+12*outro+'px)';
    if(!title.classList.contains('is-flying')){
     const from=title.getBoundingClientRect().top-stage.getBoundingClientRect().top;
     title.style.setProperty('--flight-start',from+'px');
+    titleSpacer=title.cloneNode(true);
+    titleSpacer.setAttribute('aria-hidden','true');
+    titleSpacer.style.visibility='hidden';
+    title.before(titleSpacer);
     title.classList.add('is-flying');
     stage.append(title);
    }
@@ -90,7 +97,8 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    title.style.setProperty('--flight-progress',ease(whiteProgress));
   }else if(title.classList.contains('is-flying')){
    title.classList.remove('is-flying');
-   copy.insertBefore(title,parts[2]);
+   titleSpacer.replaceWith(title);
+   titleSpacer=null;
   }
   region.dataset.whiteTransition=String(active&&whiteProgress>0&&!done);
   region.dataset.headerLight=String(active&&whitePanels.every(panel=>panel.getBoundingClientRect().top<=header.offsetHeight/2));
@@ -103,3 +111,4 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
  addEventListener('pageshow',paint);reduced.addEventListener('change',paint);
  paint();
 })();
+

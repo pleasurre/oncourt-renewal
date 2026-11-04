@@ -1,0 +1,45 @@
+.brand-message {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 120svh;
+  padding-inline: clamp(16px, 4vw, 64px);
+  background: #101714;
+  color: #fff;
+  text-align: center;
+}
+.brand-message__guides { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.brand-message__guides i { position: absolute; inset-block: 0; width: 1px; background: rgb(255 255 255 / .15); }
+.brand-message__guides i:nth-child(1) { left: 16.6666667%; }
+.brand-message__guides i:nth-child(2) { left: 50%; }
+.brand-message__guides i:nth-child(3) { left: 83.3333333%; }
+.brand-message__copy {
+  width: min(100%, 1100px);
+  font-family: Pretendard, var(--font-body-ko), sans-serif;
+  font-size: 60px;
+  line-height: 1.3;
+  letter-spacing: -.035em;
+  word-break: keep-all;
+}
+.brand-message__group { margin: 0; }
+.brand-message__group + .brand-message__group { margin-top: clamp(16px, 3vw, 32px); }
+.brand-message__line { display: grid; width: fit-content; max-width: 100%; margin-inline: auto; font-weight: 500; }
+.brand-message__line > span { grid-area: 1 / 1; }
+.brand-message__group:first-child .brand-message__line:last-child { font-weight: 700; }
+.brand-message__line--final { position: relative; font-weight: 800; }
+.brand-message__ink { display: none; }
+.brand-message.is-revealing .brand-message__line { color: #5C6861; }
+.brand-message.is-revealing .brand-message__ink { display: block; color: #fff; clip-path: inset(0 100% 0 0); }
+.brand-message__underline {
+  position: absolute; top: calc(100% + 12px); left: 20%;
+  width: 60%; height: 10px; overflow: visible;
+  fill: none; stroke: #D1EB72; stroke-linecap: round;
+}
+.brand-message__underline path { stroke-width: 3px; vector-effect: non-scaling-stroke; }
+.brand-message.is-revealing .brand-message__underline path { stroke-dasharray: 1; stroke-dashoffset: var(--underline-offset, 1); }
+@media (max-width: 1023px) { .brand-message__copy { font-size: clamp(42px, 5vw, 48px); } }
+@media (max-width: 767px) { .brand-message__copy { font-size: clamp(28px, 5vw, 34px); } }
+@media (max-height: 420px) { .brand-message__copy { font-size: clamp(22px, 9svh, 34px); } }
