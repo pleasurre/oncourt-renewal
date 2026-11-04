@@ -15,10 +15,10 @@
  top:calc(var(--flight-start) + (var(--flight-end) - var(--flight-start))*var(--flight-progress));
  font-size:calc(clamp(28px,4.3vw,64px) + (var(--editorial-size) - clamp(28px,4.3vw,64px))*var(--flight-progress));
  color:#fff;transform:none!important;pointer-events:none;
- -webkit-text-stroke:1px #171c19;
+ filter:drop-shadow(0 0 1px #171c19);
 }
 #problem.problem-connection-story{background:#fff}
-#problem.problem-connection-story{height:140svh;min-height:140svh;padding:0;}
+#problem.problem-connection-story{height:100svh;min-height:100svh;padding:0;}
 #problem .story-stage{height:auto;min-height:0;align-items:stretch;}
 #problem .story-container{width:100%;max-width:none;padding:0;}
 #problem .story-scene{position:relative;display:block;}
