@@ -36,7 +36,7 @@
   if(top>2){
    if(state!=='before'){
     state='before';
-    section.classList.remove('is-visible','problem-copy-exiting','story-skip-intro');
+    section.classList.remove('is-visible','problem-copy-exiting','story-skip-intro','problem-copy-read');
    }
    return;
   }
@@ -48,13 +48,15 @@
   }
   if(state==='before'){
    state='reading';
-   section.classList.add('is-visible');
-   hold(Math.ceil(y+top)+2,1850);
-  }else if(state==='reading'&&movingDown&&top < -8){
+  }
+  if(state==='reading'&&copy.getBoundingClientRect().bottom<=innerHeight&& !section.classList.contains('problem-copy-read')){
+   section.classList.add('problem-copy-read','is-visible');
+   hold(Math.ceil(y+Math.max(top+2,copy.getBoundingClientRect().bottom-innerHeight)),1850);
+   return;
+  }else if(state==='reading'&&movingDown&&top < -8&&copy.getBoundingClientRect().bottom<=innerHeight){
    state='done';
    section.style.setProperty('--problem-copy-rise',(title.getBoundingClientRect().top-copy.getBoundingClientRect().top)+'px');
    section.classList.add('problem-copy-exiting');
-   hold(Math.ceil(y),650);
   }
  }
  addEventListener('scroll',paint,{passive:true});

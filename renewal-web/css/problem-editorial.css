@@ -1,8 +1,8 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css");
 :root{
- --editorial-inset:clamp(48px,8svh,80px);
+ --editorial-inset:0px;
  --editorial-gap:clamp(10px,2svh,20px);
- --editorial-size:min(11vw,15svh,150px);
+ --editorial-size:14vw;
 }
 .bridge-copy .editorial-flight,
 .editorial-flight.is-flying,
@@ -14,22 +14,22 @@
  position:absolute;z-index:5;left:0;width:100%;
  top:calc(var(--flight-start) + (var(--flight-end) - var(--flight-start))*var(--flight-progress));
  font-size:calc(clamp(28px,4.3vw,64px) + (var(--editorial-size) - clamp(28px,4.3vw,64px))*var(--flight-progress));
- color:#fff;transform:none!important;pointer-events:none;
+ color:#fff;white-space:nowrap;transform:none!important;pointer-events:none;
  filter:url(#editorial-flight-outline);
 }
 #problem.problem-connection-story{background:#fff}
-#problem.problem-connection-story{height:100svh;min-height:100svh;padding:0;}
+#problem.problem-connection-story{height:auto;min-height:100svh;padding:0;}
 #problem .story-stage{height:auto;min-height:0;align-items:stretch;}
 #problem .story-container{width:100%;max-width:none;padding:0;}
 #problem .story-scene{position:relative;display:block;}
 #problem .story-question{max-width:none;padding:var(--editorial-inset) 20px var(--editorial-gap);}
-#problem .editorial-title{font-size:var(--editorial-size);color:#171c19;filter:url(#editorial-outline);}
+#problem .editorial-title{white-space:nowrap;margin-inline:-20px;font-size:var(--editorial-size);color:#171c19;filter:url(#editorial-outline);}
 #problem .story-question>h2{font-size:min(4.6vw,52px);white-space:nowrap;font-weight:700;color:#1c231f;margin:0 0 var(--editorial-gap);}
 #problem .story-question .problem-description{font-size:clamp(16px,1.7vw,20px);color:#626b64;margin:0 auto;line-height:1.45;}
 .editorial-connection{min-height:100svh;display:grid;place-items:center;padding:24px;text-align:center;background:#fff;}
  .editorial-video{
  width:min(88vw,68svh,720px);aspect-ratio:16/9;
- margin:var(--editorial-gap) auto;overflow:hidden;background:#e9ece9;
+ margin:clamp(24px,4svh,48px) auto var(--editorial-gap);overflow:hidden;background:#e9ece9;
  }
  .editorial-video video{display:block;width:100%;height:100%;object-fit:cover;}
  #problem.motion-ready .editorial-video{opacity:0;}
