@@ -18,7 +18,7 @@
  filter:url(#editorial-flight-outline);
 }
 #problem.problem-connection-story{background:#fff}
-#problem.problem-connection-story{height:auto;min-height:100svh;padding:0;}
+#problem.problem-connection-story{height:auto;min-height:100svh;padding:0;margin-bottom:-16svh;}
 #problem .story-stage{height:auto;min-height:0;align-items:stretch;}
 #problem .story-container{width:100%;max-width:none;padding:0;}
 #problem .story-scene{position:relative;display:block;}
