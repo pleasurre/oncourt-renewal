@@ -20,3 +20,4 @@
 @media(max-width:1024px){.features-editorial__inner{width:calc(100% - 64px)}.features-editorial__scene{gap:40px}}
 @media(max-width:700px){.features-editorial__inner{width:calc(100% - 40px)}.features-editorial__scene{grid-template-columns:1fr;min-height:0;gap:28px}.features-editorial__scene:nth-child(even) :is(.features-editorial__media,.features-editorial__copy){grid-column:auto;grid-row:auto}.features-courts__group{height:72px}}
 @media(prefers-reduced-motion:reduce){.features-courts__track{animation:none}.features-courts{overflow-x:auto}.features-courts__group[aria-hidden]{display:none}}
+#download.download{background:#fff}
