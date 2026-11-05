@@ -78,6 +78,9 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   const done=!active||travelled>=base+distance-.01;
   const title=parts[1];
   const settledTitle=problem.querySelector('.editorial-title');
+  const problemScroll=Math.max(0,-problem.getBoundingClientRect().top);
+  const partnerFill=done?clamp(problemScroll/(height*.25)):0;
+  problem.style.setProperty('--partner-fill',partnerFill*100+'%');
   const preview=active&&whiteProgress>0&&!done;
   if(preview){
    const outro=ease(whiteProgress/.28);

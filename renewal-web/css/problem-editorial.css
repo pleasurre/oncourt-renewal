@@ -24,7 +24,13 @@
 #problem .story-scene{position:relative;display:block;}
 #problem .story-question{max-width:none;padding:var(--editorial-inset) 20px var(--editorial-gap);}
 #problem .editorial-title-screen{height:120svh;padding-bottom:20svh;box-sizing:border-box;display:grid;align-items:center;margin-inline:-20px;}
-#problem .editorial-title{white-space:nowrap;font-size:var(--editorial-size);color:#171c19;filter:url(#editorial-outline);}
+#problem .editorial-title{white-space:nowrap;font-size:var(--editorial-size);color:#171c19;}
+#problem .editorial-title__outline{filter:url(#editorial-outline);}
+#problem .editorial-title__word{position:relative;}
+#problem .editorial-title__fill{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--partner-fill, 0%)) 0 0);pointer-events:none;}
+@media (prefers-reduced-motion:reduce){
+ #problem .editorial-title__fill{clip-path:none;}
+}
 #problem .story-question>h2{font-size:min(4.6vw,52px);white-space:nowrap;font-weight:700;color:#1c231f;margin:0 0 var(--editorial-gap);}
 #problem .story-question .problem-description{font-size:clamp(16px,1.7vw,20px);color:#626b64;margin:0 auto;line-height:1.45;}
 .editorial-connection{min-height:100svh;display:grid;place-items:center;padding:24px;text-align:center;background:#fff;}
