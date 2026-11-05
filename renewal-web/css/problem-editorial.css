@@ -23,11 +23,12 @@
 #problem .story-container{width:100%;max-width:none;padding:0;}
 #problem .story-scene{position:relative;display:block;}
 #problem .story-question{max-width:none;padding:var(--editorial-inset) 20px var(--editorial-gap);}
-#problem .editorial-title-screen{height:120svh;padding-bottom:20svh;box-sizing:border-box;display:grid;align-items:center;margin-inline:-20px;}
+#problem .editorial-title-screen{height:100svh;display:grid;align-items:center;margin-inline:-20px;}
 #problem .editorial-title{white-space:nowrap;font-size:var(--editorial-size);color:#171c19;}
 #problem .editorial-title__outline{filter:url(#editorial-outline);}
-#problem .editorial-title__word{position:relative;}
-#problem .editorial-title__fill{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--partner-fill, 0%)) 0 0);pointer-events:none;}
+#problem .editorial-title__word{display:inline-grid;}
+#problem .editorial-title__word>span{grid-area:1 / 1;}
+#problem .editorial-title__fill{clip-path:inset(0 calc(100% - var(--partner-fill, 0%)) 0 0);pointer-events:none;}
 @media (prefers-reduced-motion:reduce){
  #problem .editorial-title__fill{clip-path:none;}
 }
