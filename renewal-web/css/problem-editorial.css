@@ -123,3 +123,5 @@ html{scrollbar-gutter:stable;}
  .bridge-balls svg:nth-child(3){right:9%;top:63%;}
 }
 @media(prefers-reduced-motion:reduce){.bridge-balls{display:none;}}
+
+.site-header .site-nav [aria-disabled]{opacity:1;color:inherit;}

@@ -21,3 +21,7 @@
 @media(max-width:700px){.features-editorial__inner{width:calc(100% - 40px)}.features-editorial__scene{grid-template-columns:1fr;min-height:0;gap:28px}.features-editorial__scene:nth-child(even) :is(.features-editorial__media,.features-editorial__copy){grid-column:auto;grid-row:auto}.features-courts__group{height:72px}}
 @media(prefers-reduced-motion:reduce){.features-courts__track{animation:none}.features-courts{overflow-x:auto}.features-courts__group[aria-hidden]{display:none}}
 #download.download{background:#fff}
+
+.footer-wordmark{width:100%;overflow:hidden;background:#fff;line-height:0;margin:0;padding:0}
+.footer-wordmark svg{display:block;width:100%;height:auto;overflow:visible}
+.footer-wordmark text{font-family:var(--font-display-en),Manrope,sans-serif;font-size:190px;font-weight:800;letter-spacing:-.025em;fill:none;stroke:#cbd0cc;stroke-width:1;vector-effect:non-scaling-stroke}
