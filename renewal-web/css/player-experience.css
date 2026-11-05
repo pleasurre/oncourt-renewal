@@ -1,16 +1,22 @@
-.player-experience { position:relative; isolation:isolate; background:#ECEDE9; color:#202420; }
-.player-experience.is-interactive { height:550svh; }
-.player-experience__stage { position:relative; height:100svh; overflow:hidden; display:grid; place-items:center; }
-.is-interactive .player-experience__stage { position:sticky; top:0; }
-.player-experience__stage canvas { position:absolute; inset:0; z-index:1; pointer-events:none; }
-.player-experience__cards { position:absolute; inset:0; perspective:900px; pointer-events:none; }
-.player-card {
- position:absolute; top:50%; left:50%; width:clamp(132px,23vw,320px);
- padding:clamp(10px,1.5vw,20px); background:#f6f7f3; border:1px solid #adb2ab;
- font:500 clamp(12px,1.2vw,17px)/1.35 var(--font-body-ko),sans-serif;
-}
-.player-card__image { display:block; aspect-ratio:1.5; background:#b8bcb6; margin-bottom:10px; }
-.player-card strong { display:block; font:800 clamp(15px,2vw,28px)/1.2 var(--font-display-en),sans-serif; }
-.player-experience__fallback { margin:0; padding:24px; text-align:center; }
-.is-interactive .player-experience__fallback { display:none; }
-@media(max-width:600px) { .player-experience__cards { perspective:650px; } .player-card__image { aspect-ratio:2; } }
+.player-experience{position:relative;isolation:isolate;background:#08110F;color:#f3f4ef}
+.player-experience.is-interactive{height:660svh}
+.player-experience__stage{position:relative;min-height:100svh;overflow:hidden}
+.is-interactive .player-experience__stage{position:sticky;top:0;height:100svh}
+.player-experience__stage::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:64px 64px;opacity:var(--pattern-opacity,1)}
+.player-experience__stage canvas{position:absolute;inset:0;z-index:1;pointer-events:none}
+.player-experience__cards{position:relative;z-index:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;max-width:960px;margin:auto;padding:48px 24px}
+.player-card{padding:18px;background:#101d18;border:1px solid #425047;border-radius:20px;font:500 16px/1.6 var(--font-body-ko),sans-serif;min-width:0}
+.player-card__image{display:grid;place-items:center;aspect-ratio:4/5;background:#222e27;border:1px solid #505a52;border-radius:16px;margin-bottom:16px;color:#a9b2aa;font:600 14px var(--font-display-en)}
+.player-card strong{display:block;font:800 clamp(24px,2.1vw,32px)/1.2 var(--font-display-en),sans-serif;margin:8px 0 12px}
+.player-card p{margin:0;color:#d3dbd4;word-break:keep-all}
+.player-card small{color:#d1eb72}
+.player-experience__fallback{position:relative;margin:0;padding:48px 24px;text-align:center}
+.is-interactive .player-experience__fallback{display:none}
+.is-interactive .player-experience__cards{position:absolute;inset:0;display:block;max-width:none;margin:0;padding:0;pointer-events:none}
+.is-interactive .player-card{position:absolute;top:50%;left:50%;width:clamp(250px,25vw,350px);will-change:transform,opacity}
+@media(max-height:760px) and (min-width:760px){.is-interactive .player-card{width:250px}.player-card__image{aspect-ratio:1}.player-card{font-size:14px}}
+@media(max-width:759px){.player-experience__cards{grid-template-columns:1fr;max-width:420px}.is-interactive .player-card{top:62%;width:min(76vw,300px);padding:14px}.player-card__image{aspect-ratio:1.5}.player-card{font-size:14px}.player-card strong{font-size:24px}}
+/* Interactive imagery and copy live on the same curved Three.js mesh.
+   Keep the source HTML available to assistive technology and the static fallback. */
+.is-interactive .player-experience__cards{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);padding:0}
+.is-interactive .player-card{position:static;transform:none;opacity:1}
