@@ -1,19 +1,38 @@
 /* Two replaceable image slots: large square left, smaller portrait lower right. */
-.problem-reserve{position:relative;min-height:100svh;width:100%;padding:16svh 0 7svh;box-sizing:border-box;background:#fff}
-.problem-reserve__layout{display:grid;grid-template-columns:minmax(0,52%) minmax(0,20%);justify-content:space-between;align-items:start;width:min(66vw,1440px);margin-inline:auto}
+.problem-reserve{--gallery-lift:22svh;position:relative;min-height:calc(100svh - var(--gallery-lift));width:100%;padding:16svh 0 7svh;box-sizing:border-box;background:transparent;z-index:2;isolation:isolate;overflow:visible;margin-bottom:100px}
+.problem-reserve__layout{display:grid;grid-template-columns:minmax(0,52%) minmax(0,20%);justify-content:space-between;align-items:start;width:min(80vw,1600px);margin-block:calc(-1 * var(--gallery-lift)) 0;margin-inline:auto}
 .problem-reserve__media{position:relative;display:grid;place-items:center;margin:0;overflow:hidden;box-sizing:border-box;border:1px solid #DADDD7;background:#F1F1EF;color:#7B837C}
-.problem-reserve__media--primary{width:min(100%,70svh);aspect-ratio:1 / 1}
-.problem-reserve__media--secondary{width:min(100%,26svh);aspect-ratio:9 / 16;margin-top:30svh;justify-self:end}
+.problem-reserve__media--primary{width:min(100%,70svh);aspect-ratio:1 / 1;margin-top:40px}
+.problem-reserve__media--secondary{width:min(100%,26svh);aspect-ratio:9 / 16;margin-top:30svh;justify-self:end;top:100px}
 .problem-reserve__media>span{font:600 12px/1.4 var(--font-display-en),Manrope,sans-serif;letter-spacing:.12em}
 .problem-reserve__media :is(img,video){display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:var(--problem-media-fit,cover);object-position:var(--problem-media-position,center)}
 @media(max-width:700px){
- .problem-reserve{padding:80px 0 64px}
+ .problem-reserve{--gallery-lift:12svh;padding:80px 0 64px}
  .problem-reserve__layout{display:flex;flex-direction:column;gap:32px;width:calc(100% - 48px)}
  .problem-reserve__media--primary{width:85%;aspect-ratio:1 / 1}
  .problem-reserve__media--secondary{width:38%;margin-top:0;align-self:flex-end}
 }
-.ending-reserve{height:100svh;width:100%;background-blend-mode:multiply;background:#F1F1EF url("../img/court-community-shadows-white.png") center center / cover no-repeat}
-#download.download{position:relative;isolation:isolate;overflow:hidden;background:#fff;color:#172E28}
+/* Opacity only: media dimensions never change during the reveal. */
+@media(prefers-reduced-motion:no-preference){
+ .problem-reserve.problem-gallery-motion .problem-reserve__media{opacity:0;transition:opacity .75s ease-out}
+ .problem-reserve.problem-gallery-motion .problem-reserve__media.is-revealed{opacity:1}
+}
+/* Space for future copy on the left and a landscape image on the right. */
+.problem-detail-reserve{min-height:100svh;display:grid;align-items:center;padding:clamp(64px,10svh,112px) 0;box-sizing:border-box;background:#fff}
+.problem-detail-reserve__layout{width:min(80vw,1600px);margin-inline:auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:clamp(48px,7vw,144px)}
+.problem-detail-reserve__copy{min-width:0;min-height:30svh}
+.problem-detail-reserve__media{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:2 / 1;margin:0;overflow:hidden;box-sizing:border-box;border:1px solid #DADDD7;background:#F1F1EF;color:#7B837C}
+.problem-detail-reserve__media>span{font:600 12px/1.4 var(--font-display-en),Manrope,sans-serif;letter-spacing:.12em}
+.problem-detail-reserve__media :is(img,video){position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:var(--problem-detail-media-fit,cover);object-position:var(--problem-detail-media-position,center)}
+/* GNB-only width; other site containers keep their current size. */
+.site-header .container.header-row{max-width:1600px}
+@media(max-width:700px){
+ .problem-detail-reserve__layout{width:calc(100% - 48px);grid-template-columns:minmax(0,1fr);gap:40px}
+ .problem-detail-reserve__copy{min-height:25svh}
+}
+.ending-reserve{height:100svh;width:100%;background-blend-mode:multiply;background:#F1F1EF url("../img/court-community-shadows-white.png") right bottom / 65% auto no-repeat}
+@media(max-width:700px){.ending-reserve{background-size:90% auto}}
+#download.download{position:relative;isolation:isolate;overflow:hidden;background:#fff;color:#172E28;min-height:100svh;display:grid;place-items:center;padding:clamp(32px,8svh,96px) 24px;box-sizing:border-box}
 #download .container{position:relative;z-index:1}
 #download h2{font-family:var(--font-display-en),Manrope,sans-serif;font-weight:800;color:#172E28}
 #download .subtitle{color:#172E28}
@@ -27,7 +46,7 @@
 #download .store-links{gap:24px}
 #download .store-links .button{background:#172E28;color:#fff;min-width:210px;transition:background-color 250ms ease-out,color 250ms ease-out}
 #download .store-links .button:hover,#download .store-links .button:focus-visible{background:#D1EB72;color:#172E28;opacity:1}
-/* Compact utility footer follows the oversized ONCOURT wordmark. */
+/* Compact utility footer follows the full-screen CTA. */
 .site-footer.site-footer--compact{background:#F1F1EF;color:#172E28;border:0;padding:24px clamp(24px,3vw,48px);font-family:var(--font-body-ko),sans-serif}
 .footer-compact__layout{display:grid;grid-template-columns:140px minmax(0,1fr);align-items:start;gap:24px;max-width:none;margin:0}
 .site-footer--compact .footer-compact__brand{display:inline-flex;align-items:center;min-height:32px;color:#172E28;font-family:var(--font-display-en),Manrope,sans-serif;font-size:24px;font-weight:800;line-height:1;letter-spacing:-.06em;text-decoration:none}

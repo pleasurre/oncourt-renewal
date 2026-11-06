@@ -47,7 +47,7 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   for(let n=0;n<12;n++){u=(lo+hi)/2;const x=3*(1-u)*(1-u)*u*.25+3*(1-u)*u*u*.45+u*u*u;if(x<t)lo=u;else hi=u;}
   return t===0?0:t===1?1:3*(1-u)*(1-u)*u*.46+3*(1-u)*u*u*.94+u*u*u;
  }
- let queued=false,ready,titleSpacer;
+ let queued=false,ready,titleSpacer,partnerFillActive;
  function handoff(done){
   problem.classList.toggle('bridge-awaiting',!done);
   problem.inert=!done;
@@ -81,6 +81,10 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   const problemScroll=Math.max(0,-problem.getBoundingClientRect().top);
   const partnerFill=done?clamp(problemScroll/(height*.25)):0;
   problem.style.setProperty('--partner-fill',partnerFill*100+'%');
+  if(partnerFillActive!==(partnerFill>0)){
+   partnerFillActive=partnerFill>0;
+   dispatchEvent(new CustomEvent('partner-fill-active',{detail:{active:partnerFillActive}}));
+  }
   const preview=active&&whiteProgress>0&&!done;
   if(preview){
    const outro=ease(whiteProgress/.28);
