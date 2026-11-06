@@ -1,0 +1,56 @@
+/* Two replaceable image slots: large square left, smaller portrait lower right. */
+.problem-reserve{position:relative;min-height:100svh;width:100%;padding:16svh 0 7svh;box-sizing:border-box;background:#fff}
+.problem-reserve__layout{display:grid;grid-template-columns:minmax(0,52%) minmax(0,20%);justify-content:space-between;align-items:start;width:min(66vw,1440px);margin-inline:auto}
+.problem-reserve__media{position:relative;display:grid;place-items:center;margin:0;overflow:hidden;box-sizing:border-box;border:1px solid #DADDD7;background:#F1F1EF;color:#7B837C}
+.problem-reserve__media--primary{width:min(100%,70svh);aspect-ratio:1 / 1}
+.problem-reserve__media--secondary{width:min(100%,26svh);aspect-ratio:9 / 16;margin-top:30svh;justify-self:end}
+.problem-reserve__media>span{font:600 12px/1.4 var(--font-display-en),Manrope,sans-serif;letter-spacing:.12em}
+.problem-reserve__media :is(img,video){display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:var(--problem-media-fit,cover);object-position:var(--problem-media-position,center)}
+@media(max-width:700px){
+ .problem-reserve{padding:80px 0 64px}
+ .problem-reserve__layout{display:flex;flex-direction:column;gap:32px;width:calc(100% - 48px)}
+ .problem-reserve__media--primary{width:85%;aspect-ratio:1 / 1}
+ .problem-reserve__media--secondary{width:38%;margin-top:0;align-self:flex-end}
+}
+.ending-reserve{height:100svh;width:100%;background-blend-mode:multiply;background:#F1F1EF url("../img/court-community-shadows-white.png") center center / cover no-repeat}
+#download.download{position:relative;isolation:isolate;overflow:hidden;background:#fff;color:#172E28}
+#download .container{position:relative;z-index:1}
+#download h2{font-family:var(--font-display-en),Manrope,sans-serif;font-weight:800;color:#172E28}
+#download .subtitle{color:#172E28}
+#download .container>p{color:#68736a}
+.ending-strings{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;color:#789587;
+ mask-image:radial-gradient(ellipse 40% 65% at 50% 48%,transparent 20%,rgba(0,0,0,.12) 55%,#000 100%);
+ -webkit-mask-image:radial-gradient(ellipse 40% 65% at 50% 48%,transparent 20%,rgba(0,0,0,.12) 55%,#000 100%)}
+.ending-strings svg{display:block;width:100%;height:100%;overflow:hidden}
+.ending-strings__tile{fill:none;stroke:currentColor;stroke-width:.9;opacity:.16}
+.ending-strings__over{fill:none;stroke:#91AA9D;stroke-width:1;opacity:.15}
+#download .store-links{gap:24px}
+#download .store-links .button{background:#172E28;color:#fff;min-width:210px;transition:background-color 250ms ease-out,color 250ms ease-out}
+#download .store-links .button:hover,#download .store-links .button:focus-visible{background:#D1EB72;color:#172E28;opacity:1}
+/* Compact utility footer follows the oversized ONCOURT wordmark. */
+.site-footer.site-footer--compact{background:#F1F1EF;color:#172E28;border:0;padding:24px clamp(24px,3vw,48px);font-family:var(--font-body-ko),sans-serif}
+.footer-compact__layout{display:grid;grid-template-columns:140px minmax(0,1fr);align-items:start;gap:24px;max-width:none;margin:0}
+.site-footer--compact .footer-compact__brand{display:inline-flex;align-items:center;min-height:32px;color:#172E28;font-family:var(--font-display-en),Manrope,sans-serif;font-size:24px;font-weight:800;line-height:1;letter-spacing:-.06em;text-decoration:none}
+.footer-compact__content{min-width:0;border-left:1px solid #D5D8D2;padding-left:24px}
+.footer-compact__nav{display:flex;align-items:center;flex-wrap:wrap;gap:2px 28px}
+.site-footer--compact .footer-compact__nav a{display:inline-flex;align-items:center;min-height:32px;color:#172E28;font-size:12px;font-weight:500;line-height:1.4;text-decoration:none;white-space:nowrap}
+.site-footer--compact .footer-compact__nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.footer-compact__meta{margin-top:8px;color:#69716C;font-size:11px;font-weight:400;line-height:1.7;overflow-wrap:anywhere}
+.site-footer--compact .footer-compact__meta p{margin:0;font:inherit;letter-spacing:0}
+.site-footer--compact .footer-compact__meta a{color:inherit;text-decoration:none}
+.site-footer--compact .footer-compact__meta a:hover{text-decoration:underline}
+.site-footer--compact a:focus-visible{outline:2px solid #172E28;outline-offset:4px}
+@media(max-width:700px){
+ .site-footer.site-footer--compact{padding:24px}
+ .footer-compact__layout{grid-template-columns:minmax(0,1fr);gap:16px}
+ .footer-compact__content{border-left:0;border-top:1px solid #D5D8D2;padding:12px 0 0}
+ .footer-compact__nav{gap:0 22px}
+ .site-footer--compact .footer-compact__nav a{min-height:44px}
+ .footer-compact__meta{margin-top:12px}
+}
+@media(max-width:600px){
+ .ending-strings{mask-image:radial-gradient(ellipse 65% 55% at 50% 46%,transparent 15%,#000 100%);-webkit-mask-image:radial-gradient(ellipse 65% 55% at 50% 46%,transparent 15%,#000 100%)}
+ #download .store-links{flex-direction:column;align-items:center;gap:16px}
+ #download .store-links .button{width:min(100%,280px)}
+}
+@media(prefers-reduced-motion:reduce){#download .store-links .button{transition:none}}
