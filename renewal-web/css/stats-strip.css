@@ -1,0 +1,40 @@
+/* ONCOURT in numbers: four panels in a row. While the section is pinned, each panel folds into a narrow
+   column on the left and the next one opens up; the last one takes the full row (js/stats-strip.js). */
+.stats-strip{--stats-bg:#D1EB72;--stats-ink:#172E28;--stats-soft:#3F5A50;--stats-rule:rgba(23,46,40,.55);--stats-divider:rgba(23,46,40,.2);
+ position:relative;height:320svh;background:var(--stats-bg);color:var(--stats-ink)}
+.stats-strip__stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;align-items:center}
+.stats-strip__inner{width:min(80vw,1600px);margin-inline:auto;display:grid;gap:18px}
+.stats-strip__head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.stats-strip__eyebrow{margin:0;font:700 13px/1.2 var(--font-display-en,Manrope),sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--stats-ink)}
+.stats-strip__note{margin:0;font:500 13px/1.4 var(--font-body-ko,Pretendard),sans-serif;color:var(--stats-soft)}
+.stats-strip__row{display:flex;height:clamp(320px,50svh,500px);border-top:1px solid var(--stats-rule);border-bottom:1px solid var(--stats-rule);overflow:hidden}
+.stat{position:relative;flex:0 0 auto;width:25%;height:100%;overflow:hidden;box-sizing:border-box;padding:28px 0 28px 24px;border-left:1px solid var(--stats-divider)}
+.stat:first-child{border-left:0;padding-left:0}
+.stat__label{display:block;white-space:nowrap;font:800 14px/1.2 var(--font-display-en,Manrope),sans-serif;letter-spacing:.04em;text-transform:uppercase}
+.stat__icon{display:block;width:24px;height:24px;margin-top:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* the big figure sits at the right of the open panel and is cut off as the panel folds */
+.stat__num{position:absolute;top:18px;left:calc(var(--stat-open,400px) - 24px);translate:-100% 0;margin:0;white-space:nowrap;
+ font:800 clamp(40px,4.4vw,80px)/1 var(--font-display-en,Manrope),sans-serif;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.stat__num sup{font-size:.5em;vertical-align:.7em;margin-left:.04em;letter-spacing:0}
+.stat__body{position:absolute;left:24px;bottom:28px;width:calc(var(--stat-open,400px) - 48px);max-width:30em}
+.stat:first-child .stat__body{left:0}
+.stat__body h3{margin:0;font:700 clamp(17px,1.35vw,22px)/1.35 var(--font-body-ko,Pretendard),sans-serif;letter-spacing:-.025em;word-break:keep-all}
+.stat__body p{margin:8px 0 0;font:500 clamp(14px,1vw,16px)/1.65 var(--font-body-ko,Pretendard),sans-serif;letter-spacing:-.02em;color:var(--stats-soft);word-break:keep-all}
+@media(max-width:700px){
+ .stats-strip__inner{width:calc(100% - 40px)}
+ .stats-strip__head{flex-direction:column;gap:6px}
+ .stats-strip__row{height:clamp(360px,62svh,520px)}
+ .stat{padding:20px 0 20px 14px}
+ .stat__label{font-size:12px}
+ .stat__icon{margin-top:14px;width:20px;height:20px}
+ .stat__num{top:96px;left:calc(var(--stat-open,300px) - 14px);font-size:clamp(40px,12vw,56px)}
+ .stat__body{left:14px;bottom:20px;width:calc(var(--stat-open,300px) - 28px)}
+}
+/* reduced motion or no script: a plain 2 x 2 grid, nothing pinned */
+.stats-strip.is-static{height:auto}
+.stats-strip.is-static .stats-strip__stage{position:relative;height:auto;padding:clamp(64px,10svh,112px) 0}
+.stats-strip.is-static .stats-strip__row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));height:auto;border-bottom:0}
+.stats-strip.is-static .stat{width:auto;min-height:300px;border-left:0;border-bottom:1px solid var(--stats-rule);padding:24px 0}
+.stats-strip.is-static .stat__num{position:static;translate:none;margin-top:24px}
+.stats-strip.is-static .stat__body{position:static;width:auto;margin-top:24px}
+@media(max-width:700px){.stats-strip.is-static .stats-strip__row{grid-template-columns:minmax(0,1fr)}}
