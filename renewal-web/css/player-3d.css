@@ -1,0 +1,32 @@
+/* ONCOURT 3D 선수 체험: sticky full-viewport stage; statue at centre, six cards on a helix (js/player-3d.js). */
+.p3d{--p3d-bg:#08110F;--p3d-fg:#EAF1EC;--p3d-muted:#86998F;--p3d-lime:#C8F04B;--p3d-line:rgba(255,255,255,.08);--p3d-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  position:relative;height:1250svh;background:var(--p3d-bg);color:var(--p3d-fg);isolation:isolate}
+.p3d-stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--p3d-bg)}
+.p3d-layer{position:absolute;inset:0;pointer-events:none}
+.p3d-strings{background-image:linear-gradient(var(--p3d-line) 1px,transparent 1px),linear-gradient(90deg,var(--p3d-line) 1px,transparent 1px);background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 62% at 50% 52%,#000 25%,transparent 100%);mask-image:radial-gradient(ellipse 70% 62% at 50% 52%,#000 25%,transparent 100%)}
+.p3d-glow{background:radial-gradient(ellipse 34% 46% at 50% 50%,rgba(200,240,75,.10),transparent 70%)}
+.p3d-gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* the dots run down this line; it continues as the centre guide of #brand-message */
+.p3d-line{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgb(255 255 255 / .15);opacity:0;z-index:3;pointer-events:none}
+.p3d-hud{position:absolute;inset:0;pointer-events:none;padding:calc(var(--p3d-header,72px) + 12px) max(20px,env(safe-area-inset-left,0px)) 28px;display:flex;flex-direction:column;justify-content:space-between}
+.p3d-hud__top{display:flex;justify-content:space-between;gap:16px;font:600 13px/1.2 var(--p3d-display);letter-spacing:.24em;color:var(--p3d-muted);text-transform:uppercase}
+.p3d-hud__top b{color:var(--p3d-fg);font-weight:600}
+.p3d-hud__bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.p3d-count{transition:opacity .5s;font:700 44px/1 var(--p3d-display);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.p3d-count span{color:var(--p3d-lime)}
+.p3d-count em{display:block;margin-top:8px;font:600 13px/1 var(--p3d-display);letter-spacing:.26em;color:var(--p3d-muted);font-style:normal}
+.p3d-rail{width:2px;height:120px;background:var(--p3d-line);position:relative}
+.p3d-rail i{position:absolute;left:0;right:0;top:0;background:var(--p3d-lime);height:0%}
+.p3d-hint{position:absolute;left:50%;bottom:30px;translate:-50% 0;font:600 12px/1 var(--p3d-display);letter-spacing:.3em;color:var(--p3d-muted);transition:opacity .4s;pointer-events:none}
+/* the card copy stays in the page for screen readers; the canvas draws the same text on the cards */
+.p3d-cards{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0}
+@media (max-width:560px){.p3d-hud__top span:last-child{display:none}.p3d-count{font-size:34px}}
+/* no WebGL / script: a plain, readable list instead of an empty tall stage */
+.p3d:not(.is-live){height:auto}
+.p3d:not(.is-live) .p3d-stage{position:relative;height:auto;padding:120px 24px 80px}
+.p3d:not(.is-live) .p3d-gl,.p3d:not(.is-live) .p3d-hud,.p3d:not(.is-live) .p3d-hint{display:none}
+.p3d:not(.is-live) .p3d-cards{position:relative;width:auto;height:auto;overflow:visible;clip-path:none;white-space:normal;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;max-width:960px;margin:auto;list-style:none}
+.p3d-cards strong{display:block;font:700 28px/1.2 var(--p3d-display);color:var(--p3d-fg)}
+.p3d-cards small{color:var(--p3d-lime)}
+.p3d-cards p{margin:6px 0 0;color:#B3C4BA;word-break:keep-all}
