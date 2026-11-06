@@ -1,23 +1,26 @@
-// Reveal gallery media without changing their geometry or moving them.
+// Shared rise-and-fade motion; each media slot retains its own entry trigger.
 (() => {
  const gallery=document.querySelector('.problem-reserve');
  const problem=document.querySelector('#problem');
  const primary=document.querySelector('#problem-media-primary');
  const secondary=document.querySelector('#problem-media-secondary');
+ const detail=document.querySelector('#problem-detail-media');
  if(!gallery||!problem||!primary||!secondary)return;
  if(!('IntersectionObserver' in window))return;
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
- gallery.classList.add('problem-gallery-motion');
+ [primary,secondary,detail].filter(Boolean).forEach(media=>media.classList.add('media-reveal-ready'));
  function primaryState(active){primary.classList.toggle('is-revealed',active||motion.matches);}
  addEventListener('partner-fill-active',event=>primaryState(event.detail.active));
  function sync(){primaryState(parseFloat(getComputedStyle(problem).getPropertyValue('--partner-fill'))>0);}
  const observer=new IntersectionObserver(entries=>{
-  if(entries.some(entry=>entry.isIntersecting)){
-   secondary.classList.add('is-revealed');
-   observer.disconnect();
-  }
+  entries.forEach(entry=>{
+   if(entry.isIntersecting){
+    entry.target.classList.add('is-revealed');
+    observer.unobserve(entry.target);
+   }
+  });
  },{rootMargin:'0px 0px -8% 0px',threshold:0});
- observer.observe(secondary);
+ [secondary,detail].filter(Boolean).forEach(media=>observer.observe(media));
  motion.addEventListener('change',sync);
  sync();
 })();
