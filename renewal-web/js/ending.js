@@ -5,10 +5,11 @@
  const primary=document.querySelector('#problem-media-primary');
  const secondary=document.querySelector('#problem-media-secondary');
  const detail=document.querySelector('#problem-detail-media');
+ const detailCopy=document.querySelector('#problem-detail-copy');
  if(!gallery||!problem||!primary||!secondary)return;
  if(!('IntersectionObserver' in window))return;
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
- [primary,secondary,detail].filter(Boolean).forEach(media=>media.classList.add('media-reveal-ready'));
+ [primary,secondary,detail,detailCopy].filter(Boolean).forEach(media=>media.classList.add('media-reveal-ready'));
  function primaryState(active){primary.classList.toggle('is-revealed',active||motion.matches);}
  addEventListener('partner-fill-active',event=>primaryState(event.detail.active));
  function sync(){primaryState(parseFloat(getComputedStyle(problem).getPropertyValue('--partner-fill'))>0);}
@@ -20,7 +21,7 @@
    }
   });
  },{rootMargin:'0px 0px -8% 0px',threshold:0});
- [secondary,detail].filter(Boolean).forEach(media=>observer.observe(media));
+ [secondary,detail,detailCopy].filter(Boolean).forEach(media=>observer.observe(media));
  motion.addEventListener('change',sync);
  sync();
 })();
