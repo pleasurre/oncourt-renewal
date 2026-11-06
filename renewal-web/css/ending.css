@@ -13,7 +13,7 @@
  .problem-reserve__media--primary{width:85%;aspect-ratio:1 / 1}
  .problem-reserve__media--secondary{width:38%;margin-top:0;align-self:flex-end}
 }
-.problem-reserve__wordmark{position:absolute;z-index:0;inset-inline:0;top:12%;width:100%;box-sizing:border-box;overflow:hidden;padding:.08em 0 .16em;color:#F8F8FB;font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;font-size:clamp(140px,30vw,640px);line-height:.85;letter-spacing:-.065em;text-align:center;white-space:nowrap;pointer-events:none;user-select:none;transform:translateX(8vw) scale(.56);transform-origin:center top}
+.problem-reserve__wordmark{position:absolute;z-index:0;inset-inline:0;top:12%;width:100%;box-sizing:border-box;overflow:hidden;padding:.08em 0 .16em;color:#F8F8FB;font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;font-size:clamp(140px,30vw,640px);line-height:.85;letter-spacing:-.065em;text-align:center;white-space:nowrap;pointer-events:none;user-select:none;transform:translateX(14vw) scale(.56);transform-origin:center top}
 .problem-reserve__layout{position:relative;z-index:1}
 @media(max-width:700px){.problem-reserve__wordmark{top:auto;bottom:8svh;font-size:32vw;transform:translateX(5vw) scale(.6);transform-origin:center bottom}}
 /* Video reference: rise into place with a soft, decelerating fade. */
