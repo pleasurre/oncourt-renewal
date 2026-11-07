@@ -139,3 +139,6 @@ html{scrollbar-gutter:stable;}
 @media(prefers-reduced-motion:reduce){.bridge-balls{display:none;}}
 
 .site-header .site-nav [aria-disabled]{opacity:1;color:inherit;}
+
+/* the ball is now the white transition itself (js/cinematic.js); the corner ball sketches are retired */
+.bridge-balls{display:none!important;}
