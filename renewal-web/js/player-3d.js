@@ -543,6 +543,7 @@
   function sstep(a, b, x) { x = Math.min(1, Math.max(0, (x - a) / (b - a))); return x * x * (3 - 2 * x); }
 
   var D2R = Math.PI / 180;
+  var FRONT_GROW = 1.85;                          // size of the front info card vs. the cards on the helix (set in layout)
   function apply(P) {
     var q = ringAt(P), active = -1;
     for (var i = 0; i < NC; i++) {
@@ -555,6 +556,8 @@
       c.grp.position.y = Y_IN + (Y_OUT - Y_IN) * (u / PATH);
       var front = Math.cos(th);                      // 1 = facing the viewer, -1 = behind the statue
       c.piv.rotation.z = TILT * 0.6 * (1 - 0.75 * Math.pow(Math.max(0, front), 3));   // lean with the helix, level out at the front for reading
+      // info cards grow as they come round to the front, so the one being read fills the screen
+      c.piv.scale.setScalar(c.info ? 1 + (FRONT_GROW - 1) * sstep(0.55, 1, front) : 1);
       if (c.info) {
         c.fm.color.setScalar(0.42 + 0.58 * sstep(-0.2, 0.95, front));
         c.fm.opacity = 0.35 + 0.65 * sstep(-0.1, 0.6, front);
@@ -638,6 +641,7 @@
     BASE_Y = statue.position.y;
     var k = aspect < 0.9 ? Math.max(0.6, 0.6 + (aspect - 0.45) * 0.9) : 1;
     belt.scale.set(k, 1, k);                                // ...and pull the helix in so side cards stay on screen
+    FRONT_GROW = aspect < 0.9 ? 1.9 : 1.85;                 // desktop: about half the screen wide at the front; phones: fits the width
     camera.position.set(0, TARGET.y + d * Math.sin(CAM_ELEV), d * Math.cos(CAM_ELEV));
     camera.lookAt(TARGET); camera.updateProjectionMatrix();
     var visH = 2 * d * Math.tan(CAM_FOV * Math.PI / 360);
