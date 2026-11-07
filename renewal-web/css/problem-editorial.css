@@ -75,13 +75,14 @@ html{scrollbar-gutter:stable;}
 }
 .declaration-stage #rally-marquee{
  position:absolute;inset:auto 0 0;
- width:auto;max-width:none;margin:0;padding:32px;
+ width:auto;max-width:none;height:var(--marquee-height);margin:0;padding:0;
 }
-.declaration-stage .rally-marquee__group{gap:32px;padding-right:32px;}
+.declaration-stage .rally-marquee__track{height:100%;}
+.declaration-stage .rally-marquee__group{gap:16px;padding-right:16px;}
 .declaration-stage .rally-marquee__group span{
- display:block;color:inherit;font-size:clamp(34px,5.73vw,88px);word-spacing:32px;
+ display:block;color:inherit;font-size:clamp(24px,2.865vw,44px);word-spacing:16px;
 }
-.declaration-stage .rally-marquee__ball{width:clamp(24px,4vw,60px);}
+.declaration-stage .rally-marquee__ball{width:clamp(17px,2vw,30px);}
 
 .rally-marquee .rally-marquee__track{animation-duration:27s;}
 .bridge-balls{position:absolute;inset:0;pointer-events:none;overflow:hidden;}

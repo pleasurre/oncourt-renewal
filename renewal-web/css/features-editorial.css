@@ -1,7 +1,8 @@
 .oncourt-features{background:#080A09;color:#F3F4EF;overflow:clip;font-family:var(--font-body-ko),sans-serif}
+:root{--marquee-height:80px}
 .features-courts{overflow:hidden;background:#D1EB72;color:#1C281A;font-size:clamp(15px,1.65vw,24px);font-weight:600}
 .features-courts__track{display:flex;width:max-content;animation:features-courts-loop 56s linear infinite}
-.features-courts__group{display:flex;flex:none;justify-content:space-around;align-items:center;gap:32px;min-width:100vw;height:80px;padding-inline:24px;white-space:nowrap}
+.features-courts__group{display:flex;flex:none;justify-content:space-around;align-items:center;gap:32px;min-width:100vw;height:var(--marquee-height);padding-inline:24px;white-space:nowrap}
 .features-courts__group span::after{content:"•";margin-inline-start:32px}
 @keyframes features-courts-loop{to{transform:translateX(-50%)}}
 .features-editorial__inner{max-width:1440px;margin-inline:auto;width:calc(100% - 128px)}
@@ -18,7 +19,7 @@
 .features-editorial__media{display:grid;place-items:center;justify-self:center;width:min(100%,490px);aspect-ratio:4/5;overflow:hidden;background:#222824;border:1px solid #505A52;border-radius:24px;color:#A9B2AA;font:700 clamp(12px,1.2vw,16px)/1.25 var(--font-display-en),sans-serif;letter-spacing:.12em;text-align:center}
 .features-editorial__media :is(img,video){display:block;width:100%;height:100%;min-height:0;object-fit:cover;object-position:var(--feature-media-position,center)}
 @media(max-width:1024px){.features-editorial__inner{width:calc(100% - 64px)}.features-editorial__scene{gap:40px}}
-@media(max-width:700px){.features-editorial__inner{width:calc(100% - 40px)}.features-editorial__scene{grid-template-columns:1fr;min-height:0;gap:28px}.features-editorial__scene:nth-child(even) :is(.features-editorial__media,.features-editorial__copy){grid-column:auto;grid-row:auto}.features-courts__group{height:72px}}
+@media(max-width:700px){.features-editorial__inner{width:calc(100% - 40px)}.features-editorial__scene{grid-template-columns:1fr;min-height:0;gap:28px}.features-editorial__scene:nth-child(even) :is(.features-editorial__media,.features-editorial__copy){grid-column:auto;grid-row:auto}:root{--marquee-height:72px}}
 @media(prefers-reduced-motion:reduce){.features-courts__track{animation:none}.features-courts{overflow-x:auto}.features-courts__group[aria-hidden]{display:none}}
 #download.download{background:#fff}
 

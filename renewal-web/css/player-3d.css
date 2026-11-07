@@ -9,9 +9,7 @@
 .p3d-gl{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the dots run down this line; it continues as the centre guide of #brand-message */
 .p3d-line{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgb(255 255 255 / .15);opacity:0;z-index:3;pointer-events:none}
-.p3d-hud{position:absolute;inset:0;pointer-events:none;padding:calc(var(--p3d-header,72px) + 12px) max(20px,env(safe-area-inset-left,0px)) 28px;display:flex;flex-direction:column;justify-content:space-between}
-.p3d-hud__top{display:flex;justify-content:space-between;gap:16px;font:600 13px/1.2 var(--p3d-display);letter-spacing:.24em;color:var(--p3d-muted);text-transform:uppercase}
-.p3d-hud__top b{color:var(--p3d-fg);font-weight:600}
+.p3d-hud{position:absolute;inset:0;pointer-events:none;padding:calc(var(--p3d-header,72px) + 12px) max(20px,env(safe-area-inset-left,0px)) 28px;display:flex;flex-direction:column;justify-content:flex-end}
 .p3d-hud__bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
 .p3d-count{transition:opacity .5s;font:700 44px/1 var(--p3d-display);font-variant-numeric:tabular-nums;letter-spacing:.02em}
 .p3d-count span{color:var(--p3d-lime)}
@@ -21,7 +19,7 @@
 .p3d-hint{position:absolute;left:50%;bottom:30px;translate:-50% 0;font:600 12px/1 var(--p3d-display);letter-spacing:.3em;color:var(--p3d-muted);transition:opacity .4s;pointer-events:none}
 /* the card copy stays in the page for screen readers; the canvas draws the same text on the cards */
 .p3d-cards{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0}
-@media (max-width:560px){.p3d-hud__top span:last-child{display:none}.p3d-count{font-size:34px}}
+@media (max-width:560px){.p3d-count{font-size:34px}}
 /* no WebGL / script: a plain, readable list instead of an empty tall stage */
 .p3d:not(.is-live){height:auto}
 .p3d:not(.is-live) .p3d-stage{position:relative;height:auto;padding:120px 24px 80px}
