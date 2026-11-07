@@ -543,7 +543,7 @@
   function sstep(a, b, x) { x = Math.min(1, Math.max(0, (x - a) / (b - a))); return x * x * (3 - 2 * x); }
 
   var D2R = Math.PI / 180;
-  var FRONT_GROW = 1.85;                          // size of the front info card vs. the cards on the helix (set in layout)
+  var FRONT_GROW = 1.45;                          // size of the front info card vs. the cards on the helix (set in layout)
   function apply(P) {
     var q = ringAt(P), active = -1;
     for (var i = 0; i < NC; i++) {
@@ -641,7 +641,7 @@
     BASE_Y = statue.position.y;
     var k = aspect < 0.9 ? Math.max(0.6, 0.6 + (aspect - 0.45) * 0.9) : 1;
     belt.scale.set(k, 1, k);                                // ...and pull the helix in so side cards stay on screen
-    FRONT_GROW = aspect < 0.9 ? 1.9 : 1.85;                 // desktop: about half the screen wide at the front; phones: fits the width
+    FRONT_GROW = aspect < 0.9 ? 1.5 : 1.45;                 // front card a little larger than the helix cards, without crowding the statue
     camera.position.set(0, TARGET.y + d * Math.sin(CAM_ELEV), d * Math.cos(CAM_ELEV));
     camera.lookAt(TARGET); camera.updateProjectionMatrix();
     var visH = 2 * d * Math.tan(CAM_FOV * Math.PI / 360);
