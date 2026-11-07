@@ -543,6 +543,30 @@
   var section = document.getElementById('player-3d'), stageEl = section.querySelector('.p3d-stage');
   var stringsEl = document.getElementById('p3d-strings'), glowEl = document.getElementById('p3d-glow'), hudEl = section.querySelector('.p3d-hud'), lineEl = document.getElementById('p3d-flowline');
   var kwEl = document.getElementById('p3d-kw'), cntEl = document.getElementById('p3d-count'), railEl = document.getElementById('p3d-rail'), hintEl = document.getElementById('p3d-hint');
+  var descEl = document.getElementById('p3d-desc');
+
+  // Flat photos instead of cards on a 3D helix: they stay square to the screen and drift up past the statue,
+  // like a 2D parallax. Depth comes only from size, speed and layering: front photos are larger, faster and
+  // pass in front of the statue; back photos are smaller, slower, dimmer and pass behind it.
+  // [image, layer, centre x (% of width), width (vw), aspect (w/h), start, duration] on the photo clock s (0..1)
+  var PHOTOS = [
+    [1, 'f', 70, 17, 1.5, 0.00, 0.26], [2, 'b', 14, 11, 1.25, 0.02, 0.42], [3, 'f', 33, 13, 0.8, 0.09, 0.26],
+    [4, 'b', 56, 10, 0.8, 0.12, 0.42], [2, 'f', 84, 13, 1.25, 0.19, 0.26], [1, 'b', 91, 9, 0.8, 0.24, 0.42],
+    [4, 'f', 37, 17, 1.5, 0.28, 0.26], [3, 'b', 42, 11, 1.33, 0.36, 0.42], [1, 'f', 64, 13, 0.78, 0.38, 0.26],
+    [2, 'b', 11, 10, 0.8, 0.47, 0.42], [3, 'f', 30, 12, 1.33, 0.47, 0.26], [4, 'f', 86, 15, 1.5, 0.57, 0.26],
+    [1, 'b', 60, 10, 1.25, 0.58, 0.42], [2, 'f', 36, 14, 0.8, 0.66, 0.26], [3, 'f', 72, 13, 1.25, 0.74, 0.26]
+  ];
+  var photoLayers = { b: section.querySelector('.p3d-photos--back'), f: section.querySelector('.p3d-photos--front') };
+  var photos = PHOTOS.map(function (d) {
+    var el = document.createElement('figure');
+    el.className = 'p3d-photo p3d-photo--' + d[1];
+    el.style.left = d[2] + '%'; el.style.setProperty('--w', d[3]); el.style.aspectRatio = String(d[4]);
+    el.innerHTML = '<img src="img/p3d-photo-0' + d[0] + '.webp" alt="" decoding="async">';
+    photoLayers[d[1]].appendChild(el);
+    return { el: el, s0: d[5], dur: d[6], h: 0 };
+  });
+  function measurePhotos() { photos.forEach(function (p) { p.h = p.el.offsetHeight; }); }
+  var PH_T0 = KEYS[1].t, PH_T1 = keyT('gone');               // the photo clock runs while the cards used to go round
   function sstep(a, b, x) { x = Math.min(1, Math.max(0, (x - a) / (b - a))); return x * x * (3 - 2 * x); }
 
   var D2R = Math.PI / 180;
@@ -571,6 +595,14 @@
         c.bm.color.setScalar(0.5); c.bm.opacity = 0.22;
       }
     }
+    // photos drift up on their own clock; the copy follows the photo clock in six equal steps
+    var s = (P - PH_T0) / (PH_T1 - PH_T0), H = window.innerHeight;
+    photos.forEach(function (p) {
+      var x = (s - p.s0) / p.dur, on = x > 0 && x < 1;
+      p.el.style.visibility = on ? 'visible' : 'hidden';
+      if (on) p.el.style.transform = 'translate3d(-50%,' + (H * 1.02 + (-p.h - H * 0.04 - H * 1.02) * x).toFixed(1) + 'px,0)';
+    });
+    active = s > 0.03 && s < 0.985 ? Math.min(N - 1, Math.floor((s - 0.03) / 0.955 * N)) : -1;
     // statue: one steady turn rate for the whole sequence (like the reference), same direction as the ring,
     // ~2/3 of the cards' average speed so it never outruns them while they move.
     // it stands still while it is alone on screen and starts with the first card: a gentle pick-up,
@@ -628,6 +660,10 @@
       cntEl.style.opacity = active < 0 ? 0 : 1;
       if (active >= 0) cntEl.firstChild.textContent = '0' + (active + 1);
       if (active >= 0) kwEl.textContent = CARDS[active].k;
+      if (descEl) {
+        descEl.classList.toggle('is-on', active >= 0);
+        if (active >= 0) { descEl.classList.remove('is-swap'); void descEl.offsetWidth; descEl.classList.add('is-swap'); descEl.textContent = CARDS[active].d; }
+      }
     }
   }
 
@@ -682,7 +718,8 @@
   }
 
   function start() {
-    buildCards(); layout();
+    buildCards(); belt.visible = false; layout(); measurePhotos();
+    window.addEventListener('resize', measurePhotos);
     window.addEventListener('resize', layout);
     function readScroll() {
       var r = section.getBoundingClientRect(), span = r.height - window.innerHeight;
