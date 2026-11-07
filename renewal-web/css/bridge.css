@@ -81,3 +81,45 @@ html{scroll-behavior:auto;}
  .hero-bridge-scroll .bridge-copy{top:66%;}
  .site-header{transition:none;}
 }
+
+/* ── 브릿지: 드로잉 없이 큰 텍스트만 (비교용 두 안) ──
+   기본: 마침표가 라임색 테니스공으로 톡 튐 / ?bridge=plain: 순수 텍스트 */
+.hero-bridge-scroll .bridge-copy{top:56%;width:min(1400px,calc(100% - 48px));}
+.hero-bridge-scroll .bridge-kicker{font-size:clamp(12px,1.1vw,16px);letter-spacing:.18em;margin-bottom:clamp(18px,2.2vw,34px);}
+.hero-bridge-scroll .bridge-copy h2.bridge-title{
+ font-size:clamp(46px,10vw,188px);font-weight:800;line-height:.92;letter-spacing:-.045em;word-spacing:.06em;
+}
+.bridge-title .bw,.bridge-title .bridge-dot{display:inline-block;opacity:0;will-change:transform,opacity;}
+.hero-bridge-scroll .bridge-accent{margin-top:clamp(28px,3vw,48px);}
+
+/* 기본안: 마침표 = 테니스공 */
+.hero-bridge-scroll:not(.bridge-plain) .bridge-dot{
+ position:relative;color:transparent;width:.26em;margin-left:.05em;
+}
+.hero-bridge-scroll:not(.bridge-plain) .bridge-dot::before{
+ content:"";position:absolute;left:0;bottom:.06em;width:.22em;height:.22em;border-radius:50%;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23d1eb72'/%3E%3Cpath d='M18 12 C42 34 42 66 18 88 M82 12 C58 34 58 66 82 88' fill='none' stroke='%23f4fbe0' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+ transform-origin:50% 100%;transform:scale(0);
+}
+.hero-bridge-scroll:not(.bridge-plain).bridge-dot-in .bridge-dot::before{animation:bridge-dot-pop 1.1s cubic-bezier(.3,.7,.4,1) forwards, bridge-dot-idle 2.6s ease-in-out 1.6s infinite;}
+.hero-bridge-scroll:not(.bridge-plain) .bridge-accent{display:none;}
+@keyframes bridge-dot-pop{
+ 0%{transform:translateY(-1.4em) scale(.6);}
+ 38%{transform:translateY(0) scale(1.18,.8);}
+ 55%{transform:translateY(-.32em) scale(.94,1.06);}
+ 72%{transform:translateY(0) scale(1.06,.94);}
+ 84%{transform:translateY(-.08em) scale(1);}
+ 100%{transform:translateY(0) scale(1);}
+}
+@keyframes bridge-dot-idle{
+ 0%,70%,100%{transform:translateY(0) scale(1);}
+ 80%{transform:translateY(-.14em) scale(.97,1.03);}
+ 90%{transform:translateY(0) scale(1.05,.95);}
+}
+@media(max-width:767px){
+ .hero-bridge-scroll .bridge-copy h2.bridge-title{font-size:clamp(40px,13vw,72px);}
+}
+@media(prefers-reduced-motion:reduce){
+ .bridge-title .bw,.bridge-title .bridge-dot{opacity:1;}
+ .hero-bridge-scroll:not(.bridge-plain) .bridge-dot::before{transform:none;animation:none!important;}
+}

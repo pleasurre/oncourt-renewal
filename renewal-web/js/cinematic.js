@@ -36,6 +36,9 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
  const art=region.querySelector('.bridge-art');
  const copy=region.querySelector('.bridge-copy');
  const parts=[...copy.children];
+ const words=[...copy.querySelectorAll('.bw,.bridge-dot')];
+ // ?bridge=plain -> text only; default -> the full stop is a lime tennis ball that pops in and bounces
+ region.classList.toggle('bridge-plain',/[?&]bridge=plain\b/.test(location.search));
  const groups=['frame','throat','handle','vertical','horizontal'].map(name=>[...region.querySelectorAll('[data-phase="'+name+'"] path,[data-phase="'+name+'"] ellipse')].map(path=>{
   const length=path.getTotalLength();path.style.strokeDasharray=length;path.style.strokeDashoffset=length;return {path,length};
  }));
@@ -67,9 +70,14 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   curtains.forEach((panel,i)=>{panel.style.transform='scaleX('+ease((progress-.13-i*.012)/.196)+')';});
   art.style.opacity=progress>=.33?'1':'0';
   groups.forEach((group,i)=>{const t=ease((progress-(.33+i*.07))/.075);group.forEach(({path,length})=>path.style.strokeDashoffset=length*(1-t));});
-  parts.forEach((part,i)=>{const t=ease((progress-(.70+i*.025))/.07);part.style.opacity=t;part.style.transform='translateY('+(12*(1-t))+'px)';});
-  copy.style.top=(76-10*ease((progress-.84)/.1))+'%';
-  if(reduced.matches){art.style.opacity='1';copy.style.top='66%';}
+  parts.forEach((part,i)=>{
+   if(part===parts[1]){part.style.opacity=progress>=.6?'1':'0';part.style.transform='none';return;}   // the title itself is revealed word by word
+   const t=ease((progress-(i===0?.62:.80))/.07);part.style.opacity=t;part.style.transform='translateY('+(12*(1-t))+'px)';
+  });
+  words.forEach((word,i)=>{const t=ease((progress-(.65+i*.035))/.06);word.style.opacity=t;word.style.transform='translateY('+(.35*(1-t))+'em)';});
+  region.classList.toggle('bridge-dot-in',progress>=.86);
+  copy.style.top=(56-6*ease((progress-.84)/.1))+'%';
+  if(reduced.matches){art.style.opacity='1';copy.style.top='50%';words.forEach(w=>{w.style.opacity='1';w.style.transform='none';});}
   const whiteProgress=active?clamp((travelled-base)/distance):1;
   whitePanels.forEach((panel,i)=>{
    const t=panelEase((whiteProgress-i*.1)/.7);
