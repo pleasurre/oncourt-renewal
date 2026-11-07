@@ -601,12 +601,11 @@
     } else if (ball.userData.base !== undefined) { ballU.uBF.value = 0; ball.position.x = ball.userData.bx; ball.position.z = ball.userData.bz; ball.scale.setScalar(1); }
     // page chrome: grid, glow and HUD give way to the plain next section; its centre line fades in
     var cl = sstep(0.15, 0.85, fl);
-    var bk = sstep(0.3, 1, fl);                    // stage colour settles into the brand message section below
     // deep court green on the way in, settling into the original near-black before the first card arrives,
     // then into the brand message colour as the dots flow out
     var dk = sstep(0, CRACK_T0 * 0.85, P);
-    var cr0 = 20 - 12 * dk, cg0 = 49 - 32 * dk, cb0 = 38 - 23 * dk;
-    stageEl.style.backgroundColor = 'rgb(' + Math.round(cr0 + (16 - cr0) * bk) + ',' + Math.round(cg0 + (23 - cg0) * bk) + ',' + Math.round(cb0 + (20 - cb0) * bk) + ')';
+    // one dark: the scene settles straight into the brand message colour (#101714), so nothing shifts at the hand-over
+    stageEl.style.backgroundColor = 'rgb(' + Math.round(20 - 4 * dk) + ',' + Math.round(49 - 26 * dk) + ',' + Math.round(38 - 18 * dk) + ')';
     stageEl.style.setProperty('--p3d-top', (1 - sstep(0, 0.05, P)).toFixed(3));
     stringsEl.style.opacity = 1 - cl; glowEl.style.opacity = 1 - cl; hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
     lineEl.style.opacity = sstep(0.45, 1, fl);
