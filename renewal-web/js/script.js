@@ -3,53 +3,20 @@ document.documentElement.classList.add('js');
 // Native anchors; static bilingual copy remains readable without language swaps.
 if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}},{threshold:.08});document.querySelectorAll('.section>.container').forEach(el=>{el.classList.add('reveal');observer.observe(el);});}
 
-// Advance the same repeating track in either direction without resetting its phase.
+// Size the slots and pace the CSS loop independently of scrolling.
 (() => {
  const track=document.querySelector('.rally-marquee__track');
- if(!track?.getAnimations)return;
- const pause=document.querySelector('.rally-marquee__pause');
- const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- let animation,raf,lastY,lastAt,lastMotion,speed,target,direction=1;
- function tick(now){
-  const dt=Math.min(64,Math.max(0,now-lastAt));
-  const y=scrollY,delta=y-lastY;
-  lastAt=now;
-  lastY=y;
-  if(delta){
-   const boost=Math.min(Math.abs(delta)/Math.max(dt,1)*1000/450,7);
-   direction=Math.sign(delta);
-   target=direction*(1+boost);
-   lastMotion=now;
-  }else if(now-lastMotion>90){
-   target=direction;
-  }
-  speed+=(target-speed)*(1-Math.exp(-dt/80));
-  if(!pause?.checked){
-   const duration=animation.effect.getComputedTiming().duration;
-   const phase=(Number(animation.currentTime)||0)+dt*speed;
-   animation.currentTime=((phase%duration)+duration)%duration;
-  }
-  raf=requestAnimationFrame(tick);
+ const group=track?.querySelector('.rally-marquee__group');
+ const section=track?.closest('.rally-marquee');
+ if(!group||!section)return;
+ function pace(){
+  const width=section.clientWidth;
+  const visibleSlots=width<600?3:width<1024?5:7.5;
+  section.style.setProperty('--rally-slot',(width/visibleSlots).toFixed(2)+'px');
+  track.style.setProperty('--rally-duration',Math.max(20,group.getBoundingClientRect().width/34).toFixed(1)+'s');
  }
- function slots(){const sec=track.closest('.rally-marquee');if(!sec)return;const w=sec.clientWidth;sec.style.setProperty('--rally-slot',(w/(w<600?3:w<1024?5:7.5)).toFixed(2)+'px');}
- function pace(){slots();const g=track.querySelector('.rally-marquee__group');if(g)track.style.setProperty('--rally-duration',Math.max(20,g.getBoundingClientRect().width/34).toFixed(1)+'s');}
- pace();addEventListener('resize',pace);document.fonts?.ready.then(pace);
- function sync(){
-  cancelAnimationFrame(raf);
-  animation=track.getAnimations()[0];
-  if(reduced.matches||document.hidden||!animation)return;
-  animation.pause();
-  lastAt=performance.now();
-  lastY=scrollY;
-  lastMotion=lastAt;
-  speed=target=direction;
-  raf=requestAnimationFrame(tick);
- }
- reduced.addEventListener('change',sync);
- document.addEventListener('visibilitychange',sync);
- addEventListener('pagehide',()=>cancelAnimationFrame(raf));
- addEventListener('pageshow',sync);
- requestAnimationFrame(sync);
+ pace();
+ addEventListener('resize',pace);
 })();
 
 
