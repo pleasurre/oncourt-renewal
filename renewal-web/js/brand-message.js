@@ -26,10 +26,10 @@ if (message) {
     frame = 0;
     message.classList.toggle('is-revealing', !reduced.matches);
     if (reduced.matches) { message.style.removeProperty('--sub-progress'); return; }
+    // fills while the copy rises from the bottom edge to just below the middle of the screen
     const { top, height } = copy.getBoundingClientRect();
-    const start = innerHeight * .92 - height;
-    const end = innerHeight * .12;
-    const progress = clamp((start - top) / Math.max(1, start - end) / .7);
+    const centre = top + height / 2;
+    const progress = clamp((innerHeight - centre) / (innerHeight * .45));
     const steps = lines.length + 1;
     geometry.forEach(({ ink, rows, width }, index) => {
       const fill = clamp(progress * steps - index);

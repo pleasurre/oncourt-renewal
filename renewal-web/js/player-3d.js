@@ -46,9 +46,9 @@
       if (i < 5) k.push({ w: 1.0, q: FRONT_AT + (i + 1) * 2 * SLOT, ease: 'inout' }); // a decor card flows past
     }
     k.push({ w: 2.0, q: Q_END, ease: 'in', gone: true });      // ring winds out at the bottom right -> statue fully cracked
-    k.push({ w: 1.1, q: Q_END, hold: true, play: true });     // hold: cursor / touch plays with the points
-    k.push({ w: 1.7, q: Q_END, hold: true, flow: true });     // the points run down into the centre line of the next section
-    k.push({ w: 0.35, q: Q_END, hold: true, end: true });
+    k.push({ w: 0.45, q: Q_END, hold: true, play: true });    // short hold: cursor / touch plays with the points
+    k.push({ w: 0.9, q: Q_END, hold: true, flow: true });     // the points run down into the centre line of the next section
+    k.push({ w: 0.05, q: Q_END, hold: true, end: true });
     var tot = 0; k.forEach(function (e) { tot += e.w; });
     var acc = 0; k.forEach(function (e) { acc += e.w; e.t = acc / tot; });
     return k;

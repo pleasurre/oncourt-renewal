@@ -5,7 +5,7 @@
   place-items: center;
   box-sizing: border-box;
   width: 100%;
-  height: 120svh;
+  height: 100svh;
   padding-inline: clamp(16px, 4vw, 64px);
   background: #101714;
   color: #fff;
