@@ -1,7 +1,7 @@
 // Keep the existing header contrast and Hero/black-bridge choreography.
 const header=document.querySelector('.site-header');
 const bridgeRegion=document.querySelector('.hero-bridge-scroll');
-const darkBands=[...document.querySelectorAll('#rally-marquee,#brand-message,.player-experience,#oncourt-features,#beyond')];
+const darkBands=[...document.querySelectorAll('#brand-message,.player-experience,#oncourt-features,#beyond')];
 function updateHeaderContrast(){
  if(!header||!bridgeRegion)return;
  const y=header.offsetHeight/2;
