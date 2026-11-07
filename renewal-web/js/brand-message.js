@@ -25,13 +25,14 @@ if (message) {
   function paint() {
     frame = 0;
     message.classList.toggle('is-revealing', !reduced.matches);
-    if (reduced.matches) return;
+    if (reduced.matches) { message.style.removeProperty('--sub-progress'); return; }
     const { top, height } = copy.getBoundingClientRect();
     const start = innerHeight * .92 - height;
     const end = innerHeight * .12;
-    const progress = clamp((start - top) / Math.max(1, start - end));
+    const progress = clamp((start - top) / Math.max(1, start - end) / .7);
+    const steps = lines.length + 1;
     geometry.forEach(({ ink, rows, width }, index) => {
-      const fill = clamp(progress * 5 - index);
+      const fill = clamp(progress * steps - index);
       if (fill === 0 || fill === 1 || !rows.length) {
         ink.style.clipPath = fill === 1 ? 'none' : 'inset(0 100% 0 0)';
         return;
@@ -51,7 +52,9 @@ if (message) {
       }
       ink.style.clipPath = 'polygon(' + points.join(', ') + ')';
     });
-    message.style.setProperty('--underline-offset', 1 - clamp(progress * 5 - 4));
+    const last = clamp(progress * steps - lines.length);
+    message.style.setProperty('--underline-offset', 1 - last);
+    message.style.setProperty('--sub-progress', last);
   }
 
   function queue() {

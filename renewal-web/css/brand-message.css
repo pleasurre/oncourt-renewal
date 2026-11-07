@@ -43,3 +43,34 @@
 @media (max-width: 1023px) { .brand-message__copy { font-size: clamp(42px, 5vw, 48px); } }
 @media (max-width: 767px) { .brand-message__copy { font-size: clamp(28px, 5vw, 34px); } }
 @media (max-height: 420px) { .brand-message__copy { font-size: clamp(22px, 9svh, 34px); } }
+
+/* 메인 + 보조 텍스트 구조 (첫 섹션 .declaration-* 과 같은 위계) */
+.brand-message__title {
+  margin: 0 0 clamp(24px, 3.4svh, 40px);
+  font: inherit;
+  font-size: clamp(28px, 5.2vw, 76px);
+  font-weight: 800;
+  line-height: 1.28;
+  letter-spacing: -.045em;
+}
+.brand-message__title .brand-message__line { font-weight: 800; white-space: nowrap; }
+.brand-message__title .brand-message__underline { top: calc(100% + 6px); left: 0; width: 68%; }
+.brand-message__sub {
+  margin: 0 auto;
+  max-width: 44em;
+  font: 500 clamp(15px, 1.3vw, 20px)/1.75 Pretendard, var(--font-body-ko), sans-serif;
+  letter-spacing: -.02em;
+  color: #8A948E;
+  word-break: keep-all;
+  opacity: var(--sub-progress, 1);
+  transform: translate3d(0, calc((1 - var(--sub-progress, 1)) * 14px), 0);
+}
+.brand-message__brand { font-weight: 700; color: #D1EB72; }
+.brand-message__br { display: none; }
+@media (max-width: 767px) {
+  .brand-message__title { font-size: clamp(26px, 7.4vw, 40px); }
+  .brand-message__br { display: inline; }
+}
+/* 밑줄: dasharray 대신 clip으로 그려서 끊김 없이 */
+.brand-message.is-revealing .brand-message__title .brand-message__underline path { stroke-dasharray: none; stroke-dashoffset: 0; }
+.brand-message.is-revealing .brand-message__title .brand-message__underline { clip-path: inset(-10px calc(var(--underline-offset, 1) * 100%) -10px 0); }
