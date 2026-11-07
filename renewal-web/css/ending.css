@@ -100,7 +100,7 @@
 @media(max-width:700px){.problem-detail-reserve__text span{display:inline}}
 
 /* One continuous string surface joins the shadow scene to the final CTA. */
-.ending-flow{position:relative;isolation:isolate;overflow:hidden;background:#fff;}
+.ending-flow{position:relative;isolation:isolate;overflow:hidden;overflow:clip;background:#fff;}
 .ending-flow>.ending-reserve{position:relative;background-color:transparent;}
 .ending-flow>#download.download{background:transparent;isolation:auto;}
 .ending-flow>#download .container{z-index:2;}
