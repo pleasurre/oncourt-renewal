@@ -59,7 +59,9 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   lift.replaceChildren();
   liftCols=columns.map(([l,r])=>{
    const c=scene.cloneNode(true);c.removeAttribute('aria-label');c.classList.add('bridge-lift__col');
-   c.style.clipPath='inset(0 '+(100-r)+'% 0 '+l+'%)';lift.appendChild(c);return c;
+   c.style.clipPath='inset(0 '+(100-r)+'% 0 '+l+'%)';
+   c.querySelectorAll('.editorial-flight').forEach(h=>{h.style.visibility='hidden';});   // the title flies on its own
+   lift.appendChild(c);return c;
   });
  }
  const liftEase=v=>{v=clamp(v);return v<.5?4*v*v*v:1-Math.pow(-2*v+2,3)/2;};
@@ -78,13 +80,12 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   const base=Math.max(1,region.offsetHeight-height-distance);
   const travelled=-region.getBoundingClientRect().top;
   const progress=reduced.matches?1:clamp(travelled/base);
-  // the racket starts drawing as the black curtains close: no empty black stretch in between
-  curtains.forEach((panel,i)=>{panel.style.transform='scaleX('+ease((progress-i*.015)/.2)+')';});
-  art.style.opacity=progress>=.17?'1':'0';
-  groups.forEach((group,i)=>{const t=ease((progress-(.17+i*.07))/.09);group.forEach(({path,length})=>path.style.strokeDashoffset=length*(1-t));});
-  parts.forEach((part,i)=>{const t=ease((progress-(.5+i*.03))/.08);part.style.opacity=t;part.style.transform='translateY('+(12*(1-t))+'px)';});
-  copy.style.top=(63-13*ease((progress-.66)/.14))+'%';
-  if(reduced.matches){art.style.opacity='1';copy.style.top='50%';}
+  // text only: the copy rises in as soon as the black curtains have closed
+  curtains.forEach((panel,i)=>{panel.style.transform='scaleX('+ease((progress-i*.015)/.24)+')';});
+  art.style.opacity=progress>=.2?'1':'0';
+  parts.forEach((part,i)=>{const t=ease((progress-(.28+i*.06))/.14);part.style.opacity=t;part.style.transform='translateY('+(14*(1-t))+'px)';});
+  copy.style.top='50%';
+  if(reduced.matches)art.style.opacity='1';
   const whiteProgress=active?clamp((travelled-base)/distance):1;
   // left to right, each column a beat after its neighbour, all moving at once (overlapping)
   const lifting=active&&whiteProgress>0&&whiteProgress<1;
@@ -108,7 +109,28 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    dispatchEvent(new CustomEvent('partner-fill-active',{detail:{active:partnerFillActive}}));
   }
   const preview=active&&whiteProgress>0&&!done;
-  problem.classList.toggle('title-in',done);
+  // the question grows out of the black scene and lands as the big outline title of the next section
+  if(preview){
+   if(!title.classList.contains('is-flying')){
+    const from=title.getBoundingClientRect().top-stage.getBoundingClientRect().top;
+    title.style.setProperty('--flight-start',from+'px');
+    title.style.setProperty('--flight-size',getComputedStyle(title).fontSize);
+    titleSpacer=title.cloneNode(true);
+    titleSpacer.setAttribute('aria-hidden','true');
+    titleSpacer.style.visibility='hidden';
+    title.before(titleSpacer);
+    title.classList.add('is-flying');
+    stage.append(title);
+   }
+   // where the held title sits once the hand-off is done: centred in the screen
+   const target=height/2-settledTitle.offsetHeight/2;
+   title.style.setProperty('--flight-end',target+'px');
+   title.style.setProperty('--flight-progress',liftEase(whiteProgress));
+  }else if(title.classList.contains('is-flying')){
+   title.classList.remove('is-flying');
+   titleSpacer.replaceWith(title);
+   titleSpacer=null;
+  }
   region.dataset.whiteTransition=String(active&&whiteProgress>0&&!done);
   if(preview){
    const bounds=header.getBoundingClientRect();

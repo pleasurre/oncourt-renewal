@@ -29,7 +29,7 @@ html{scroll-behavior:auto;}
 /* Final white transition is isolated inside the existing clipped sticky stage.
    Base bridge remains 320svh desktop / 210svh mobile; only this final beat is new. */
 .hero-bridge-scroll{--bridge-white-distance:1;}
-.hero-bridge-scroll.bridge-transition-ready{height:430svh;}
+.hero-bridge-scroll.bridge-transition-ready{height:370svh;}
 .bridge-transition-ready .cinematic-bridge{z-index:auto;}
 .bridge-transition-ready .bridge-curtains{z-index:1;}
 .bridge-transition-ready .bridge-guides{z-index:2;}
@@ -44,7 +44,7 @@ html{scroll-behavior:auto;}
 /* Share a single viewport at handoff: no duplicate white page or spacer. */
 .hero-bridge-scroll.bridge-transition-ready + #problem{margin-top:-100svh;}
 #problem.bridge-awaiting{opacity:0;pointer-events:none;}
-@media(max-width:767px){.hero-bridge-scroll{--bridge-white-distance:.8;}.hero-bridge-scroll.bridge-transition-ready{height:330svh;}}
+@media(max-width:767px){.hero-bridge-scroll{--bridge-white-distance:.8;}.hero-bridge-scroll.bridge-transition-ready{height:290svh;}}
 @media(prefers-reduced-motion:reduce){.hero-bridge-scroll.bridge-transition-ready{height:200svh}.bridge-white-panels{display:none!important}.hero-bridge-scroll.bridge-transition-ready + #problem{margin-top:0}#problem.bridge-awaiting{opacity:1;pointer-events:auto;}}
 
 /* black scene columns that lift away over the white panels (js/cinematic.js) */

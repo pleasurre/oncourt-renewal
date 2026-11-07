@@ -11,7 +11,7 @@
  letter-spacing:-.025em;word-spacing:normal;text-align:center;margin:0;
 }
 .editorial-flight.is-flying{
- position:absolute;z-index:5;left:0;width:100%;
+ position:absolute;z-index:6;left:0;width:100%;
  top:calc(var(--flight-start) + (var(--flight-end) - var(--flight-start))*var(--flight-progress));
  font-size:calc(var(--flight-size) + (var(--editorial-size) - var(--flight-size))*var(--flight-progress));
  color:#fff;white-space:nowrap;transform:none!important;pointer-events:none;
@@ -143,11 +143,7 @@ html{scrollbar-gutter:stable;}
 /* the ball is now the white transition itself (js/cinematic.js); the corner ball sketches are retired */
 .bridge-balls{display:none!important;}
 
-/* WHERE'S YOUR PARTNER?: appears once the white curtains are up, then stays in the middle of the screen
+/* WHERE'S YOUR PARTNER?: lands here from the black scene (the flight), then stays in the middle of the screen
    while PARTNER? fills (js/cinematic.js --partner-fill); after that the page scrolls on */
 #problem .editorial-title-screen{height:132svh;display:block;margin-bottom:50svh;}
 #problem .editorial-title{position:sticky;top:50svh;translate:0 -50%;}
-@media (prefers-reduced-motion:no-preference){
- #problem .editorial-title{opacity:0;transform:translate3d(0,26px,0);transition:opacity .7s ease .05s,transform .9s cubic-bezier(.22,1,.36,1) .05s;}
- #problem.title-in .editorial-title{opacity:1;transform:none;}
-}
