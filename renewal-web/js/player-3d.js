@@ -93,7 +93,8 @@
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(CAM_FOV, 1, 0.1, 30);
 
-  scene.add(new THREE.HemisphereLight(0xdfe9e4, 0x0b1612, 0.20));
+  // the statue takes on the colour of the court behind it (hemisphere ground, fill and rim follow the background)
+  var hemi = new THREE.HemisphereLight(0xdfe9e4, 0x0b1612, 0.20); scene.add(hemi);
   var key = new THREE.DirectionalLight(0xfff3e2, 1.15); key.position.set(-2.6, 2.6, 2.0); scene.add(key);
   var rim = new THREE.DirectionalLight(0xc8f04b, 1.3); rim.position.set(2.6, 1.6, -2.6); scene.add(rim);
   var fill = new THREE.DirectionalLight(0xbcd6ff, 0.16); fill.position.set(2.4, 0.2, 2.2); scene.add(fill);
@@ -543,6 +544,22 @@
   /* ---- progress / animation (a pure function of one number) ---------- */
   var target = 0, cur = 0, forced = null, lastActive = -2, INTERACT = 0, TNOW = 0;
   for (var s = 0; s <= 2000; s++) { if (ringAt(s / 2000) > 0) { SPIN_T0 = s / 2000; break; } }
+  // Court colours: the background changes with the photo at the front, like the reference turns from blue to
+  // charcoal. Two versions to compare: ?palette=2 (hard-court blue -> deep green) and the default three
+  // surfaces (hard court -> clay -> grass). Both go dark (#08110F) as the statue breaks into dots.
+  var PALETTE = /[?&]palette=2\b/.test(location.search) ? 2 : 3;
+  var COURT = PALETTE === 3
+    ? [[31, 88, 115], [31, 88, 115], [124, 70, 52], [124, 70, 52], [30, 90, 64], [30, 90, 64]]   // hard, hard, clay, clay, grass, grass
+    : [[31, 88, 115], [31, 88, 115], [31, 88, 115], [26, 70, 54], [23, 62, 47], [23, 62, 47]];   // hard court blue -> deep green
+  var DARK = [8, 17, 15], FT = [];
+  for (var fi = 0, fs = 0; fi < N; fi++) { while (fs < 4000 && ringAt(fs / 4000) < FRONT_AT + fi * 2 * SLOT - 0.5) fs++; FT.push(fs / 4000); }
+  function mixc(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+  function courtAt(P) {
+    if (P <= FT[0]) return COURT[0];
+    for (var i = 0; i < N - 1; i++) if (P < FT[i + 1]) return mixc(COURT[i], COURT[i + 1], sstepG(FT[i], FT[i + 1], P));
+    return mixc(COURT[N - 1], DARK, sstepG(FT[N - 1], CRACK_T1, P));
+  }
+  function sstepG(a, b, x) { x = Math.min(1, Math.max(0, (x - a) / (b - a))); return x * x * (3 - 2 * x); }
 
   var section = document.getElementById('player-3d'), stageEl = section.querySelector('.p3d-stage');
   var lightEl = document.getElementById('p3d-strings-light');
@@ -679,11 +696,17 @@
     } else if (ball.userData.base !== undefined) { ballU.uBF.value = 0; ball.position.x = ball.userData.bx; ball.position.z = ball.userData.bz; ball.scale.setScalar(1); }
     // page chrome: grid, glow and HUD give way to the plain next section; its centre line fades in
     var cl = sstep(0.15, 0.85, fl);
-    // entry: white while the stage scrolls up under the lime strip, darkening to #08110F by the
+    // entry: white while the stage scrolls up under the lime strip, turning to the first court colour by the
     // time it pins (just before the statue starts to turn); then into the brand message colour as the dots flow out
     var en = Math.min(1, Math.max(0, ent)), dk = sstep(0.55, 1, en), bk = sstep(0.3, 1, fl);
-    var cr0 = 255 - 247 * dk, cg0 = 255 - 238 * dk, cb0 = 255 - 240 * dk;   // white -> #08110F
-    stageEl.style.backgroundColor = 'rgb(' + Math.round(cr0 + (16 - cr0) * bk) + ',' + Math.round(cg0 + (23 - cg0) * bk) + ',' + Math.round(cb0 + (20 - cb0) * bk) + ')';
+    var court = courtAt(P), bg = mixc(mixc([255, 255, 255], court, dk), [16, 23, 20], bk);   // white -> court colour -> brand
+    var bgc = 'rgb(' + Math.round(bg[0]) + ',' + Math.round(bg[1]) + ',' + Math.round(bg[2]) + ')';
+    stageEl.style.backgroundColor = bgc; stageEl.style.setProperty('--p3d-bgc', bgc);
+    // light on the statue picks up the court colour: shadows lean towards it, the rim is half lime, half court
+    hemi.groundColor.setRGB(Math.min(1, court[0] / 255 * 1.5), Math.min(1, court[1] / 255 * 1.5), Math.min(1, court[2] / 255 * 1.5));
+    hemi.intensity = 0.2 + 0.3 * dk;
+    fill.color.setRGB(0.55 + court[0] / 255 * 0.6, 0.55 + court[1] / 255 * 0.6, 0.55 + court[2] / 255 * 0.6); fill.intensity = 0.16 + 0.22 * dk;
+    rim.color.setRGB((200 + court[0] * 1.2) / 2 / 255, (240 + court[1] * 1.2) / 2 / 255, (75 + court[2] * 1.2) / 2 / 255);
     stageEl.style.setProperty('--p3d-top', (1 - dk).toFixed(3));
     if (lightEl) lightEl.style.opacity = (1 - dk).toFixed(3);
     stringsEl.style.opacity = ((1 - cl) * dk).toFixed(3); glowEl.style.opacity = ((1 - cl) * dk).toFixed(3); hudEl.style.opacity = 1 - sstep(0, 0.4, fl);

@@ -7,12 +7,10 @@
    the columns line up with the strings above the lime strip */
 /* racket-string tile, same as the section above; the statue stands in a clear pool in the middle,
    like the copy area of the final SEE YOU ON COURT section */
-.p3d-strings{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2270%22%20viewBox%3D%220%200%2064%2070%22%3E%3Cpath%20d%3D%22M0%2012H64M0%2047H64M12%200V70M44%200V70%22%20fill%3D%22none%22%20stroke%3D%22%23A9C2B4%22%20stroke-width%3D%22.9%22%20opacity%3D%22.08%22%2F%3E%3Cpath%20d%3D%22M10%2012h4M44%2010v4M12%2045v4M42%2047h4%22%20fill%3D%22none%22%20stroke%3D%22%23C3D6CA%22%20opacity%3D%22.09%22%2F%3E%3C%2Fsvg%3E");background-size:64px 70px;background-position:0 0;
-  -webkit-mask-image:radial-gradient(ellipse 30% 46% at 50% 54%,transparent 22%,rgba(0,0,0,.14) 58%,#000 100%);mask-image:radial-gradient(ellipse 30% 46% at 50% 54%,transparent 22%,rgba(0,0,0,.14) 58%,#000 100%)}
-@media(max-aspect-ratio:9/10){.p3d-strings{-webkit-mask-image:radial-gradient(ellipse 52% 40% at 50% 52%,transparent 22%,rgba(0,0,0,.14) 58%,#000 100%);mask-image:radial-gradient(ellipse 52% 40% at 50% 52%,transparent 22%,rgba(0,0,0,.14) 58%,#000 100%)}}
+.p3d-strings{background-image:linear-gradient(rgba(255,255,255,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.075) 1px,transparent 1px);background-size:24px 24px;background-position:center center}
 /* entry: the top of the stage starts deep green under the lime strip and fades to the dark stage; gone once the scene runs */
 .p3d-fade{display:none}
-.p3d-glow{background:radial-gradient(ellipse 34% 46% at 50% 50%,rgba(200,240,75,.10),transparent 70%)}
+.p3d-glow{background:radial-gradient(ellipse 46% 52% at 50% 46%,rgba(255,255,255,.10),rgba(255,255,255,0) 70%),radial-gradient(ellipse 80% 80% at 50% 50%,transparent 50%,rgba(0,0,0,.30) 100%)}
 .p3d-gl{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the dots run down this line; it continues as the centre guide of #brand-message */
 .p3d-line{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgb(255 255 255 / .15);opacity:0;z-index:3;pointer-events:none}
@@ -43,9 +41,9 @@
 .p3d-photo--decor .p3d-photo__img{aspect-ratio:1}
 .p3d-photo--tall .p3d-photo__img{aspect-ratio:4/5}
 .p3d-photo__img img{display:block;width:100%;height:100%;object-fit:cover}
-.p3d-photo__img::after{content:"";position:absolute;inset:0;background:#08110F;opacity:var(--dim,0)}
+.p3d-photo__img::after{content:"";position:absolute;inset:0;background:var(--p3d-bgc,#08110F);opacity:var(--dim,0)}
 /* the line of copy under the photo at the front */
-.p3d-photo figcaption{position:absolute;left:0;right:0;top:100%;padding:14px 18px 16px;background:#08110F;opacity:0;font:500 clamp(14px,1.1vw,17px)/1.6 Pretendard,sans-serif;letter-spacing:-.02em;color:#D7E1DA;word-break:keep-all}
+.p3d-photo figcaption{position:absolute;left:0;right:0;top:100%;padding:14px 18px 16px;background:rgba(8,17,15,.86);opacity:0;font:500 clamp(14px,1.1vw,17px)/1.6 Pretendard,sans-serif;letter-spacing:-.02em;color:#D7E1DA;word-break:keep-all}
 .p3d-photo figcaption b{display:block;margin-bottom:4px;font:700 13px/1 var(--p3d-display);letter-spacing:.14em;color:var(--p3d-lime)}
 /* keyword: left side, vertically centred */
 .p3d-side{position:absolute;z-index:2;left:max(20px,5vw);max-width:26vw;top:50%;translate:0 -50%;display:grid;gap:12px;pointer-events:none;opacity:0;transition:opacity .45s}
