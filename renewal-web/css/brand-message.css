@@ -74,3 +74,7 @@
 /* 밑줄: dasharray 대신 clip으로 그려서 끊김 없이 */
 .brand-message.is-revealing .brand-message__title .brand-message__underline path { stroke-dasharray: none; stroke-dashoffset: 0; }
 .brand-message.is-revealing .brand-message__title .brand-message__underline { clip-path: inset(-10px calc(var(--underline-offset, 1) * 100%) -10px 0); }
+
+/* 3D 섹션에서 가운데 선이 완성된 뒤 텍스트가 바로 이어지도록:
+   120svh 가운데 정렬 -> 위쪽 정렬(위 여백 10svh). 빈 화면 구간을 줄임 */
+.brand-message{height:auto;min-height:0;place-items:start center;padding-block:10svh 34svh;}

@@ -27,9 +27,10 @@ if (message) {
     message.classList.toggle('is-revealing', !reduced.matches);
     if (reduced.matches) { message.style.removeProperty('--sub-progress'); return; }
     const { top, height } = copy.getBoundingClientRect();
-    const start = innerHeight * .92 - height;
-    const end = innerHeight * .12;
-    const progress = clamp((start - top) / Math.max(1, start - end) / .7);
+    // fill starts as soon as the copy enters (top at 95% of the screen) and is done near the centre (top at 35%)
+    const start = innerHeight * .95;
+    const end = innerHeight * .35 - height * .25;
+    const progress = clamp((start - top) / Math.max(1, start - end));
     const steps = lines.length + 1;
     geometry.forEach(({ ink, rows, width }, index) => {
       const fill = clamp(progress * steps - index);
