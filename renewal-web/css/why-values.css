@@ -71,3 +71,44 @@
  #why-oncourt .why-values-title{font-size:clamp(32px,10.5vw,52px);}
  #why-oncourt .why-values-intro{font-size:clamp(12px,3.6vw,17px);margin-top:16px;}
 }
+
+/* ── 지그재그 배치 (레퍼런스: 높은 자리 / 낮은 자리 두 단계 + 세로 구분선) ──
+   높이는 index.html의 --why-offset: 홀수 카드 0px(높은 자리), 짝수 카드 130px(낮은 자리). */
+#why-oncourt.why-values{
+ --why-gap:clamp(56px,7vw,112px);
+ --why-card-width:clamp(250px,21vw,330px);
+ --why-divider:#e2e5de;
+}
+.why-values-ready .why-values-group{align-items:stretch;}
+/* 떠오르는 카드가 잘리지 않게 위쪽 여유 */
+.why-values-ready .why-values-viewport{padding-top:14px;margin-top:calc(clamp(70px,9vw,134px) - 14px);}
+.why-value{position:relative;}
+/* 구분선은 움직이지 않는 낮은 카드(짝수)가 양옆에 그려서, 떠다니는 카드와 함께 흔들리지 않게 */
+.why-values-ready .why-value:nth-child(even)::before,
+.why-values-ready .why-value:nth-child(even)::after{
+ content:"";position:absolute;top:0;bottom:0;width:1px;background:var(--why-divider);pointer-events:none;
+}
+.why-values-ready .why-value:nth-child(even)::before{left:calc(var(--why-gap) / -2);}
+.why-values-ready .why-value:nth-child(even)::after{right:calc(var(--why-gap) / -2);}
+
+/* 텍스트: 번호 옆 가로선은 빼고(세로선과 겹치지 않게), 설명은 읽히는 크기로 */
+.why-value-meta::after{display:none;}
+.why-value-meta{gap:10px;margin:20px 0 12px;}
+#why-oncourt .why-value p{font-size:clamp(14px,1.05vw,16px);line-height:1.65;color:#5e675f;margin-top:10px;}
+
+/* 움직임: 줄 전체는 오른쪽→왼쪽으로 흐르고(js), 높은 자리 카드만 위아래로 천천히 떠다님 */
+@keyframes why-float{0%,100%{transform:translate3d(0,0,0);}50%{transform:translate3d(0,-9px,0);}}
+.why-values-ready .why-value:nth-child(odd){animation:why-float 5.6s ease-in-out infinite;}
+.why-values-ready .why-value:nth-child(3){animation-delay:-2.8s;}
+.why-values-paused .why-value{animation-play-state:paused;}
+
+@media(max-width:1023px) and (min-width:701px){
+ #why-oncourt.why-values{--why-card-width:clamp(240px,30vw,300px);--why-gap:56px;}
+}
+@media(max-width:700px){
+ #why-oncourt.why-values{--why-card-width:min(70vw,300px);--why-gap:40px;}
+ .why-values-ready .why-value{padding-top:calc(var(--why-offset)*.5);}
+}
+@media(prefers-reduced-motion:reduce){
+ #why-oncourt .why-value{animation:none!important;}
+}
