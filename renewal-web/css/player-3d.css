@@ -1,6 +1,6 @@
 /* ONCOURT 3D 선수 체험: sticky full-viewport stage; statue at centre, six cards on a helix (js/player-3d.js). */
 .p3d{--p3d-bg:#08110F;--p3d-fg:#EAF1EC;--p3d-muted:#86998F;--p3d-lime:#C8F04B;--p3d-line:rgba(255,255,255,.08);--p3d-display:"Barlow Condensed","Arial Narrow",sans-serif;
-  position:relative;height:1120svh;background:var(--p3d-bg);color:var(--p3d-fg);isolation:isolate}
+  position:relative;height:940svh;background:var(--p3d-bg);color:var(--p3d-fg);isolation:isolate}
 .p3d-stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--p3d-bg)}
 .p3d-layer{position:absolute;inset:0;pointer-events:none}
 /* same racket-string tile as the white section above (32 x 35 with ties), lightened for the dark stage;
@@ -59,3 +59,7 @@
  .p3d-side{top:calc(var(--p3d-header,72px) + 18px);translate:none;max-width:none}
  .p3d-side strong{font-size:44px}
 }
+
+/* entry: the same white + string tile as the section above (.declaration-stage::before), lined up with it in
+   js/player-3d.js; it scrolls in with the page and gives way to the dark stage as the stage pins */
+.p3d-strings-light{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2270%22%20viewBox%3D%220%200%2064%2070%22%3E%3Cpath%20d%3D%22M0%2012H64M0%2047H64M12%200V70M44%200V70%22%20fill%3D%22none%22%20stroke%3D%22%23789587%22%20stroke-width%3D%22.9%22%20opacity%3D%22.16%22%2F%3E%3Cpath%20d%3D%22M10%2012h4M44%2010v4M12%2045v4M42%2047h4%22%20fill%3D%22none%22%20stroke%3D%22%2391AA9D%22%20opacity%3D%22.15%22%2F%3E%3C%2Fsvg%3E");background-size:64px 70px}

@@ -39,8 +39,10 @@
   var Q_END = PATH + (NC - 1) * SLOT + 10;         // last card fully out
   var KEYS = (function () {
     var k = [{ w: 0, q: Q0 }];
-    k.push({ w: 0.55, q: Q0, hold: true });        // statue-only beat
-    k.push({ w: 1.6, q: FRONT_AT, ease: 'out', arrive: true });  // ring winds in, CONNECT arrives at the front -> cracks start
+    // the ring winds in while the stage scrolls into view (see ENTRY_Q), so CONNECT is already at the
+    // front when the stage fills the screen; these two keys are kept (near zero) only as markers
+    k.push({ w: 0, q: Q0, hold: true });
+    k.push({ w: 0.002, q: FRONT_AT, ease: 'out', arrive: true });  // CONNECT at the front -> cracks start
     for (var i = 0; i < 6; i++) {
       k.push({ w: 0.55, q: FRONT_AT + i * 2 * SLOT, hold: true });          // read
       if (i < 5) k.push({ w: 1.0, q: FRONT_AT + (i + 1) * 2 * SLOT, ease: 'inout' }); // a decor card flows past
@@ -543,6 +545,15 @@
   for (var s = 0; s <= 2000; s++) { if (ringAt(s / 2000) > 0) { SPIN_T0 = s / 2000; break; } }
 
   var section = document.getElementById('player-3d'), stageEl = section.querySelector('.p3d-stage');
+  var lightEl = document.getElementById('p3d-strings-light');
+  // line the light tile up with the one in the section above, so the grid runs on unbroken
+  function alignLight() {
+    var src = document.querySelector('.declaration-stage'); if (!lightEl || !src) return;
+    var box = src.parentElement; while (box && box !== document.body && getComputedStyle(box).position === 'static') box = box.parentElement;
+    var a = box.getBoundingClientRect(), b = section.getBoundingClientRect();   // the stage starts at the section top
+    var dx = ((a.left - b.left) % 64 + 64) % 64, dy = ((a.top - b.top) % 70 + 70) % 70;
+    lightEl.style.backgroundPosition = dx.toFixed(1) + 'px ' + dy.toFixed(1) + 'px';
+  }
   var stringsEl = document.getElementById('p3d-strings'), glowEl = document.getElementById('p3d-glow'), hudEl = section.querySelector('.p3d-hud'), lineEl = document.getElementById('p3d-flowline');
   var kwEl = document.getElementById('p3d-kw'), cntEl = document.getElementById('p3d-count'), railEl = document.getElementById('p3d-rail'), hintEl = document.getElementById('p3d-hint');
 
@@ -602,7 +613,8 @@
   var D2R = Math.PI / 180;
   var FRONT_GROW = 1.45;                          // size of the front info card vs. the cards on the helix (set in layout)
   function apply(P) {
-    var q = ringAt(P), active = -1;
+    // entry: the ring winds in with the stage scrolling up (driven by ent, not by P)
+    var q = P > 0 ? ringAt(P) : Q0 + (FRONT_AT - Q0) * (1 - Math.pow(1 - Math.min(1, Math.max(0, ent)), 2.2)), active = -1;
     for (var i = 0; i < NC; i++) {
       var c = cards[i], u = q - i * SLOT;            // this card's position along the path, in degrees
       var show = u > -2 && u < PATH + 2;
@@ -669,11 +681,12 @@
     var cl = sstep(0.15, 0.85, fl);
     // entry: white while the stage scrolls up under the lime strip, darkening to #08110F by the
     // time it pins (just before the statue starts to turn); then into the brand message colour as the dots flow out
-    var en = Math.min(1, Math.max(0, ent)), dk = sstep(0.4, 0.95, en), bk = sstep(0.3, 1, fl);
+    var en = Math.min(1, Math.max(0, ent)), dk = sstep(0.55, 1, en), bk = sstep(0.3, 1, fl);
     var cr0 = 255 - 247 * dk, cg0 = 255 - 238 * dk, cb0 = 255 - 240 * dk;   // white -> #08110F
     stageEl.style.backgroundColor = 'rgb(' + Math.round(cr0 + (16 - cr0) * bk) + ',' + Math.round(cg0 + (23 - cg0) * bk) + ',' + Math.round(cb0 + (20 - cb0) * bk) + ')';
     stageEl.style.setProperty('--p3d-top', (1 - dk).toFixed(3));
-    stringsEl.style.opacity = 1 - cl; glowEl.style.opacity = 1 - cl; hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
+    if (lightEl) lightEl.style.opacity = (1 - dk).toFixed(3);
+    stringsEl.style.opacity = ((1 - cl) * dk).toFixed(3); glowEl.style.opacity = ((1 - cl) * dk).toFixed(3); hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
     lineEl.style.opacity = sstep(0.45, 1, fl);
     statue.updateMatrixWorld(); crackU.uInv.value.copy(statue.matrixWorld).invert();
     railEl.style.height = Math.round(P * 100) + '%';
@@ -741,7 +754,8 @@
   }
 
   function start() {
-    buildCards(); belt.visible = false; buildPhotos(); layout(); sizePhotos();
+    buildCards(); belt.visible = false; buildPhotos(); layout(); sizePhotos(); alignLight();
+    window.addEventListener('resize', alignLight); window.addEventListener('load', alignLight);
     window.addEventListener('resize', sizePhotos);
     window.addEventListener('resize', layout);
     function readScroll() {
