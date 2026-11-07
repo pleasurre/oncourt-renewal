@@ -34,8 +34,7 @@ html{scroll-behavior:auto;}
 .bridge-transition-ready .bridge-curtains{z-index:1;}
 .bridge-transition-ready .bridge-guides{z-index:2;}
 .bridge-transition-ready .bridge-art{z-index:3;}
-.bridge-white-panels{display:none;position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden;background:#fff;clip-path:circle(0 at 50% 20%);}
-.bridge-white-panels i{display:none!important;}
+.bridge-white-panels{display:none;position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden;}
 .bridge-transition-ready .bridge-white-panels{display:block;}
 .bridge-white-panels i{position:absolute;top:0;bottom:0;background:#fff;transform:translate3d(0,100%,0);will-change:transform;}
 .bridge-white-panels i:nth-child(1){left:0;width:calc(16.6666667% + 1.5px);}
