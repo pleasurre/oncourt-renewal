@@ -6,6 +6,14 @@
  const panels = [...row.querySelectorAll('.stat')];
  const nums = [...row.querySelectorAll('.stat__n')];
  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+ // the racket-string background behind this section stays put while the panels are pinned
+ const surface = section.closest('.ending-flow');
+ const strings = surface && surface.querySelector('.ending-strings');
+ function holdStrings(px) {
+  if (!strings) return;
+  strings.style.transform = px ? 'translate3d(0,' + px.toFixed(1) + 'px,0)' : '';
+  surface.style.setProperty('--stats-pin', px.toFixed(1) + 'px');
+ }
  const n = panels.length;
  const clamp = x => Math.max(0, Math.min(1, x));
  const ramp = (t, a, b) => { const x = clamp((t - a) / (b - a)); return x * x * (3 - 2 * x); };
@@ -13,12 +21,14 @@
 
  function paint() {
   frame = 0;
-  if (section.classList.contains('is-static')) return;
+  if (section.classList.contains('is-static')) { holdStrings(0); return; }
   const W = row.clientWidth, phone = W < 560;
   const closed = phone ? 46 : Math.max(140, Math.min(176, W * 0.115));
   const minOpen = phone ? W * 0.74 : W * 0.3;
   const r = section.getBoundingClientRect();
-  const t = clamp(-r.top / Math.max(1, r.height - innerHeight));
+  const span = Math.max(1, r.height - innerHeight);
+  const t = clamp(-r.top / span);
+  holdStrings(Math.max(0, Math.min(span, -r.top)));
   // panel i folds between its own two scroll points; the last one never folds
   const k = panels.map((_, i) => i === n - 1 ? 0 : ramp(t, 0.08 + i * 0.155, 0.22 + i * 0.155));
   const K = k.reduce((a, b) => a + b, 0);
