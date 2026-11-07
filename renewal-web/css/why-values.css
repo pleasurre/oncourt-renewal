@@ -69,3 +69,8 @@
 @media(max-width:767px){
  #why-oncourt .why-values-title{font-size:clamp(38px,11vw,52px);}
 }
+/* 한 줄 제목: WHY ONCOURT? */
+#why-oncourt .why-values-title{white-space:nowrap;word-spacing:.12em;}
+@media(max-width:767px){
+ #why-oncourt .why-values-title{font-size:clamp(32px,10.5vw,52px);}
+}
