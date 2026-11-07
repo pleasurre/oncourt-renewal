@@ -36,18 +36,26 @@
 .p3d-cards small{color:var(--p3d-lime)}
 .p3d-cards p{margin:6px 0 0;color:#B3C4BA;word-break:keep-all}
 
-/* flat photos drifting up past the statue (js/player-3d.js): back layer under the canvas, front layer over it */
+/* flat photos on the ring round the statue (js/player-3d.js): back layer under the canvas, front layer over it */
 .p3d-photos{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.p3d-photo{position:absolute;top:0;margin:0;width:calc(var(--w) * 1vw);visibility:hidden;will-change:transform;overflow:hidden;background:#0d1a15}
-.p3d-photo img{display:block;width:100%;height:100%;object-fit:cover}
-.p3d-photo--b{filter:brightness(.62) saturate(.8)}
-@media(max-aspect-ratio:9/10){.p3d-photo{width:calc(var(--w) * 2.1vw)}}
-/* copy: keyword big, one line of description, bottom left */
-.p3d-copy{display:grid;gap:14px;max-width:min(380px,70vw)}
-.p3d-count em{font-size:15px}
-.p3d-desc{margin:0;font:500 15px/1.6 Pretendard,sans-serif;letter-spacing:-.02em;color:#C9D5CE;word-break:keep-all;opacity:0;transition:opacity .4s;text-shadow:0 1px 12px rgba(8,17,15,.9)}
-.p3d-desc.is-on{opacity:1}
-.p3d-desc.is-swap{animation:p3d-desc-in .5s ease both}
-@keyframes p3d-desc-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.p3d-count{text-shadow:0 1px 14px rgba(8,17,15,.9)}
-@media (max-width:560px){.p3d-desc{font-size:13px}}
+.p3d-photo{position:absolute;left:0;top:0;margin:0;visibility:hidden;will-change:transform,opacity;transform-origin:50% 50%}
+.p3d-photo__img{position:relative;aspect-ratio:3/2;overflow:hidden;background:#0d1a15}
+.p3d-photo--decor .p3d-photo__img{aspect-ratio:1}
+.p3d-photo--tall .p3d-photo__img{aspect-ratio:4/5}
+.p3d-photo__img img{display:block;width:100%;height:100%;object-fit:cover}
+.p3d-photo__img::after{content:"";position:absolute;inset:0;background:#08110F;opacity:var(--dim,0)}
+/* the line of copy under the photo at the front */
+.p3d-photo figcaption{position:absolute;left:0;right:0;top:100%;padding:14px 18px 16px;background:#08110F;opacity:0;font:500 clamp(14px,1.1vw,17px)/1.6 Pretendard,sans-serif;letter-spacing:-.02em;color:#D7E1DA;word-break:keep-all}
+.p3d-photo figcaption b{display:block;margin-bottom:4px;font:700 13px/1 var(--p3d-display);letter-spacing:.14em;color:var(--p3d-lime)}
+/* keyword: left side, vertically centred */
+.p3d-side{position:absolute;z-index:2;left:max(20px,5vw);max-width:26vw;top:50%;translate:0 -50%;display:grid;gap:12px;pointer-events:none;opacity:0;transition:opacity .45s}
+.p3d-side.is-on{opacity:1}
+.p3d-side small{font:700 14px/1 var(--p3d-display);letter-spacing:.2em;color:var(--p3d-lime)}
+.p3d-side strong{font:700 clamp(36px,3.8vw,64px)/.9 var(--p3d-display);letter-spacing:.01em;color:var(--p3d-fg)}
+.p3d-side.is-swap strong{animation:p3d-side-in .55s cubic-bezier(.22,1,.36,1) both}
+@keyframes p3d-side-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.p3d-count{display:none}
+@media(max-aspect-ratio:9/10){
+ .p3d-side{top:calc(var(--p3d-header,72px) + 18px);translate:none;max-width:none}
+ .p3d-side strong{font-size:44px}
+}
