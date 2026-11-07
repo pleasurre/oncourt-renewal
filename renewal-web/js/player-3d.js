@@ -601,9 +601,12 @@
     } else if (ball.userData.base !== undefined) { ballU.uBF.value = 0; ball.position.x = ball.userData.bx; ball.position.z = ball.userData.bz; ball.scale.setScalar(1); }
     // page chrome: grid, glow and HUD give way to the plain next section; its centre line fades in
     var cl = sstep(0.15, 0.85, fl);
-    var bk = sstep(0.3, 1, fl);                    // stage colour settles into the brand message section below
-    stageEl.style.backgroundColor = 'rgb(' + Math.round(8 + 8 * bk) + ',' + Math.round(17 + 6 * bk) + ',' + Math.round(15 + 5 * bk) + ')';
-    stageEl.style.setProperty('--p3d-top', (1 - sstep(0, 0.05, P)).toFixed(3));
+    // entry: deep court green while the stage scrolls up under the lime strip, darkening to #08110F by the
+    // time it pins (just before the statue starts to turn); then into the brand message colour as the dots flow out
+    var en = Math.min(1, Math.max(0, ent)), dk = en * en * (3 - 2 * en), bk = sstep(0.3, 1, fl);
+    var cr0 = 20 - 12 * dk, cg0 = 49 - 32 * dk, cb0 = 38 - 23 * dk;
+    stageEl.style.backgroundColor = 'rgb(' + Math.round(cr0 + (16 - cr0) * bk) + ',' + Math.round(cg0 + (23 - cg0) * bk) + ',' + Math.round(cb0 + (20 - cb0) * bk) + ')';
+    stageEl.style.setProperty('--p3d-top', (1 - dk).toFixed(3));
     stringsEl.style.opacity = 1 - cl; glowEl.style.opacity = 1 - cl; hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
     lineEl.style.opacity = sstep(0.45, 1, fl);
     statue.updateMatrixWorld(); crackU.uInv.value.copy(statue.matrixWorld).invert();
