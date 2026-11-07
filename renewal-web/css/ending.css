@@ -106,3 +106,41 @@
 .ending-flow>#download .container{z-index:2;}
 .ending-flow>.ending-strings{z-index:1;mask-image:radial-gradient(ellipse 40% var(--ending-copy-mask-height,65svh) at 50% calc(var(--ending-copy-center,148svh) - var(--stats-pin,0px)),transparent 20%,rgba(0,0,0,.12) 55%,#000 100%),linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.5) calc(var(--cta-top,9999px) - var(--stats-pin,0px) - 40svh),#000 calc(var(--cta-top,9999px) - var(--stats-pin,0px)));-webkit-mask-image:radial-gradient(ellipse 40% var(--ending-copy-mask-height,65svh) at 50% calc(var(--ending-copy-center,148svh) - var(--stats-pin,0px)),transparent 20%,rgba(0,0,0,.12) 55%,#000 100%),linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.5) calc(var(--cta-top,9999px) - var(--stats-pin,0px) - 40svh),#000 calc(var(--cta-top,9999px) - var(--stats-pin,0px)));mask-composite:intersect;-webkit-mask-composite:source-in}
 @media(max-width:600px){.ending-flow>.ending-strings{mask-image:radial-gradient(ellipse 65% var(--ending-copy-mask-height,55svh) at 50% calc(var(--ending-copy-center,146svh) - var(--stats-pin,0px)),transparent 15%,#000 100%),linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.5) calc(var(--cta-top,9999px) - var(--stats-pin,0px) - 40svh),#000 calc(var(--cta-top,9999px) - var(--stats-pin,0px)));-webkit-mask-image:radial-gradient(ellipse 65% var(--ending-copy-mask-height,55svh) at 50% calc(var(--ending-copy-center,146svh) - var(--stats-pin,0px)),transparent 15%,#000 100%),linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.5) calc(var(--cta-top,9999px) - var(--stats-pin,0px) - 40svh),#000 calc(var(--cta-top,9999px) - var(--stats-pin,0px)));mask-composite:intersect;-webkit-mask-composite:source-in}}
+
+/* ── 흰 구간 세 줄 가이드 (1/6 · 1/2 · 5/6) ──
+   WHERE'S YOUR PARTNER? → 갤러리 → 코트는 잡았는데 → 선언문까지 히어로·브릿지·브랜드 메시지와 같은 자리에 선을 이어,
+   흰 패널 4장의 이음매가 그대로 선으로 남도록. 흰 배경에서는 아주 옅게. */
+:root{--guide-light:rgba(23,28,25,.075);}
+#problem,.problem-reserve,.problem-detail-reserve{
+ background-image:linear-gradient(var(--guide-light),var(--guide-light)),linear-gradient(var(--guide-light),var(--guide-light)),linear-gradient(var(--guide-light),var(--guide-light));
+ background-size:1px 100%;background-repeat:no-repeat;
+ background-position:calc(100% / 6) 0,50% 0,calc(500% / 6) 0;
+}
+/* 섹션 사이 끊김 없이: 갤러리 아래 간격을 여백(margin) 대신 안쪽 여백(padding)으로 */
+.problem-reserve{margin-bottom:0;padding-bottom:calc(7svh + 100px);}
+/* 선언문: 테니스 줄 무늬 대신 같은 세 줄 */
+.declaration-stage::before{
+ background-image:linear-gradient(var(--guide-light),var(--guide-light)),linear-gradient(var(--guide-light),var(--guide-light)),linear-gradient(var(--guide-light),var(--guide-light));
+ background-size:1px 100%;background-repeat:no-repeat;
+ background-position:calc(100% / 6) 0,50% 0,calc(500% / 6) 0;
+ -webkit-mask-image:none;mask-image:none;
+}
+/* 외곽선 제목 뒤는 선을 부드럽게 비움 (가운데 선이 가는 글자를 관통하지 않게) */
+#problem .editorial-title-screen{position:sticky;isolation:isolate;}
+#problem .editorial-title-screen::before{
+ content:"";position:absolute;left:50%;top:50%;z-index:-1;pointer-events:none;
+ width:min(94vw,1500px);height:min(52svh,520px);transform:translate(-50%,-50%);
+ background:radial-gradient(closest-side,#fff 72%,rgba(255,255,255,0) 100%);
+}
+
+/* 내용을 선에 맞춤 (데스크톱·태블릿) */
+@media(min-width:701px){
+ .problem-reserve__layout{width:100%;max-width:none;margin-inline:0;grid-template-columns:1fr 2fr 2fr 1fr;justify-content:stretch;}
+ .problem-reserve__media--primary{grid-column:2;width:100%;max-width:none;}          /* 1/6 선 ~ 1/2 선 */
+ .problem-reserve__media--secondary{grid-column:3;width:50%;max-width:none;justify-self:end;}  /* 오른쪽 끝 = 5/6 선 */
+ .problem-detail-reserve__layout{width:100%;max-width:none;margin-inline:0;grid-template-columns:1fr 2fr 2fr 1fr;gap:0;}
+ .problem-detail-reserve__copy{grid-column:2;padding-right:clamp(28px,3.5vw,64px);}   /* 1/6 선에서 시작 */
+ .problem-detail-reserve__media{grid-column:3;}                                        /* 1/2 선 ~ 5/6 선 */
+ .problem-detail-reserve__title{font-size:clamp(30px,3vw,52px);}
+}
+@media(max-width:700px){:root{--guide-light:rgba(23,28,25,.06);}}
