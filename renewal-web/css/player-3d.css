@@ -1,5 +1,5 @@
 /* ONCOURT 3D 선수 체험: sticky full-viewport stage; statue at centre, six cards on a helix (js/player-3d.js). */
-.p3d{--p3d-bg:#143126;--p3d-fg:#EAF1EC;--p3d-muted:#86998F;--p3d-lime:#C8F04B;--p3d-line:rgba(255,255,255,.08);--p3d-display:"Barlow Condensed","Arial Narrow",sans-serif;
+.p3d{--p3d-bg:#08110F;--p3d-fg:#EAF1EC;--p3d-muted:#86998F;--p3d-lime:#C8F04B;--p3d-line:rgba(255,255,255,.08);--p3d-display:"Barlow Condensed","Arial Narrow",sans-serif;
   position:relative;height:1120svh;background:var(--p3d-bg);color:var(--p3d-fg);isolation:isolate}
 .p3d-stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--p3d-bg)}
 .p3d-layer{position:absolute;inset:0;pointer-events:none}
@@ -11,7 +11,7 @@
   -webkit-mask-image:radial-gradient(ellipse 30% 46% at 50% 54%,transparent 22%,rgba(0,0,0,.14) 58%,#000 100%);mask-image:radial-gradient(ellipse 30% 46% at 50% 54%,transparent 22%,rgba(0,0,0,.14) 58%,#000 100%)}
 @media(max-aspect-ratio:9/10){.p3d-strings{-webkit-mask-image:radial-gradient(ellipse 52% 40% at 50% 52%,transparent 22%,rgba(0,0,0,.14) 58%,#000 100%);mask-image:radial-gradient(ellipse 52% 40% at 50% 52%,transparent 22%,rgba(0,0,0,.14) 58%,#000 100%)}}
 /* entry: the top of the stage starts deep green under the lime strip and fades to the dark stage; gone once the scene runs */
-.p3d-fade{background:linear-gradient(to bottom,#1B3F31 0,rgba(27,63,49,.5) 14svh,rgba(20,49,38,0) 42svh);opacity:var(--p3d-top,1)}
+.p3d-fade{display:none}
 .p3d-glow{background:radial-gradient(ellipse 34% 46% at 50% 50%,rgba(200,240,75,.10),transparent 70%)}
 .p3d-gl{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the dots run down this line; it continues as the centre guide of #brand-message */
