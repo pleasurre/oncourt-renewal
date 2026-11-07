@@ -48,8 +48,8 @@
 
 .site-header{position:fixed;inset:0 0 auto;z-index:100;background:transparent;transform:none;transition:color 180ms ease;}
 .site-header .brand img{transition:filter 180ms ease;}
-.editorial-connection{position:relative;display:block;height:100svh;padding:0;background:#fff;}
-.declaration-stage{position:relative;height:100svh;display:grid;place-items:center;padding-inline:12px;text-align:center;}
+.editorial-connection{position:relative;display:block;padding:0;background:#fff;}
+.declaration-stage{position:relative;height:100svh;height:100dvh;display:grid;place-items:center;padding-inline:12px;text-align:center;}
 .declaration-copy{display:grid;justify-items:center;gap:clamp(24px,3.4svh,40px);}
 .declaration-stage h2{font-family:var(--font-body-ko);font-size:clamp(28px,5.2vw,76px);font-weight:800;letter-spacing:-.045em;line-height:1.28;margin:0;color:#171717;}
 .declaration-stage span{display:block;white-space:nowrap;color:var(--declaration-ink,#171717);}
@@ -84,20 +84,10 @@ html{scrollbar-gutter:stable;}
  background:#fff;border-radius:12px;
  box-shadow:0 0 clamp(28px,5vw,88px) clamp(14px,3vw,58px) #fff;
 }
-.declaration-stage #rally-marquee{
- position:absolute;inset:auto 0 0;
- width:auto;max-width:none;height:var(--marquee-height);margin:0;padding:0;
-}
-.declaration-stage .rally-marquee__track{height:100%;}
-.declaration-stage .rally-marquee__group{gap:16px;padding-right:16px;}
-.declaration-stage .rally-marquee__group span{
- display:block;color:inherit;font-size:clamp(24px,2.865vw,44px);word-spacing:16px;
-}
-.declaration-stage .rally-marquee__ball{width:clamp(17px,2vw,30px);}
 
 .rally-marquee .rally-marquee__track{animation-duration:var(--rally-duration,60s);}
 /* lime ticker, same type and dots as the court-name strip below the brand message */
-#rally-marquee.rally-marquee{background:#D1EB72;color:#1C281A;padding:0;}
+#rally-marquee.rally-marquee{height:var(--marquee-height);background:#D1EB72;color:#1C281A;padding:0;}
 #rally-marquee .rally-marquee__track{height:auto;}
 /* fixed slots: the strip always shows the same number of keywords (7.5 desktop, 5 tablet, 3 phone; js/script.js sets --rally-slot) */
 #rally-marquee .rally-marquee__group{gap:0;padding-right:0;height:80px;}

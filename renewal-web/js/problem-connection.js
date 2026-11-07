@@ -10,7 +10,7 @@
  function paint(){
   frame=0;
   const viewport = document.documentElement.clientHeight;
-  const progress = (viewport * .45 - section.getBoundingClientRect().top) / Math.max(1, viewport * .63);
+  const progress = (viewport * .45 - stage.getBoundingClientRect().top) / Math.max(1, viewport * .5);
   lines.forEach((line,index)=>{
    const phase=reduced.matches?1:Math.max(0,Math.min(1,(progress-index*.29)/.42));
    const blend=phase*phase*(3-2*phase);
