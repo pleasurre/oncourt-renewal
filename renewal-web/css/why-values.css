@@ -19,7 +19,7 @@
 .why-values-group{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:var(--why-gap);}
 .why-value{min-width:0;padding-top:var(--why-offset);}
 .why-value-placeholder{
- position:relative;display:grid;place-items:center;width:100%;aspect-ratio:5/4;
+ position:relative;display:grid;place-items:center;width:100%;aspect-ratio:var(--why-ratio,5/4);
  background:#e0e2d9;border:1px solid #cdd0c8;border-radius:17px;overflow:hidden;
 }
 .why-value:nth-child(3n) .why-value-placeholder{background:#e6e3db;}
@@ -34,7 +34,8 @@
 /* Progressive enhancement: without JS, all six cards remain in a readable grid. */
 .why-values-ready .why-values-track{display:flex;width:max-content;padding-right:0;will-change:transform;}
 .why-values-ready .why-values-group{display:flex;flex:none;gap:var(--why-gap);padding-right:var(--why-gap);}
-.why-values-ready .why-value{flex:0 0 var(--why-card-width);width:var(--why-card-width);}
+/* each card keeps its own size and shape: wide, square, tall */
+.why-values-ready .why-value{--why-w:min(calc(var(--why-card-width) * var(--why-scale,1)),86vw);flex:0 0 var(--why-w);width:var(--why-w);}
 .why-values-paused .why-values-track{will-change:auto;}
 @media(max-width:1023px) and (min-width:701px){#why-oncourt.why-values{--why-card-width:clamp(260px,32vw,320px);}.why-values-group{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:700px){
