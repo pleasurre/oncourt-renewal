@@ -1,6 +1,6 @@
 /* WHY ONCOURT — preserves the editorial wireframe, with a measured loop. */
 #why-oncourt.why-values{
- --why-edge:clamp(24px,3vw,48px);--why-gap:clamp(18px,2.2vw,32px);
+ --why-edge:clamp(24px,3vw,48px);--why-gap:clamp(48px,6vw,112px);
  --why-card-width:clamp(285px,25vw,390px);
  background:#fff;color:#202923;isolation:isolate;overflow:hidden;
  border:0;padding:clamp(90px,9vw,145px) 0 calc(82px + 20svh);min-height:120svh;
@@ -31,7 +31,7 @@
 .why-value-meta{display:flex;align-items:center;gap:15px;margin:21px 0 15px;}
 .why-value-number{flex:none;font:400 12px/1.4 var(--font-display-en);color:#808b81;letter-spacing:.04em;}
 .why-value-meta::after{content:'';height:1px;flex:1;background:#aeb7ac;}
-#why-oncourt .why-value h3{font-family:var(--font-display-en);font-size:clamp(24px,2.3vw,32px);font-weight:800;line-height:1.2;margin:24px 0 0;letter-spacing:-.045em;}
+#why-oncourt .why-value h3{font-family:var(--font-display-en);font-size:clamp(24px,2.3vw,32px);font-weight:800;line-height:1.2;margin:0;letter-spacing:-.045em;}
 #why-oncourt .why-value p{font:400 14px/1.7 var(--font-body-ko);letter-spacing:-.02em;color:#697268;margin:13px 0 0;word-break:keep-all;overflow-wrap:break-word;}
 /* Progressive enhancement: without JS, all six cards remain in a readable grid. */
 .why-values-ready .why-values-track{display:flex;width:max-content;padding-right:0;will-change:transform;}
@@ -40,7 +40,7 @@
 .why-values-paused .why-values-track{will-change:auto;}
 @media(max-width:1023px) and (min-width:701px){#why-oncourt.why-values{--why-card-width:clamp(260px,32vw,320px);}.why-values-group{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:700px){
- #why-oncourt.why-values{--why-card-width:min(79vw,340px);--why-gap:16px;padding-top:95px;padding-bottom:calc(64px + 20svh);}
+ #why-oncourt.why-values{--why-card-width:min(79vw,340px);--why-gap:40px;padding-top:95px;padding-bottom:calc(64px + 20svh);}
  .why-values-viewport{margin-top:60px;}
  .why-value{padding-top:calc(var(--why-offset)*.58);}
  .why-values-ready .why-value::before{top:calc(var(--why-offset)*.58);}
