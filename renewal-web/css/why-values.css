@@ -17,7 +17,9 @@
 .why-values-viewport:focus-visible{outline:1px solid #8c978b;outline-offset:-1px;}
 .why-values-track{padding-inline:var(--why-edge);}
 .why-values-group{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:var(--why-gap);}
-.why-value{min-width:0;padding-top:var(--why-offset);}
+.why-value{position:relative;min-width:0;padding-top:var(--why-offset);}
+/* hairline between cards, from each card's top down */
+.why-values-ready .why-value::before{content:'';position:absolute;left:calc(var(--why-gap) / -2);top:var(--why-offset);bottom:0;width:1px;background:#E3E6DF;pointer-events:none;}
 .why-value-placeholder{
  position:relative;display:grid;place-items:center;width:100%;aspect-ratio:5/4;
  background:#e0e2d9;border:1px solid #cdd0c8;border-radius:17px;overflow:hidden;
@@ -29,7 +31,7 @@
 .why-value-meta{display:flex;align-items:center;gap:15px;margin:21px 0 15px;}
 .why-value-number{flex:none;font:400 12px/1.4 var(--font-display-en);color:#808b81;letter-spacing:.04em;}
 .why-value-meta::after{content:'';height:1px;flex:1;background:#aeb7ac;}
-#why-oncourt .why-value h3{font-family:var(--font-display-en);font-size:clamp(24px,2.3vw,32px);font-weight:800;line-height:1.2;margin:0;letter-spacing:-.045em;}
+#why-oncourt .why-value h3{font-family:var(--font-display-en);font-size:clamp(24px,2.3vw,32px);font-weight:800;line-height:1.2;margin:24px 0 0;letter-spacing:-.045em;}
 #why-oncourt .why-value p{font:400 14px/1.7 var(--font-body-ko);letter-spacing:-.02em;color:#697268;margin:13px 0 0;word-break:keep-all;overflow-wrap:break-word;}
 /* Progressive enhancement: without JS, all six cards remain in a readable grid. */
 .why-values-ready .why-values-track{display:flex;width:max-content;padding-right:0;will-change:transform;}
@@ -41,6 +43,7 @@
  #why-oncourt.why-values{--why-card-width:min(79vw,340px);--why-gap:16px;padding-top:95px;padding-bottom:calc(64px + 20svh);}
  .why-values-viewport{margin-top:60px;}
  .why-value{padding-top:calc(var(--why-offset)*.58);}
+ .why-values-ready .why-value::before{top:calc(var(--why-offset)*.58);}
  .why-values-group{grid-template-columns:minmax(0,1fr);row-gap:34px;}
  #why-oncourt:not(.why-values-ready) .why-value{padding-top:0;}
 }
