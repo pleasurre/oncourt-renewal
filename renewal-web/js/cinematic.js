@@ -80,7 +80,7 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   const title=parts[1];
   const settledTitle=problem.querySelector('.editorial-title');
   const problemScroll=Math.max(0,-problem.getBoundingClientRect().top);
-  const partnerFill=done?clamp(problemScroll/(height*.25)):0;
+  const partnerFill=done?clamp(problemScroll/(height*.6)):0;   // fills while the title is pinned (~0.9 screen), then a short hold
   problem.style.setProperty('--partner-fill',partnerFill*100+'%');
   if(partnerFillActive!==(partnerFill>0)){
    partnerFillActive=partnerFill>0;

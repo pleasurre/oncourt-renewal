@@ -139,3 +139,13 @@ html{scrollbar-gutter:stable;}
 @media(prefers-reduced-motion:reduce){.bridge-balls{display:none;}}
 
 .site-header .site-nav [aria-disabled]{opacity:1;color:inherit;}
+
+/* WHERE'S YOUR PARTNER?를 충분히 감상하도록: 제목 화면을 약 0.9화면 동안 가운데 고정하고,
+   그동안 외곽선에서 천천히 채워짐(js: 0.6화면에 걸쳐 채우고 잠깐 머묾) */
+#problem .story-question{min-height:190svh;}
+#problem .editorial-title-screen{position:sticky;top:0;}
+@media(max-width:767px){ #problem .story-question{min-height:170svh;} }
+@media(prefers-reduced-motion:reduce){
+ #problem .story-question{min-height:0;}
+ #problem .editorial-title-screen{position:static;}
+}
