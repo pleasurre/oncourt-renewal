@@ -99,11 +99,11 @@ html{scrollbar-gutter:stable;}
 /* lime ticker, same type and dots as the court-name strip below the brand message */
 #rally-marquee.rally-marquee{background:#D1EB72;color:#1C281A;padding:0;}
 #rally-marquee .rally-marquee__track{height:auto;}
-/* fixed slots: the strip always shows the same number of keywords (7 desktop, 5 tablet, 3 phone; js/script.js sets --rally-slot) */
+/* fixed slots: the strip always shows the same number of keywords (7.5 desktop, 5 tablet, 3 phone; js/script.js sets --rally-slot) */
 #rally-marquee .rally-marquee__group{gap:0;padding-right:0;height:80px;}
 #rally-marquee .rally-marquee__ball{display:none;}
 #rally-marquee .rally-marquee__group span{font-family:Pretendard,"Noto Sans KR",sans-serif;font-size:clamp(15px,1.65vw,24px);font-weight:600;letter-spacing:-.32px;line-height:1.2;word-spacing:normal;color:#1C281A;}
-#rally-marquee .rally-marquee__group span{position:relative;flex:none;width:var(--rally-slot,calc(100vw / 7));text-align:center;}
+#rally-marquee .rally-marquee__group span{position:relative;flex:none;width:var(--rally-slot,calc(100vw / 7.5));text-align:center;}
 #rally-marquee .rally-marquee__group span::after{content:"•";position:absolute;right:0;top:50%;transform:translate(50%,-50%);font-weight:600;}
 @media(max-width:700px){#rally-marquee .rally-marquee__group{height:56px;}}
 .bridge-balls{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
