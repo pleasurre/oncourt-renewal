@@ -57,6 +57,7 @@
   var CRACK_T0 = keyT('arrive');   // first card reaches the front
   var CRACK_T1 = keyT('gone');     // last card has left: fully cracked
   var SPIN_T = CRACK_T1;           // the statue turns until then and ends facing front
+  var SPIN_T0 = 0;                 // ...and starts turning only once the first card is on screen (set below)
   function phase(f) { for (var i = 1; i < KEYS.length; i++) if (KEYS[i][f]) return [KEYS[i - 1].t, KEYS[i].t]; return [1, 1]; }
   var PH = { play: phase('play'), flow: phase('flow') };
   // while the cards go round: cracks spread (first half), then the pieces shrink into dots (second half)
@@ -537,6 +538,8 @@
 
   /* ---- progress / animation (a pure function of one number) ---------- */
   var target = 0, cur = 0, forced = null, lastActive = -2, INTERACT = 0, TNOW = 0;
+  for (var s = 0; s <= 2000; s++) { if (ringAt(s / 2000) > 0) { SPIN_T0 = s / 2000; break; } }
+
   var section = document.getElementById('player-3d'), stageEl = section.querySelector('.p3d-stage');
   var stringsEl = document.getElementById('p3d-strings'), glowEl = document.getElementById('p3d-glow'), hudEl = section.querySelector('.p3d-hud'), lineEl = document.getElementById('p3d-flowline');
   var kwEl = document.getElementById('p3d-kw'), cntEl = document.getElementById('p3d-count'), railEl = document.getElementById('p3d-rail'), hintEl = document.getElementById('p3d-hint');
@@ -570,8 +573,13 @@
     }
     // statue: one steady turn rate for the whole sequence (like the reference), same direction as the ring,
     // ~2/3 of the cards' average speed so it never outruns them while they move.
-    var st = Math.min(1, P / SPIN_T), SA = 0.72, SK = 2 / (1 + SA);   // steady turn, then a soft landing (no hard stop)
-    var sp = st < SA ? SK * st : 1 - SK / (2 * (1 - SA)) * (1 - st) * (1 - st);
+    // it stands still while it is alone on screen and starts with the first card: a gentle pick-up,
+    // a steady turn, then a soft landing (no hard start, no hard stop)
+    var st = Math.min(1, Math.max(0, (P - SPIN_T0) / (SPIN_T - SPIN_T0))), SU = 0.14, SA = 0.72;
+    var VM = 1 / (1 - SU / 2 - (1 - SA) / 2), sp;
+    if (st < SU) sp = VM * st * st / (2 * SU);
+    else if (st < SA) sp = VM * (SU / 2 + (st - SU));
+    else sp = 1 - VM * (1 - st) * (1 - st) / (2 * (1 - SA));
     // once it is light it keeps breathing: a slow sway of a few degrees, so it never freezes and stares
     var sway = sstep(0.75, 1, prog(P, SHT)) * (1 - sstep(0.2, 0.7, prog(P, PH.flow)));
     statue.rotation.y = YAW0 - sp * (TURNS * Math.PI * 2 + YAW0) + sway * (0.11 * Math.sin(TNOW * 0.42) + 0.04 * Math.sin(TNOW * 0.97 + 1.3));
