@@ -68,8 +68,8 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   art.style.opacity=progress>=.33?'1':'0';
   groups.forEach((group,i)=>{const t=ease((progress-(.33+i*.07))/.075);group.forEach(({path,length})=>path.style.strokeDashoffset=length*(1-t));});
   parts.forEach((part,i)=>{const t=ease((progress-(.70+i*.025))/.07);part.style.opacity=t;part.style.transform='translateY('+(12*(1-t))+'px)';});
-  copy.style.top=(63-13*ease((progress-.84)/.1))+'%';
-  if(reduced.matches){art.style.opacity='1';copy.style.top='50%';}
+  copy.style.top=(76-10*ease((progress-.84)/.1))+'%';
+  if(reduced.matches){art.style.opacity='1';copy.style.top='66%';}
   const whiteProgress=active?clamp((travelled-base)/distance):1;
   whitePanels.forEach((panel,i)=>{
    const t=panelEase((whiteProgress-i*.1)/.7);
@@ -94,6 +94,8 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    parts.forEach(part=>{part.style.opacity=String(1-outro);part.style.transform='translateY('+(-12*outro)+'px)';});
    art.style.opacity=String(1-outro);
   }
+  // the header fades out before the white panels reach it, then comes back dark on the white section
+  if(header)header.style.opacity=preview?String(1-ease(whiteProgress/.25)):'';
   region.dataset.whiteTransition=String(active&&whiteProgress>0&&!done);
   if(preview){
    const bounds=header.getBoundingClientRect();
