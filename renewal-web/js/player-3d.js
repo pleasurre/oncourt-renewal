@@ -93,6 +93,54 @@
   var rim = new THREE.DirectionalLight(0xc8f04b, 1.3); rim.position.set(2.6, 1.6, -2.6); scene.add(rim);
   var fill = new THREE.DirectionalLight(0xbcd6ff, 0.16); fill.position.set(2.4, 0.2, 2.2); scene.add(fill);
 
+  /* ---- racket string bed behind the statue: real woven strings, lit by the same lights ---------- */
+  // Mains (vertical) and crosses (horizontal) go over/under each other at every crossing; the bed is
+  // tilted a little and fades out towards its edges so it reads as depth, not wallpaper.
+  var strU = { uFade: { value: 1 } };
+  var strings3d = (function () {
+    var SP = 0.092, RAD = 0.0034, AMP = RAD * 1.2, HW = 3.4, HH = 2.3, SEG = 150;
+    var nx = Math.round(HW * 2 / SP), ny = Math.round(HH * 2 / SP), x0 = -nx * SP / 2, y0 = -ny * SP / 2;
+    var geos = [];
+    function BEND(x) { var t = x / HW; return -0.55 * t * t; }   // the bed curves away at the sides, like a racket face seen up close
+    function tube(fn) {
+      var pts = []; for (var s = 0; s <= SEG; s++) pts.push(fn(s / SEG));
+      return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), SEG, RAD, 5, false);
+    }
+    for (var j = 0; j <= ny; j++) (function (j) {              // crosses
+      var y = y0 + j * SP;
+      geos.push(tube(function (u) { var x = -HW + u * HW * 2; return new THREE.Vector3(x, y, AMP * Math.cos(Math.PI * (x - x0) / SP + Math.PI * j) + BEND(x)); }));
+    })(j);
+    for (var i = 0; i <= nx; i++) (function (i) {              // mains
+      var x = x0 + i * SP;
+      geos.push(tube(function (u) { var y = -HH + u * HH * 2; return new THREE.Vector3(x, y, -AMP * Math.cos(Math.PI * (y - y0) / SP + Math.PI * i) + BEND(x)); }));
+    })(i);
+    // merge into one draw call
+    var total = 0; geos.forEach(function (g) { total += g.index.count; });
+    var vc = 0; geos.forEach(function (g) { vc += g.attributes.position.count; });
+    var pos = new Float32Array(vc * 3), nrm = new Float32Array(vc * 3), idx = new Uint32Array(total), vo = 0, io = 0;
+    geos.forEach(function (g) {
+      pos.set(g.attributes.position.array, vo * 3); nrm.set(g.attributes.normal.array, vo * 3);
+      var gi = g.index.array; for (var k = 0; k < gi.length; k++) idx[io + k] = gi[k] + vo;
+      vo += g.attributes.position.count; io += gi.length; g.dispose();
+    });
+    var geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('normal', new THREE.BufferAttribute(nrm, 3));
+    geo.setIndex(new THREE.BufferAttribute(idx, 1));
+    var mat = new THREE.MeshStandardMaterial({ color: 0x8fab9b, roughness: 0.5, metalness: 0.05, emissive: 0x12302a, emissiveIntensity: 0.25, transparent: true, depthWrite: false });
+    mat.onBeforeCompile = function (sh) {
+      sh.uniforms.uFade = strU.uFade;
+      sh.vertexShader = 'varying vec2 vBed;\n' + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\n vBed = position.xy;');
+      sh.fragmentShader = 'varying vec2 vBed;\nuniform float uFade;\n' + sh.fragmentShader.replace('#include <dithering_fragment>',
+        '#include <dithering_fragment>\n float e = length(vBed * vec2(0.62, 0.95));\n gl_FragColor.a *= uFade * (1.0 - smoothstep(0.35, 1.8, e)) * 0.2;');
+    };
+    var m = new THREE.Mesh(geo, mat); m.renderOrder = -1;
+    var g = new THREE.Group(); g.add(m);
+    g.position.set(0, 0.3, -2.1); g.rotation.set(-0.3, 0.14, 0.035);
+    scene.add(g);
+    return g;
+  })();
+
   /* ---- statue (Higgsfield / Meshy image-to-3D model, cleaned for the web) ---- */
   // statue.glb: one mesh incl. racket, plinth at y = 0, raised hand at y = 1.90; the body runs down to the thighs.
   var statue = new THREE.Group();
@@ -602,7 +650,9 @@
     // page chrome: grid, glow and HUD give way to the plain next section; its centre line fades in
     var cl = sstep(0.15, 0.85, fl);
     var bk = sstep(0.3, 1, fl);                    // stage colour settles into the brand message section below
-    stageEl.style.backgroundColor = 'rgb(' + Math.round(8 + 8 * bk) + ',' + Math.round(17 + 6 * bk) + ',' + Math.round(15 + 5 * bk) + ')';
+    stageEl.style.backgroundColor = 'rgb(' + Math.round(20 - 4 * bk) + ',' + Math.round(49 - 11 * bk) + ',' + Math.round(38 - 8 * bk) + ')';   // deep court green -> brand message green
+    strU.uFade.value = 1 - cl;
+    strings3d.rotation.y = 0.14 - 0.1 * Math.min(1, P / 0.8);      // the bed turns a touch while the statue spins
     stageEl.style.setProperty('--p3d-top', (1 - sstep(0, 0.05, P)).toFixed(3));
     stringsEl.style.opacity = 1 - cl; glowEl.style.opacity = 1 - cl; hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
     lineEl.style.opacity = sstep(0.45, 1, fl);
