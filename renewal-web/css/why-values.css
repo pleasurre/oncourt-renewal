@@ -55,3 +55,17 @@
 .why-values-ready .why-value-placeholder{cursor:grab;}
 .why-values-ready .why-values-viewport.is-dragging,
 .why-values-ready .why-values-viewport.is-dragging .why-value-placeholder{cursor:grabbing;}
+
+/* 제목 위계 키우기: 영문 제목은 WHERE'S YOUR PARTNER?와 같은 폰트(Manrope 800)로 맞춤.
+   Archivo Black은 마지막 SEE YOU ON COURT에만 남겨 클라이맥스를 지킴. */
+#why-oncourt .why-values-title{
+ font-family:var(--font-display-en);font-weight:800;
+ font-size:clamp(44px,5.6vw,104px);line-height:.95;letter-spacing:-.05em;
+}
+#why-oncourt .why-values-intro{
+ font-size:clamp(17px,1.45vw,24px);font-weight:500;color:#3f4a42;
+ margin-top:clamp(20px,2vw,32px);
+}
+@media(max-width:767px){
+ #why-oncourt .why-values-title{font-size:clamp(38px,11vw,52px);}
+}
