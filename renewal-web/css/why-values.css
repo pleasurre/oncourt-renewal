@@ -56,24 +56,18 @@
 .why-values-ready .why-values-viewport.is-dragging,
 .why-values-ready .why-values-viewport.is-dragging .why-value-placeholder{cursor:grabbing;}
 
-/* 제목 위계 키우기: 영문 제목은 WHERE'S YOUR PARTNER?와 같은 폰트(Manrope 800)로 맞춤.
+/* 제목·보조글 위계 키우기. 둘 다 한 줄(white-space:nowrap은 위 기본 규칙).
+   영문 제목은 WHERE'S YOUR PARTNER?와 같은 폰트(Manrope 800)로 맞추고,
    Archivo Black은 마지막 SEE YOU ON COURT에만 남겨 클라이맥스를 지킴. */
 #why-oncourt .why-values-title{
  font-family:var(--font-display-en);font-weight:800;
- font-size:clamp(44px,5.6vw,104px);line-height:.95;letter-spacing:-.05em;
+ font-size:clamp(44px,5.6vw,104px);line-height:.95;letter-spacing:-.05em;word-spacing:.12em;
 }
 #why-oncourt .why-values-intro{
  font-size:clamp(17px,1.45vw,24px);font-weight:500;color:#3f4a42;
  margin-top:clamp(20px,2vw,32px);
 }
 @media(max-width:767px){
- #why-oncourt .why-values-title{font-size:clamp(38px,11vw,52px);}
-}
-/* 한 줄 제목: WHY ONCOURT? */
-#why-oncourt .why-values-title{white-space:nowrap;word-spacing:.12em;}
-@media(max-width:767px){
  #why-oncourt .why-values-title{font-size:clamp(32px,10.5vw,52px);}
+ #why-oncourt .why-values-intro{font-size:clamp(12px,3.6vw,17px);margin-top:16px;}
 }
-/* 보조글: 데스크톱은 한 줄, 모바일만 쉼표 뒤에서 줄바꿈 */
-.why-m-br{display:none;}
-@media(max-width:767px){ .why-m-br{display:inline;} }
