@@ -29,7 +29,8 @@
 (() => {
  const section=document.querySelector('#download');
  if(!section)return;
- const layer=section.querySelector('.ending-strings');
+ const surface=section.closest('.ending-flow')||section;
+ const layer=surface.querySelector('.ending-strings');
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
  const ns='http://www.w3.org/2000/svg';
  const svg=document.createElementNS(ns,'svg');
@@ -46,7 +47,10 @@
   });
  }
  function build(){
-  width=section.clientWidth;height=section.clientHeight;
+  width=surface.clientWidth;height=surface.clientHeight;
+  const small=matchMedia('(max-width:600px)').matches;
+  surface.style.setProperty('--ending-copy-center',(section.offsetTop+section.clientHeight*(small ? .46 : .48))+'px');
+  surface.style.setProperty('--ending-copy-mask-height',(section.clientHeight*(small ? .55 : .65))+'px');
   svg.setAttribute('viewBox',`0 0 ${width} ${height}`);
   svg.replaceChildren();horizontal.length=0;vertical.length=0;
   // 32 × 35 mm-like spacing and alternating over/under ties suggest racket strings.
@@ -79,7 +83,9 @@
   started=true;observer.disconnect();
   if(!motion.matches)frame=requestAnimationFrame(tick);
  },{threshold:.22});
- new ResizeObserver(build).observe(section);
+ const sizeObserver=new ResizeObserver(build);
+ sizeObserver.observe(surface);
+ if(surface!==section)sizeObserver.observe(section);
  motion.addEventListener('change',()=>{
   if(motion.matches){cancelAnimationFrame(frame);frame=0;draw();}
  });

@@ -37,8 +37,7 @@
  .problem-detail-reserve__layout{width:calc(100% - 48px);grid-template-columns:minmax(0,1fr);gap:40px}
  .problem-detail-reserve__copy{min-height:25svh}
 }
-.ending-reserve{height:100svh;width:100%;background-blend-mode:multiply;background:#F1F1EF url("../img/court-community-shadows-white.png") right bottom / 65% auto no-repeat}
-@media(max-width:700px){.ending-reserve{background-size:90% auto}}
+.ending-reserve{height:100svh;width:100%;background:none}
 #download.download{position:relative;isolation:isolate;overflow:hidden;background:#fff;color:#172E28;min-height:100svh;display:grid;place-items:center;padding:clamp(32px,8svh,96px) 24px;box-sizing:border-box}
 #download .container{position:relative;z-index:1}
 #download h2.final-cta-title{font-family:"Archivo Black",sans-serif;font-size:clamp(57.6px,8.64vw,158.4px);font-weight:900;line-height:.88;letter-spacing:-.055em;text-transform:uppercase;text-align:center;color:#000000}
@@ -99,3 +98,11 @@
  .problem-detail-reserve__copy.media-reveal-ready.is-revealed{opacity:1;transform:translate3d(0,0,0)}
 }
 @media(max-width:700px){.problem-detail-reserve__text span{display:inline}}
+
+/* One continuous string surface joins the shadow scene to the final CTA. */
+.ending-flow{position:relative;isolation:isolate;overflow:hidden;background:#fff;}
+.ending-flow>.ending-reserve{position:relative;background-color:transparent;}
+.ending-flow>#download.download{background:transparent;isolation:auto;}
+.ending-flow>#download .container{z-index:2;}
+.ending-flow>.ending-strings{z-index:1;mask-image:radial-gradient(ellipse 40% var(--ending-copy-mask-height,65svh) at 50% var(--ending-copy-center,148svh),transparent 20%,rgba(0,0,0,.12) 55%,#000 100%);-webkit-mask-image:radial-gradient(ellipse 40% var(--ending-copy-mask-height,65svh) at 50% var(--ending-copy-center,148svh),transparent 20%,rgba(0,0,0,.12) 55%,#000 100%);}
+@media(max-width:600px){.ending-flow>.ending-strings{mask-image:radial-gradient(ellipse 65% var(--ending-copy-mask-height,55svh) at 50% var(--ending-copy-center,146svh),transparent 15%,#000 100%);-webkit-mask-image:radial-gradient(ellipse 65% var(--ending-copy-mask-height,55svh) at 50% var(--ending-copy-center,146svh),transparent 15%,#000 100%);}}
