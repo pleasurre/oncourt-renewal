@@ -20,14 +20,14 @@
   // Path (scrolling down): in at the TOP-LEFT edge -> round the back as the upper loop ->
   // right side -> FRONT (centre) -> left side -> round the back as the lower loop -> out at the BOTTOM-RIGHT edge.
   // The whole loop fits on one screen; the statue stands in the middle of it.
-  var R = 0.74;                        // helix radius: tight round the statue, so the cards behind it don't feel far away
-  var CARD_W = 0.44, CARD_H = 0.334;   // ~34 deg wide on the helix
+  var R = 0.83;                        // helix radius: tight round the statue, so the cards behind it don't feel far away
+  var CARD_W = 0.47, CARD_H = 0.357;   // ~32 deg wide on the helix
   var SLOT = 45;                       // degrees between neighbouring cards -> a ~16 deg gap between cards
   var PATH = 540;                      // degrees from entry to exit (1.5 turns)
   var TH_IN = -90;                     // entry angle: left side (x = -R); front is -360, exit is -630 (right side)
   var Y_IN = 1.60, Y_OUT = -0.92;      // front card lands at the vertical centre of the screen
   var TILT = Math.atan2((Y_IN - Y_OUT) / (PATH / 360), 2 * Math.PI * R);   // cards lean with the pitch
-  var YAW0 = 0.52, TURNS = 2;          // statue: starts turned ~30deg, 2 full turns at one steady rate, ends facing front
+  var YAW0 = 0.52, TURNS = 1;          // statue: starts turned ~30deg, 1 full turn at one steady rate, ends facing front
   var CAM_ELEV = 7 * Math.PI / 180, CAM_FOV = 28;
   var VIEW_H = 1.62;                   // statue ~70% of the screen height
   var TARGET = new THREE.Vector3(0, 0.22, 0);
@@ -649,7 +649,7 @@
     BASE_Y = statue.position.y;
     var k = aspect < 0.9 ? Math.min(1, Math.max(0.6, 0.6 + (aspect - 0.45) * 0.9) * 0.9 / R) : 1;
     belt.scale.set(k, 1, k);                                // ...and pull the helix in so side cards stay on screen
-    FRONT_GROW = aspect < 0.9 ? 1.6 : 1.8;                  // front card a little larger than the helix cards, without crowding the statue
+    FRONT_GROW = aspect < 0.9 ? 1.6 : 1.66;                 // front card a little larger than the helix cards, without crowding the statue
     camera.position.set(0, TARGET.y + d * Math.sin(CAM_ELEV), d * Math.cos(CAM_ELEV));
     camera.lookAt(TARGET); camera.updateProjectionMatrix();
     var visH = 2 * d * Math.tan(CAM_FOV * Math.PI / 360);
