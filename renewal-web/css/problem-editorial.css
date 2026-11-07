@@ -71,7 +71,18 @@ html{scrollbar-gutter:stable;}
 @keyframes problem-copy-rise{from{opacity:1;transform:none;}to{opacity:1;transform:translateY(var(--problem-copy-rise));}}
 .declaration-stage{
  display:flex;align-items:center;justify-content:center;
- width:100%;
+ width:100%;isolation:isolate;
+}
+.declaration-stage::before{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2270%22%20viewBox%3D%220%200%2064%2070%22%3E%3Cpath%20d%3D%22M0%2012H64M0%2047H64M12%200V70M44%200V70%22%20fill%3D%22none%22%20stroke%3D%22%23789587%22%20stroke-width%3D%22.9%22%20opacity%3D%22.16%22%2F%3E%3Cpath%20d%3D%22M10%2012h4M44%2010v4M12%2045v4M42%2047h4%22%20fill%3D%22none%22%20stroke%3D%22%2391AA9D%22%20opacity%3D%22.15%22%2F%3E%3C%2Fsvg%3E");
+ mask-image:linear-gradient(to bottom,transparent,#000 24%);
+}
+.declaration-copy{position:relative;isolation:isolate;}
+.declaration-copy::before{
+ content:"";position:absolute;inset:-24px 0 -38px;z-index:-1;pointer-events:none;
+ background:#fff;border-radius:12px;
+ box-shadow:0 0 clamp(28px,5vw,88px) clamp(14px,3vw,58px) #fff;
 }
 .declaration-stage #rally-marquee{
  position:absolute;inset:auto 0 0;
