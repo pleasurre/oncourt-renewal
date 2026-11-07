@@ -7,6 +7,8 @@
    the columns line up with the strings above the lime strip */
 .p3d-strings{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2270%22%20viewBox%3D%220%200%2064%2070%22%3E%3Cpath%20d%3D%22M0%2012H64M0%2047H64M12%200V70M44%200V70%22%20fill%3D%22none%22%20stroke%3D%22%23A9C2B4%22%20stroke-width%3D%22.9%22%20opacity%3D%22.16%22%2F%3E%3Cpath%20d%3D%22M10%2012h4M44%2010v4M12%2045v4M42%2047h4%22%20fill%3D%22none%22%20stroke%3D%22%23C3D6CA%22%20opacity%3D%22.18%22%2F%3E%3C%2Fsvg%3E");background-size:64px 70px;background-position:0 0;
   -webkit-mask-image:radial-gradient(ellipse 95% 90% at 50% 50%,#000 45%,rgba(0,0,0,.55) 100%);mask-image:radial-gradient(ellipse 95% 90% at 50% 50%,#000 45%,rgba(0,0,0,.55) 100%)}
+/* entry: the top of the stage starts deep green under the lime strip and fades to the dark stage; gone once the scene runs */
+.p3d-fade{background:linear-gradient(to bottom,#18352B 0,rgba(24,53,43,.55) 14svh,rgba(8,17,15,0) 42svh);opacity:var(--p3d-top,1)}
 .p3d-glow{background:radial-gradient(ellipse 34% 46% at 50% 50%,rgba(200,240,75,.10),transparent 70%)}
 .p3d-gl{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* the dots run down this line; it continues as the centre guide of #brand-message */

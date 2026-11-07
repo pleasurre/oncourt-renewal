@@ -603,6 +603,7 @@
     var cl = sstep(0.15, 0.85, fl);
     var bk = sstep(0.3, 1, fl);                    // stage colour settles into the brand message section below
     stageEl.style.backgroundColor = 'rgb(' + Math.round(8 + 8 * bk) + ',' + Math.round(17 + 6 * bk) + ',' + Math.round(15 + 5 * bk) + ')';
+    stageEl.style.setProperty('--p3d-top', (1 - sstep(0, 0.05, P)).toFixed(3));
     stringsEl.style.opacity = 1 - cl; glowEl.style.opacity = 1 - cl; hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
     lineEl.style.opacity = sstep(0.45, 1, fl);
     statue.updateMatrixWorld(); crackU.uInv.value.copy(statue.matrixWorld).invert();
@@ -631,6 +632,7 @@
       statue.scale.setScalar(S_SCALE);
       statue.position.y = HAND_TOP - DROP - S_SCALE * MODEL_H;
     }
+    BASE_Y = statue.position.y;
     var k = aspect < 0.9 ? Math.max(0.6, 0.6 + (aspect - 0.45) * 0.9) : 1;
     belt.scale.set(k, 1, k);                                // ...and pull the helix in so side cards stay on screen
     camera.position.set(0, TARGET.y + d * Math.sin(CAM_ELEV), d * Math.cos(CAM_ELEV));
@@ -639,9 +641,11 @@
     dustU.uLineTop.value = TARGET.y + visH * 0.62; dustU.uLineBot.value = TARGET.y - visH * 0.62;
     dustU.uAspect.value = aspect;
     dustU.uSize.value = 0.016 * h * Math.min(window.devicePixelRatio || 1, 2) * (aspect < 0.9 ? 1.35 : 1);
+    RISE = visH * 0.42;                                     // how far below its place the statue starts while the stage scrolls in
   }
 
   var last = performance.now(), inView = true, READ = function () {};
+  var BASE_Y = 0, RISE = 0, ENTER = 1, ent = 1;          // entry: statue rises into place as the stage scrolls up
   function loop(now) {
     TNOW = now / 1000;
     var dt = Math.min(0.05, (now - last) / 1000); last = now;
@@ -649,6 +653,9 @@
     cur += (tgt - cur) * (1 - Math.exp(-dt * (forced === null ? 9 : 60)));
     if (Math.abs(tgt - cur) < 0.00005) cur = tgt;
     apply(cur);
+    ent += (ENTER - ent) * (1 - Math.exp(-dt * 10));
+    var eo = 1 - Math.pow(1 - Math.min(1, Math.max(0, ent)), 3);
+    statue.position.y = BASE_Y - RISE * (1 - eo);
     dustU.uTime.value = now / 1000;
     if (now - mouse.t > 900) mouse.tk = 0;                       // cursor resting: let the points settle back
     mouse.x += (mouse.tx - mouse.x) * (1 - Math.exp(-dt * 10)); mouse.y += (mouse.ty - mouse.y) * (1 - Math.exp(-dt * 10));
@@ -666,8 +673,9 @@
       var r = section.getBoundingClientRect(), span = r.height - window.innerHeight;
       target = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
       inView = r.bottom > -50 && r.top < window.innerHeight + 50;
+      ENTER = Math.min(1, Math.max(0, 1 - r.top / window.innerHeight));
     }
-    readScroll();
+    readScroll(); ent = ENTER;
     window.addEventListener('scroll', readScroll, { passive: true });
     window.addEventListener('resize', readScroll);
     READ = readScroll;
