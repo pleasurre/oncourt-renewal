@@ -112,3 +112,5 @@
 @media(prefers-reduced-motion:reduce){
  #why-oncourt .why-value{animation:none!important;}
 }
+
+.why-value-placeholder > img{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
