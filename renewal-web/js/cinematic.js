@@ -71,9 +71,10 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   copy.style.top=(63-13*ease((progress-.66)/.14))+'%';
   if(reduced.matches){art.style.opacity='1';copy.style.top='50%';}
   const whiteProgress=active?clamp((travelled-base)/distance):1;
-  // white curtains rise one after another, left to right (1 -> 2 -> 3 -> 4)
+  // the four white curtains rise together as one sheet; each starts a beat after its left neighbour,
+  // so the top edge reads as a gentle left-to-right wave rather than four separate moves
   whitePanels.forEach((panel,i)=>{
-   const t=panelEase((whiteProgress-i*.22)/.34);
+   const t=panelEase((whiteProgress-i*.045)/.82);
    panel.style.transform='translate3d(0,'+(100*(1-t))+'%,0)';
   });
   // Sticky's lower edge and Problem's top coincide exactly, with no scroll jump.
