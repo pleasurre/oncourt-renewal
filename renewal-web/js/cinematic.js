@@ -18,6 +18,7 @@ function updateHeaderContrast(){
   header.inert=hiding;
  }
  const dark=bridgeRegion.dataset.whiteTransition==='true'||bridgeEnd>y&&bridgeRegion.dataset.headerLight!=='true'||darkBands.some(el=>{
+  if(el.dataset.light==='true')return false;   // the player stage can run on a white background
   const bounds=el.getBoundingClientRect();return bounds.top<=y&&bounds.bottom>y;
  });
  header.classList.toggle('header-on-light',!dark);

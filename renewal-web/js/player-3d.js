@@ -547,11 +547,17 @@
   // Court colours: the background changes with the photo at the front, like the reference turns from blue to
   // charcoal. Two versions to compare: ?palette=2 (hard-court blue -> deep green) and the default three
   // surfaces (hard court -> clay -> grass). Both go dark (#08110F) as the statue breaks into dots.
-  var PALETTE = /[?&]palette=2\b/.test(location.search) ? 2 : 3;
-  var COURT = PALETTE === 3
-    ? [[31, 88, 115], [31, 88, 115], [124, 70, 52], [124, 70, 52], [30, 90, 64], [30, 90, 64]]   // hard, hard, clay, clay, grass, grass
-    : [[31, 88, 115], [31, 88, 115], [31, 88, 115], [26, 70, 54], [23, 62, 47], [23, 62, 47]];   // hard court blue -> deep green
-  var DARK = [8, 17, 15], FT = [];
+  // ?palette=hard: hard-court blue, turning #08110F half way (between PLAY and BELONG)
+  // ?palette=white: the white string page carries on round the statue, turning #08110F half way
+  var DARK = [8, 17, 15], HARD = [31, 88, 115], WHITE = [255, 255, 255], FT = [];
+  var PALETTES = {
+    '3': [HARD, HARD, [124, 70, 52], [124, 70, 52], [30, 90, 64], [30, 90, 64]],   // hard, hard, clay, clay, grass, grass
+    '2': [HARD, HARD, HARD, [26, 70, 54], [23, 62, 47], [23, 62, 47]],             // hard court blue -> deep green
+    'hard': [HARD, HARD, HARD, DARK, DARK, DARK],
+    'white': [WHITE, WHITE, WHITE, DARK, DARK, DARK]
+  };
+  var PALETTE = (location.search.match(/[?&]palette=(\w+)/) || [])[1];
+  var COURT = PALETTES[PALETTE] || PALETTES['3'];
   for (var fi = 0, fs = 0; fi < N; fi++) { while (fs < 4000 && ringAt(fs / 4000) < FRONT_AT + fi * 2 * SLOT - 0.5) fs++; FT.push(fs / 4000); }
   function mixc(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
   function courtAt(P) {
@@ -708,8 +714,20 @@
     fill.color.setRGB(0.55 + court[0] / 255 * 0.6, 0.55 + court[1] / 255 * 0.6, 0.55 + court[2] / 255 * 0.6); fill.intensity = 0.16 + 0.22 * dk;
     rim.color.setRGB((200 + court[0] * 1.2) / 2 / 255, (240 + court[1] * 1.2) / 2 / 255, (75 + court[2] * 1.2) / 2 / 255);
     stageEl.style.setProperty('--p3d-top', (1 - dk).toFixed(3));
-    if (lightEl) lightEl.style.opacity = (1 - dk).toFixed(3);
-    stringsEl.style.opacity = ((1 - cl) * dk).toFixed(3); glowEl.style.opacity = ((1 - cl) * dk).toFixed(3); hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
+    // a near-white background keeps the white page's string tile and dark type; anything darker gets the
+    // dense light grid, the vignette and light type
+    var wl = sstep(0.72, 0.97, Math.min(bg[0], bg[1], bg[2]) / 255);
+    if (lightEl) lightEl.style.opacity = wl.toFixed(3);
+    stringsEl.style.opacity = ((1 - cl) * (1 - wl)).toFixed(3); glowEl.style.opacity = ((1 - cl) * (1 - wl)).toFixed(3);
+    var isLight = wl > 0.5;
+    // on white the plaster would disappear: darker ground light and a lower exposure keep its shading readable
+    if (wl > 0) {
+      var gl = 1 - 0.62 * wl;
+      hemi.groundColor.multiplyScalar(gl); hemi.intensity *= 1 - 0.5 * wl;
+      fill.intensity *= 1 - 0.8 * wl;
+    }
+    renderer.toneMappingExposure = 0.88 - 0.2 * wl;
+    if (isLight !== (section.dataset.light === 'true')) { section.dataset.light = String(isLight); section.classList.toggle('is-light', isLight); } hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
     lineEl.style.opacity = sstep(0.45, 1, fl);
     statue.updateMatrixWorld(); crackU.uInv.value.copy(statue.matrixWorld).invert();
     railEl.style.height = Math.round(P * 100) + '%';
