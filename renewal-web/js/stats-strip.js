@@ -23,7 +23,7 @@
   frame = 0;
   if (section.classList.contains('is-static')) { holdStrings(0); return; }
   const W = row.clientWidth, phone = W < 560;
-  const closed = phone ? 46 : Math.max(140, Math.min(176, W * 0.115));
+  const closed = phone ? 46 : Math.max(176, Math.min(214, W * 0.142));
   const minOpen = phone ? W * 0.74 : W * 0.3;
   const r = section.getBoundingClientRect();
   const span = Math.max(1, r.height - innerHeight);
@@ -32,7 +32,8 @@
   // panel i folds between its own two scroll points; the last one never folds
   const k = panels.map((_, i) => i === n - 1 ? 0 : ramp(t, 0.08 + i * 0.155, 0.22 + i * 0.155));
   const K = k.reduce((a, b) => a + b, 0);
-  const open = Math.max(minOpen, (W - closed * K) / (n - K));
+  // panels may run past the right edge at first, but once folded the remaining ones must fit the row
+  const open = Math.max(Math.min(minOpen, W - closed * K), (W - closed * K) / (n - K));
   row.style.setProperty('--stat-open', open.toFixed(1) + 'px');
   panels.forEach((p, i) => {
    p.style.width = (closed * k[i] + open * (1 - k[i])).toFixed(1) + 'px';
