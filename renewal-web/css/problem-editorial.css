@@ -84,7 +84,8 @@ html{scrollbar-gutter:stable;}
 }
 .declaration-stage .rally-marquee__ball{width:clamp(17px,2vw,30px);}
 
-.rally-marquee .rally-marquee__track{animation-duration:27s;}
+.rally-marquee .rally-marquee__track{animation-duration:49s;}
+.rally-marquee .rally-marquee__group span.rally-marquee__key{color:#D1EB72;}
 .bridge-balls{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
 .bridge-balls svg{
  position:absolute;width:clamp(48px,12vw,170px);max-width:23svh;
