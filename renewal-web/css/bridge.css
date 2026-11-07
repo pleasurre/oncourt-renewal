@@ -46,3 +46,7 @@ html{scroll-behavior:auto;}
 #problem.bridge-awaiting{opacity:0;pointer-events:none;}
 @media(max-width:767px){.hero-bridge-scroll{--bridge-white-distance:.8;}.hero-bridge-scroll.bridge-transition-ready{height:330svh;}}
 @media(prefers-reduced-motion:reduce){.hero-bridge-scroll.bridge-transition-ready{height:200svh}.bridge-white-panels{display:none!important}.hero-bridge-scroll.bridge-transition-ready + #problem{margin-top:0}#problem.bridge-awaiting{opacity:1;pointer-events:auto;}}
+
+/* black scene columns that lift away over the white panels (js/cinematic.js) */
+.bridge-lift{position:absolute;inset:0;z-index:5;pointer-events:none;}
+.bridge-lift .bridge-lift__col{will-change:transform;}

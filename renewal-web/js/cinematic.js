@@ -48,6 +48,21 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   return t===0?0:t===1?1:3*(1-u)*(1-u)*u*.46+3*(1-u)*u*u*.94+u*u*u;
  }
  let queued=false,ready,titleSpacer,partnerFillActive;
+ // The black scene is cut into the same four columns as the white panels; each column lifts up and away
+ // (scene included) while the white panel underneath follows its lower edge.
+ const scene=region.querySelector('.cinematic-bridge');
+ const lift=document.createElement('div');lift.className='bridge-lift';lift.setAttribute('aria-hidden','true');
+ scene.after(lift);
+ const columns=[[0,16.6666667],[16.6666667,50],[50,83.3333333],[83.3333333,100]];
+ let liftCols=[];
+ function buildLift(){
+  lift.replaceChildren();
+  liftCols=columns.map(([l,r])=>{
+   const c=scene.cloneNode(true);c.removeAttribute('aria-label');c.classList.add('bridge-lift__col');
+   c.style.clipPath='inset(0 '+(100-r)+'% 0 '+l+'%)';lift.appendChild(c);return c;
+  });
+ }
+ const liftEase=v=>{v=clamp(v);return v<.5?4*v*v*v:1-Math.pow(-2*v+2,3)/2;};
  function handoff(done){
   problem.classList.toggle('bridge-awaiting',!done);
   problem.inert=!done;
@@ -71,11 +86,15 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   copy.style.top=(63-13*ease((progress-.66)/.14))+'%';
   if(reduced.matches){art.style.opacity='1';copy.style.top='50%';}
   const whiteProgress=active?clamp((travelled-base)/distance):1;
-  // the four white curtains rise together as one sheet; each starts a beat after its left neighbour,
-  // so the top edge reads as a gentle left-to-right wave rather than four separate moves
+  // left to right, each column a beat after its neighbour, all moving at once (overlapping)
+  const lifting=active&&whiteProgress>0&&whiteProgress<1;
+  if(lifting&&!liftCols.length)buildLift();
+  if(!lifting&&liftCols.length){lift.replaceChildren();liftCols=[];}
+  scene.style.visibility=lifting?'hidden':'';
   whitePanels.forEach((panel,i)=>{
-   const t=panelEase((whiteProgress-i*.045)/.82);
+   const t=liftEase((whiteProgress-i*.12)/.64);
    panel.style.transform='translate3d(0,'+(100*(1-t))+'%,0)';
+   if(liftCols[i])liftCols[i].style.transform='translate3d(0,'+(-100*t)+'%,0)';
   });
   // Sticky's lower edge and Problem's top coincide exactly, with no scroll jump.
   const done=!active||travelled>=base+distance-.01;
@@ -89,11 +108,6 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    dispatchEvent(new CustomEvent('partner-fill-active',{detail:{active:partnerFillActive}}));
   }
   const preview=active&&whiteProgress>0&&!done;
-  if(preview){
-   const outro=ease(whiteProgress/.28);
-   parts[0].style.opacity=1-outro;
-   parts[0].style.transform='translateY('+12*outro+'px)';
-  }
   problem.classList.toggle('title-in',done);
   region.dataset.whiteTransition=String(active&&whiteProgress>0&&!done);
   if(preview){
