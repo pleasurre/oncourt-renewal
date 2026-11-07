@@ -1,6 +1,6 @@
 /* ONCOURT 3D 선수 체험: sticky full-viewport stage; statue at centre, six cards on a helix (js/player-3d.js). */
 .p3d{--p3d-bg:#143126;--p3d-fg:#EAF1EC;--p3d-muted:#86998F;--p3d-lime:#C8F04B;--p3d-line:rgba(255,255,255,.08);--p3d-display:"Barlow Condensed","Arial Narrow",sans-serif;
-  position:relative;height:1250svh;background:var(--p3d-bg);color:var(--p3d-fg);isolation:isolate}
+  position:relative;height:1085svh;background:var(--p3d-bg);color:var(--p3d-fg);isolation:isolate}
 .p3d-stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--p3d-bg)}
 .p3d-layer{position:absolute;inset:0;pointer-events:none}
 /* same racket-string tile as the white section above (32 x 35 with ties), lightened for the dark stage;
