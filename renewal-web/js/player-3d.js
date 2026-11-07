@@ -64,19 +64,21 @@
   var CRK = [CRACK_T0, CRACK_T0 + 0.55 * (CRACK_T1 - CRACK_T0)], SHT = [CRACK_T0 + 0.40 * (CRACK_T1 - CRACK_T0), CRACK_T1];
   var SHAT_MAX = 0.98;   // latest piece time (0.74) + its shrink window (0.22)
   function prog(P, ph) { return Math.min(1, Math.max(0, (P - ph[0]) / (ph[1] - ph[0]))); }
+  // The ring never stops: it slows down as each info card comes round to the front (to about a third of
+  // its average speed) and picks up again, so the cards keep flowing instead of halting at the centre.
+  var RT1 = KEYS[1].t, RTA = keyT('arrive'), RTE = keyT('gone'), RTB = KEYS[KEYS.indexOf(KEYS.filter(function (e) { return e.gone; })[0]) - 1].t;
+  var RD = 10 * SLOT, RN = 5, RA = 0.66;                       // 5 slow-downs between 6 info cards
+  var RVMIN = RD * (1 - RA) / (RTB - RTA);                     // ring speed (deg per unit P) at a front card
+  function herm(x, p0, m0, p1, m1) {
+    var x2 = x * x, x3 = x2 * x;
+    return (2 * x3 - 3 * x2 + 1) * p0 + (x3 - 2 * x2 + x) * m0 + (-2 * x3 + 3 * x2) * p1 + (x3 - x2) * m1;
+  }
   function ringAt(P) {
-    for (var i = 1; i < KEYS.length; i++) {
-      var a = KEYS[i - 1], b = KEYS[i];
-      if (P <= b.t) {
-        if (b.hold) return b.q;
-        var x = (P - a.t) / (b.t - a.t);
-        if (b.ease === 'out') x = 1 - Math.pow(1 - x, 2.2);
-        else if (b.ease === 'in') x = Math.pow(x, 1.8);
-        else x = x * x * (3 - 2 * x);
-        return a.q + (b.q - a.q) * x;
-      }
-    }
-    return KEYS[KEYS.length - 1].q;
+    if (P <= RT1) return Q0;
+    if (P < RTA) { var d = RTA - RT1; return herm((P - RT1) / d, Q0, 0, FRONT_AT, RVMIN * d); }
+    if (P < RTB) { var x = (P - RTA) / (RTB - RTA); return FRONT_AT + RD * (x - RA * Math.sin(2 * Math.PI * RN * x) / (2 * Math.PI * RN)); }
+    if (P < RTE) { var e = RTE - RTB, dq = Q_END - FRONT_AT - RD; return herm((P - RTB) / e, FRONT_AT + RD, RVMIN * e, Q_END, 1.8 * dq); }
+    return Q_END;
   }
 
   var canvas = document.getElementById('p3d-gl');
