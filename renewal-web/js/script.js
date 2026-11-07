@@ -31,7 +31,8 @@ if('IntersectionObserver'in window&&!window.matchMedia('(prefers-reduced-motion:
   }
   raf=requestAnimationFrame(tick);
  }
- function pace(){const g=track.querySelector('.rally-marquee__group');if(g)track.style.setProperty('--rally-duration',Math.max(20,g.getBoundingClientRect().width/34).toFixed(1)+'s');}
+ function slots(){const sec=track.closest('.rally-marquee');if(!sec)return;const w=sec.clientWidth;sec.style.setProperty('--rally-slot',(w/(w<600?3:w<1024?5:7)).toFixed(2)+'px');}
+ function pace(){slots();const g=track.querySelector('.rally-marquee__group');if(g)track.style.setProperty('--rally-duration',Math.max(20,g.getBoundingClientRect().width/34).toFixed(1)+'s');}
  pace();addEventListener('resize',pace);document.fonts?.ready.then(pace);
  function sync(){
   cancelAnimationFrame(raf);
