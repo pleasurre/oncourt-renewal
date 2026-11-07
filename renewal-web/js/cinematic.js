@@ -63,11 +63,12 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   const base=Math.max(1,region.offsetHeight-height-distance);
   const travelled=-region.getBoundingClientRect().top;
   const progress=reduced.matches?1:clamp(travelled/base);
-  curtains.forEach((panel,i)=>{panel.style.transform='scaleX('+ease((progress-i*.012)/.16)+')';});
-  art.style.opacity=progress>=.225?'1':'0';
-  groups.forEach((group,i)=>{const t=ease((progress-(.24+i*.06))/.065);group.forEach(({path,length})=>path.style.strokeDashoffset=length*(1-t));});
-  parts.forEach((part,i)=>{const t=ease((progress-(.585+i*.025))/.07);part.style.opacity=t;part.style.transform='translateY('+(12*(1-t))+'px)';});
-  copy.style.top=(63-13*ease((progress-.72)/.1))+'%';
+  // Hero holds for the first ~13% before the curtains close; the bridge then draws and settles with only a short hold.
+  curtains.forEach((panel,i)=>{panel.style.transform='scaleX('+ease((progress-.13-i*.012)/.196)+')';});
+  art.style.opacity=progress>=.33?'1':'0';
+  groups.forEach((group,i)=>{const t=ease((progress-(.33+i*.07))/.075);group.forEach(({path,length})=>path.style.strokeDashoffset=length*(1-t));});
+  parts.forEach((part,i)=>{const t=ease((progress-(.70+i*.025))/.07);part.style.opacity=t;part.style.transform='translateY('+(12*(1-t))+'px)';});
+  copy.style.top=(63-13*ease((progress-.84)/.1))+'%';
   if(reduced.matches){art.style.opacity='1';copy.style.top='50%';}
   const whiteProgress=active?clamp((travelled-base)/distance):1;
   whitePanels.forEach((panel,i)=>{
@@ -86,28 +87,12 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
    dispatchEvent(new CustomEvent('partner-fill-active',{detail:{active:partnerFillActive}}));
   }
   const preview=active&&whiteProgress>0&&!done;
-  if(preview){
-   const outro=ease(whiteProgress/.28);
-   parts[0].style.opacity=1-outro;
-   parts[0].style.transform='translateY('+12*outro+'px)';
-   if(!title.classList.contains('is-flying')){
-    const from=title.getBoundingClientRect().top-stage.getBoundingClientRect().top;
-    title.style.setProperty('--flight-start',from+'px');
-    title.style.setProperty('--flight-size',getComputedStyle(title).fontSize);
-    titleSpacer=title.cloneNode(true);
-    titleSpacer.setAttribute('aria-hidden','true');
-    titleSpacer.style.visibility='hidden';
-    title.before(titleSpacer);
-    title.classList.add('is-flying');
-    stage.append(title);
-   }
-   const target=settledTitle.getBoundingClientRect().top-problem.getBoundingClientRect().top;
-   title.style.setProperty('--flight-end',target+'px');
-   title.style.setProperty('--flight-progress',ease(whiteProgress));
-  }else if(title.classList.contains('is-flying')){
-   title.classList.remove('is-flying');
-   titleSpacer.replaceWith(title);
-   titleSpacer=null;
+  // The bridge says "THE GAME IS READY."; the white section asks "WHERE'S YOUR PARTNER?".
+  // So the bridge copy and racket fade out as the white panels rise, instead of flying into the next title.
+  const outro=preview?ease(whiteProgress/.3):(active&&done?1:0);
+  if(outro>0){
+   parts.forEach(part=>{part.style.opacity=String(1-outro);part.style.transform='translateY('+(-12*outro)+'px)';});
+   art.style.opacity=String(1-outro);
   }
   region.dataset.whiteTransition=String(active&&whiteProgress>0&&!done);
   if(preview){
@@ -125,7 +110,6 @@ addEventListener('resize',updateHeaderContrast);updateHeaderContrast();
   }
   region.dataset.headerLight=String(active&&whitePanels.every(panel=>panel.getBoundingClientRect().top<=header.offsetHeight/2));
   updateHeaderContrast();
-  title.style.visibility=active&&done?'hidden':'';
   handoff(done);
  }
  function queue(){if(!queued){queued=true;requestAnimationFrame(paint);}}

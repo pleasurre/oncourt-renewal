@@ -28,8 +28,8 @@ html{scroll-behavior:auto;}
 
 /* Final white transition is isolated inside the existing clipped sticky stage.
    Base bridge remains 320svh desktop / 210svh mobile; only this final beat is new. */
-.hero-bridge-scroll{--bridge-white-distance:1;}
-.hero-bridge-scroll.bridge-transition-ready{height:520svh;}
+.hero-bridge-scroll{--bridge-white-distance:.65;}
+.hero-bridge-scroll.bridge-transition-ready{height:395svh;}
 .bridge-transition-ready .cinematic-bridge{z-index:auto;}
 .bridge-transition-ready .bridge-curtains{z-index:1;}
 .bridge-transition-ready .bridge-guides{z-index:2;}
@@ -44,5 +44,8 @@ html{scroll-behavior:auto;}
 /* Share a single viewport at handoff: no duplicate white page or spacer. */
 .hero-bridge-scroll.bridge-transition-ready + #problem{margin-top:-100svh;}
 #problem.bridge-awaiting{opacity:0;pointer-events:none;}
-@media(max-width:767px){.hero-bridge-scroll{--bridge-white-distance:.8;}.hero-bridge-scroll.bridge-transition-ready{height:390svh;}}
+/* 브릿지 제목이 날아오지 않으므로, 다음 섹션은 흰 패널이 다 덮은 뒤 부드럽게 나타남 */
+#problem{transition:opacity .45s ease;}
+@media(prefers-reduced-motion:reduce){#problem{transition:none;}}
+@media(max-width:767px){.hero-bridge-scroll{--bridge-white-distance:.65;}.hero-bridge-scroll.bridge-transition-ready{height:345svh;}}
 @media(prefers-reduced-motion:reduce){.hero-bridge-scroll.bridge-transition-ready{height:200svh}.bridge-white-panels{display:none!important}.hero-bridge-scroll.bridge-transition-ready + #problem{margin-top:0}#problem.bridge-awaiting{opacity:1;pointer-events:auto;}}
