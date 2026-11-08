@@ -769,6 +769,9 @@
     // six-cell keyword index along the bottom: a table of contents at first, then the progress bar.
     // The cell of the photo coming round fills its top rule; cells already passed stay filled.
     if (idxCells.length) {
+      // only on the first screen: it gives way as soon as the photos start to come round
+      var io = 1 - sstep(SPIN_T0, SPIN_T0 + 0.025, P);
+      idxEl.style.opacity = io.toFixed(3); idxEl.style.transform = 'translate3d(0,' + (16 * (1 - io)).toFixed(1) + 'px,0)'; idxEl.style.visibility = io > 0 ? '' : 'hidden';
       var cellOn = -1;
       for (var ci = 0; ci < N; ci++) {
         var a0 = ci ? (FT[ci - 1] + FT[ci]) / 2 : FT[0] - (FT[1] - FT[0]) / 2, a1 = ci < N - 1 ? (FT[ci] + FT[ci + 1]) / 2 : FT[ci] + (FT[ci] - FT[ci - 1]) / 2;
