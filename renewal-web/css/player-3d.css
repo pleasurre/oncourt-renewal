@@ -70,3 +70,7 @@
 .p3d.is-light .p3d-rail i{background:#1E5A40}
 .p3d.is-light .p3d-hint{color:#68736A}
 .p3d-side strong,.p3d-side small{transition:color .5s}
+/* caption box flips with the ground: dark box on the white page (01-03), white box on the dark stage (04-06) */
+.p3d-photo figcaption{transition:background-color .4s,color .4s}
+.p3d:not(.is-light) .p3d-photo figcaption{background:#fff;color:#172E28}
+.p3d:not(.is-light) .p3d-photo figcaption b{color:#1E5A40}
