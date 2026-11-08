@@ -585,7 +585,7 @@
   // screen, no curve and no tilt. Only their place, size and layer follow the orbit (front of the statue or
   // behind it), so the turn reads without a 3D object in a 2D page. One info photo at a time comes to the
   // front, grows, and shows its line of copy underneath; the keyword sits at the left, mid-height.
-  var sideEl = section.querySelector('.p3d-side'), sideNum = document.getElementById('p3d-side-num'), sideKw = document.getElementById('p3d-side-kw');
+  var sideEl = section.querySelector('.p3d-side'), sideKw = document.getElementById('p3d-side-kw');
   var photoLayers = { b: section.querySelector('.p3d-photos--back'), f: section.querySelector('.p3d-photos--front') };
   var PHOTO_IMG = [1, 3, 2, 4, 3, 1, 4, 2, 1, 3, 2, 4];       // image per ring slot (info, decor, info, decor ...)
   var photos = [];
@@ -748,7 +748,7 @@
       if (active >= 0) cntEl.firstChild.textContent = '0' + (active + 1);
       if (active >= 0) kwEl.textContent = CARDS[active].k;
       if (sideEl) {
-        if (active >= 0) { sideNum.textContent = '0' + (active + 1) + ' / 06'; sideKw.textContent = CARDS[active].k; sideEl.classList.remove('is-swap'); void sideEl.offsetWidth; sideEl.classList.add('is-swap'); }
+        if (active >= 0) { sideKw.textContent = CARDS[active].k; sideEl.classList.remove('is-swap'); void sideEl.offsetWidth; sideEl.classList.add('is-swap'); }
       }
     }
   }
