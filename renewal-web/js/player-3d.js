@@ -606,6 +606,11 @@
     _sw = w; _sh = h; _ref = camera.position.distanceTo(TARGET);
     PW.base = phone ? w * 0.3 : Math.min(w * 0.12, h * 0.24);
     PW.front = phone ? w * 0.84 : Math.min(w * 0.32, h * 0.66);
+    // the keyword sits on the left edge of the photo at the front, at its mid-height (like the reference)
+    camera.updateMatrixWorld();
+    _v.set(0, Y_IN + (Y_OUT - Y_IN) * (FRONT_AT / PATH), belt.scale.x * R).project(camera);
+    stageEl.style.setProperty('--side-x', (w / 2 - PW.front / 2).toFixed(1) + 'px');
+    stageEl.style.setProperty('--side-y', ((1 - _v.y) / 2 * h).toFixed(1) + 'px');
     photos.forEach(function (p, i) {
       p.w = i % 2 === 0 ? PW.front : PW.base * 0.72;
       p.el.style.width = p.w.toFixed(1) + 'px';
