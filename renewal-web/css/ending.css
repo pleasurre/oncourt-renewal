@@ -106,3 +106,25 @@
 .ending-flow>#download .container{z-index:2;}
 .ending-flow>.ending-strings{z-index:1;mask-image:radial-gradient(ellipse 40% var(--ending-copy-mask-height,65svh) at 50% calc(var(--ending-copy-center,148svh) - var(--stats-pin,0px)),transparent 20%,rgba(0,0,0,.12) 55%,#000 100%),linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.5) calc(var(--cta-top,9999px) - var(--stats-pin,0px) - 40svh),#000 calc(var(--cta-top,9999px) - var(--stats-pin,0px)));-webkit-mask-image:radial-gradient(ellipse 40% var(--ending-copy-mask-height,65svh) at 50% calc(var(--ending-copy-center,148svh) - var(--stats-pin,0px)),transparent 20%,rgba(0,0,0,.12) 55%,#000 100%),linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.5) calc(var(--cta-top,9999px) - var(--stats-pin,0px) - 40svh),#000 calc(var(--cta-top,9999px) - var(--stats-pin,0px)));mask-composite:intersect;-webkit-mask-composite:source-in}
 @media(max-width:600px){.ending-flow>.ending-strings{mask-image:radial-gradient(ellipse 65% var(--ending-copy-mask-height,55svh) at 50% calc(var(--ending-copy-center,146svh) - var(--stats-pin,0px)),transparent 15%,#000 100%),linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.5) calc(var(--cta-top,9999px) - var(--stats-pin,0px) - 40svh),#000 calc(var(--cta-top,9999px) - var(--stats-pin,0px)));-webkit-mask-image:radial-gradient(ellipse 65% var(--ending-copy-mask-height,55svh) at 50% calc(var(--ending-copy-center,146svh) - var(--stats-pin,0px)),transparent 15%,#000 100%),linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,.5) calc(var(--cta-top,9999px) - var(--stats-pin,0px) - 40svh),#000 calc(var(--cta-top,9999px) - var(--stats-pin,0px)));mask-composite:intersect;-webkit-mask-composite:source-in}}
+
+/* 코트는 잡았는데: a lime highlighter frames the photo in four quick strokes (top, bottom, left, right; each
+   overshoots the corners, see-through so the corners overlap darker), then underlines 같이 칠 사람이.
+   Drawn once when the photo comes into view (js/highlighter.js). */
+.hl-frame{position:relative;--hl:rgba(209,235,114,.82);--hl-w:clamp(12px,1.25vw,22px);--hl-gap:clamp(10px,1vw,18px)}
+.hl-stroke{position:absolute;display:block;background:var(--hl);mix-blend-mode:multiply;pointer-events:none;border-radius:3px 7px 4px 6px / 6px 3px 7px 4px}
+.hl-stroke--top{left:-4%;right:-3%;top:calc(-1 * (var(--hl-gap) + var(--hl-w)));height:var(--hl-w);transform-origin:left center;rotate:-.5deg}
+.hl-stroke--bottom{left:-3%;right:-5%;bottom:calc(-1 * (var(--hl-gap) + var(--hl-w)));height:calc(var(--hl-w) * 1.08);transform-origin:left center;rotate:.4deg}
+.hl-stroke--left{top:-11%;bottom:-9%;left:calc(-1 * (var(--hl-gap) + var(--hl-w)));width:var(--hl-w);transform-origin:center top;rotate:.6deg}
+.hl-stroke--right{top:-9%;bottom:-12%;right:calc(-1 * (var(--hl-gap) + var(--hl-w)));width:calc(var(--hl-w) * 1.06);transform-origin:center top;rotate:-.5deg}
+.hl-mark{background:linear-gradient(rgba(209,235,114,0) 58%,var(--hl-mark,rgba(209,235,114,.9)) 58%,var(--hl-mark,rgba(209,235,114,.9)) 94%,rgba(209,235,114,0) 94%) no-repeat 0 0 / 100% 100%;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+@media(prefers-reduced-motion:no-preference){
+ .hl-ready .hl-stroke--top,.hl-ready .hl-stroke--bottom{transform:scaleX(0)}
+ .hl-ready .hl-stroke--left,.hl-ready .hl-stroke--right{transform:scaleY(0)}
+ .hl-ready .hl-stroke{transition:transform .36s cubic-bezier(.55,0,.25,1)}
+ .hl-ready .hl-stroke--bottom{transition-delay:.2s}
+ .hl-ready .hl-stroke--left{transition-delay:.4s}
+ .hl-ready .hl-stroke--right{transition-delay:.56s}
+ .hl-ready.is-drawn .hl-stroke{transform:none}
+ .hl-ready .hl-mark{background-size:0% 100%;transition:background-size .55s cubic-bezier(.55,0,.25,1) .85s}
+ .hl-ready.is-drawn .hl-mark{background-size:100% 100%}
+}
