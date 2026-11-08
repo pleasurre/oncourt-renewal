@@ -128,3 +128,6 @@
  .hl-ready .hl-mark{background-size:0% 100%;transition:background-size .55s cubic-bezier(.55,0,.25,1) .85s}
  .hl-ready.is-drawn .hl-mark{background-size:100% 100%}
 }
+
+/* 코트는 잡았는데: the photo drifts inside its frame as the page scrolls (inner parallax), js/highlighter.js */
+.problem-detail-reserve__media img{height:124%!important;top:-12%!important;will-change:transform;transform:translate3d(0,var(--pan,0px),0) scale(1.02)}
