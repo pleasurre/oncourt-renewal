@@ -605,7 +605,7 @@
   // front, grows, and shows its line of copy underneath; the keyword sits at the left, mid-height.
   var sideEl = section.querySelector('.p3d-side'), sideKw = document.getElementById('p3d-side-kw');
   var photoLayers = { b: section.querySelector('.p3d-photos--back'), f: section.querySelector('.p3d-photos--front') };
-  var PHOTO_IMG = [1, 3, 8, 4, 7, 1, 4, 2, 6, 3, 5, 4];   // slot 2 = DISCOVER: courts from above, slot 4 = PLAY: doubles on clay, slot 8 = CHALLENGE: forehand lunge, slot 10 = TOURNAMENT: stadium court       // image per ring slot (info, decor, info, decor ...)
+  var PHOTO_IMG = [1, 3, 8, 4, 7, 1, 4, 2, 6, 3, 5, 4];   // slot 2 = DISCOVER: walking onto the court, slot 4 = PLAY: doubles on clay, slot 8 = CHALLENGE: forehand lunge, slot 10 = TOURNAMENT: stadium court       // image per ring slot (info, decor, info, decor ...)
   var photos = [];
   function buildPhotos() {
     for (var i = 0; i < NC; i++) {
