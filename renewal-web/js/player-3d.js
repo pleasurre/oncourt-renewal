@@ -103,7 +103,7 @@
   /* ---- statue (Higgsfield / Meshy image-to-3D model, cleaned for the web) ---- */
   // statue.glb: one mesh incl. racket, plinth at y = 0, raised hand at y = 1.90; the body runs down to the thighs.
   var statue = new THREE.Group();
-  var S_SCALE = 1.17, HAND_TOP = 0.898, MODEL_H = 1.900;    // big hero figure; ball stays inside the top edge
+  var S_SCALE = 1.17, HAND_TOP = 0.80, MODEL_H = 1.900;    // big hero figure; ball stays inside the top edge
   var DROP = 0.14, WAIST = 0.72;    // the screen shows raised hand -> waist; shorts and plinth stay below
   statue.scale.setScalar(S_SCALE); statue.position.y = HAND_TOP - DROP - S_SCALE * MODEL_H;
   scene.add(statue);
@@ -594,6 +594,8 @@
     lightEl.style.backgroundPosition = dx.toFixed(1) + 'px ' + dy.toFixed(1) + 'px';
   }
   var stringsEl = document.getElementById('p3d-strings'), glowEl = document.getElementById('p3d-glow'), hudEl = section.querySelector('.p3d-hud'), lineEl = document.getElementById('p3d-flowline');
+  var idxEl = document.getElementById('p3d-index'), idxCells = idxEl ? [].slice.call(idxEl.children) : [], idxLast = -2;
+  var shadeEl = document.getElementById('p3d-shade');
   var kwEl = document.getElementById('p3d-kw'), cntEl = document.getElementById('p3d-count'), railEl = document.getElementById('p3d-rail'), hintEl = document.getElementById('p3d-hint');
 
   // Photos ride the same ring round the statue as the old cards did, but they are flat: always square to the
@@ -749,6 +751,7 @@
     // dense light grid, the vignette and light type
     var wl = sstep(0.72, 0.97, Math.min(bg[0], bg[1], bg[2]) / 255);
     if (lightEl) lightEl.style.opacity = wl.toFixed(3);
+    if (shadeEl) shadeEl.style.opacity = (wl * (1 - cl)).toFixed(3);
     stringsEl.style.opacity = ((1 - cl) * (1 - wl)).toFixed(3); glowEl.style.opacity = ((1 - cl) * (1 - wl)).toFixed(3);
     var isLight = (0.2126 * bg[0] + 0.7152 * bg[1] + 0.0722 * bg[2]) / 255 > 0.52;   // type turns light only once the ground is dark enough
     // on white the plaster would disappear: darker ground light and a lower exposure keep its shading readable
@@ -758,11 +761,23 @@
       fill.intensity *= 1 - 0.8 * wl;
     }
     renderer.toneMappingExposure = 0.88 - 0.2 * wl;
-    if (isLight !== (section.dataset.light === 'true')) { section.dataset.light = String(isLight); section.classList.toggle('is-light', isLight); } hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
+    if (isLight !== (section.dataset.light === 'true')) { section.dataset.light = String(isLight); section.classList.toggle('is-light', isLight); window.dispatchEvent(new Event('scroll')); }   // let the header re-check its contrast hudEl.style.opacity = 1 - sstep(0, 0.4, fl);
     lineEl.style.opacity = sstep(0.45, 1, fl);
     statue.updateMatrixWorld(); crackU.uInv.value.copy(statue.matrixWorld).invert();
     railEl.style.height = Math.round(P * 100) + '%';
     hintEl.style.opacity = P < 0.02 ? 1 : 0;
+    // six-cell keyword index along the bottom: a table of contents at first, then the progress bar.
+    // The cell of the photo coming round fills its top rule; cells already passed stay filled.
+    if (idxCells.length) {
+      var cellOn = -1;
+      for (var ci = 0; ci < N; ci++) {
+        var a0 = ci ? (FT[ci - 1] + FT[ci]) / 2 : FT[0] - (FT[1] - FT[0]) / 2, a1 = ci < N - 1 ? (FT[ci] + FT[ci + 1]) / 2 : FT[ci] + (FT[ci] - FT[ci - 1]) / 2;
+        var cp = Math.min(1, Math.max(0, (P - a0) / (a1 - a0)));
+        if (P >= a0 && P < a1) cellOn = ci;
+        idxCells[ci].style.setProperty('--fill', cp.toFixed(3));
+      }
+      if (cellOn !== idxLast) { idxLast = cellOn; idxCells.forEach(function (el, k) { el.classList.toggle('is-on', k === cellOn); el.classList.toggle('is-past', cellOn >= 0 && k < cellOn || cellOn < 0 && P > FT[N - 1]); }); }
+    }
     // the keyword stays up between photos and only leaves after the last one
     if (sideEl) sideEl.classList.toggle('is-on', active >= 0 || (P > FT[0] - 0.005 && P < FT[N - 1] + 0.02));
     if (active !== lastActive) {

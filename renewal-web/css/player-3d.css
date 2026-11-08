@@ -74,3 +74,29 @@
 .p3d-photo figcaption{transition:background-color .4s,color .4s}
 .p3d:not(.is-light) .p3d-photo figcaption{background:#fff;color:#172E28}
 .p3d:not(.is-light) .p3d-photo figcaption b{color:#1E5A40}
+
+/* keyword index along the bottom (replaces the side rail) */
+.p3d-rail{display:none}
+.p3d-index{position:absolute;left:max(20px,2.6vw);right:max(20px,2.6vw);bottom:max(18px,2.4svh);margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(6,1fr);
+ border:1px solid rgba(255,255,255,.16);border-radius:6px;background:rgba(8,17,15,.28);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background-color .4s,border-color .4s}
+.p3d-index li{position:relative;display:grid;gap:6px;padding:14px 16px 15px;border-left:1px solid rgba(255,255,255,.12);font:700 clamp(12px,1vw,15px)/1 var(--p3d-display);letter-spacing:.08em;color:rgba(232,239,234,.42);transition:color .35s}
+.p3d-index li:first-child{border-left:0}
+.p3d-index small{font:600 11px/1 var(--p3d-display);letter-spacing:.18em;color:inherit;opacity:.8}
+.p3d-index i{position:absolute;left:0;right:0;top:-1px;height:2px;background:var(--p3d-lime);transform-origin:left;transform:scaleX(var(--fill,0))}
+.p3d-index li.is-past{color:rgba(232,239,234,.7)}
+.p3d-index li.is-on{color:#fff}
+.p3d-index li.is-on small{color:var(--p3d-lime);opacity:1}
+.p3d.is-light .p3d-index{border-color:rgba(23,46,40,.16);background:rgba(255,255,255,.55)}
+.p3d.is-light .p3d-index li{border-left-color:rgba(23,46,40,.1);color:rgba(23,46,40,.38)}
+.p3d.is-light .p3d-index li.is-past{color:rgba(23,46,40,.62)}
+.p3d.is-light .p3d-index li.is-on{color:#172E28}
+.p3d.is-light .p3d-index li.is-on small{color:#1E5A40}
+.p3d.is-light .p3d-index i{background:#1E5A40}
+.p3d-hint{left:max(20px,2.6vw);translate:none;bottom:calc(max(18px,2.4svh) + 74px)}
+@media(max-width:700px){
+ .p3d-index li{padding:10px 6px 11px;font-size:10px;letter-spacing:.02em;overflow:hidden;text-overflow:clip}
+ .p3d-index small{font-size:9px}
+ .p3d-hint{bottom:calc(max(18px,2.4svh) + 58px)}
+}
+/* a soft grey-green shadow behind the statue grounds it on the white page */
+.p3d-shade{background:radial-gradient(ellipse 26% 34% at 50% 74%,rgba(96,120,106,.22),rgba(96,120,106,.08) 55%,rgba(96,120,106,0) 100%),radial-gradient(ellipse 34% 12% at 50% 100%,rgba(70,92,80,.18),rgba(70,92,80,0) 70%)}
