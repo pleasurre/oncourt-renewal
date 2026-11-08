@@ -100,3 +100,16 @@
 }
 /* a soft grey-green shadow behind the statue grounds it on the white page */
 .p3d-shade{background:radial-gradient(ellipse 26% 34% at 50% 74%,rgba(96,120,106,.22),rgba(96,120,106,.08) 55%,rgba(96,120,106,0) 100%),radial-gradient(ellipse 34% 12% at 50% 100%,rgba(70,92,80,.18),rgba(70,92,80,0) 70%)}
+
+/* first-screen title: BREAK ━ THE WAIT at head height, behind the statue (under the canvas); the lime bar runs
+   behind the neck. It parts to the sides and fades as the photos start to come round. */
+.p3d-title{position:absolute;left:max(24px,4vw);right:max(24px,4vw);top:57%;translate:0 -50%;margin:0;display:flex;align-items:center;gap:clamp(16px,1.6vw,28px);pointer-events:none;
+ font:800 clamp(56px,7.4vw,140px)/.86 var(--p3d-display);letter-spacing:-.005em;text-transform:uppercase;color:#172E28;white-space:nowrap}
+.p3d-title span{display:block;transform:translateX(calc(var(--out,0) * -6vw))}
+.p3d-title span:last-child{transform:translateX(calc(var(--out,0) * 6vw))}
+.p3d-title i{flex:1;height:clamp(8px,.75vw,14px);background:var(--p3d-lime,#D1EB72);transform:scaleX(calc(1 - var(--out,0) * .6))}
+.p3d:not(.is-light) .p3d-title{color:#F2F5F3}
+.p3d:not(.is-live) .p3d-title{display:none}
+@media(max-aspect-ratio:9/10){
+ .p3d-title{top:calc(var(--p3d-header,72px) + 13svh);font-size:15vw;gap:10px}
+}

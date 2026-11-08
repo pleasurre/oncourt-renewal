@@ -595,7 +595,7 @@
   }
   var stringsEl = document.getElementById('p3d-strings'), glowEl = document.getElementById('p3d-glow'), hudEl = section.querySelector('.p3d-hud'), lineEl = document.getElementById('p3d-flowline');
   var idxEl = document.getElementById('p3d-index'), idxCells = idxEl ? [].slice.call(idxEl.children) : [], idxLast = -2;
-  var shadeEl = document.getElementById('p3d-shade');
+  var shadeEl = document.getElementById('p3d-shade'), titleEl = document.getElementById('p3d-title');
   var kwEl = document.getElementById('p3d-kw'), cntEl = document.getElementById('p3d-count'), railEl = document.getElementById('p3d-rail'), hintEl = document.getElementById('p3d-hint');
 
   // Photos ride the same ring round the statue as the old cards did, but they are flat: always square to the
@@ -771,6 +771,7 @@
     if (idxCells.length) {
       // only on the first screen: it gives way as soon as the photos start to come round
       var io = 1 - sstep(SPIN_T0, SPIN_T0 + 0.025, P);
+      if (titleEl) { titleEl.style.opacity = io.toFixed(3); titleEl.style.setProperty('--out', (1 - io).toFixed(3)); }
       idxEl.style.opacity = io.toFixed(3); idxEl.style.transform = 'translate3d(0,' + (16 * (1 - io)).toFixed(1) + 'px,0)'; idxEl.style.visibility = io > 0 ? '' : 'hidden';
       var cellOn = -1;
       for (var ci = 0; ci < N; ci++) {
