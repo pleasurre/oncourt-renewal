@@ -574,8 +574,9 @@
   for (var fi = 0, fs = 0; fi < N; fi++) { while (fs < 4000 && ringAt(fs / 4000) < FRONT_AT + fi * 2 * SLOT - 0.5) fs++; FT.push(fs / 4000); }
   function mixc(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
   function courtAt(P) {
-    // white: one long, even darkening from 01/06 to 06/06 (no sudden turn half way)
-    if (PALETTE === 'white') { var lt = Math.min(1, Math.max(0, (P - FT[0]) / (FT[N - 1] - FT[0]))); return mixc(WHITE, DARK, 0.5 * lt + 0.5 * sstepG(0, 1, lt)); }
+    // white: stays white, then turns #08110F in one quick move half way, between PLAY and BELONG while no photo
+    // is at the front (like the reference flips from blue to charcoal in a short stretch of scroll)
+    if (PALETTE === 'white') { var mid = (FT[2] + FT[3]) / 2, hw = 0.11 * (FT[3] - FT[2]); return mixc(WHITE, DARK, sstepG(mid - hw, mid + hw, P)); }
     if (P <= FT[0]) return COURT[0];
     for (var i = 0; i < N - 1; i++) if (P < FT[i + 1]) return mixc(COURT[i], COURT[i + 1], sstepG(FT[i], FT[i + 1], P));
     return mixc(COURT[N - 1], DARK, sstepG(FT[N - 1], CRACK_T1, P));
