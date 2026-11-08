@@ -39,10 +39,8 @@
   var Q_END = PATH + (NC - 1) * SLOT + 10;         // last card fully out
   var KEYS = (function () {
     var k = [{ w: 0, q: Q0 }];
-    // the ring winds in while the stage scrolls into view (see ENTRY_Q), so CONNECT is already at the
-    // front when the stage fills the screen; these two keys are kept (near zero) only as markers
-    k.push({ w: 0, q: Q0, hold: true });
-    k.push({ w: 0.002, q: FRONT_AT, ease: 'out', arrive: true });  // CONNECT at the front -> cracks start
+    k.push({ w: 0.12, q: Q0, hold: true });        // the stage has just filled the screen: statue alone
+    k.push({ w: 1.6, q: FRONT_AT, ease: 'out', arrive: true });  // scrolling on winds the ring in, CONNECT arrives at the front -> cracks start
     for (var i = 0; i < 6; i++) {
       k.push({ w: 0.55, q: FRONT_AT + i * 2 * SLOT, hold: true });          // read
       if (i < 5) k.push({ w: 1.0, q: FRONT_AT + (i + 1) * 2 * SLOT, ease: 'inout' }); // a decor card flows past
@@ -557,10 +555,13 @@
     'white': [WHITE, WHITE, WHITE, DARK, DARK, DARK]
   };
   var PALETTE = (location.search.match(/[?&]palette=(\w+)/) || [])[1];
-  var COURT = PALETTES[PALETTE] || PALETTES['3'];
+  if (!PALETTES[PALETTE]) PALETTE = 'white';                  // chosen: the white string page, darkening
+  var COURT = PALETTES[PALETTE];
   for (var fi = 0, fs = 0; fi < N; fi++) { while (fs < 4000 && ringAt(fs / 4000) < FRONT_AT + fi * 2 * SLOT - 0.5) fs++; FT.push(fs / 4000); }
   function mixc(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
   function courtAt(P) {
+    // white: one long, even darkening from 01/06 to 06/06 (no sudden turn half way)
+    if (PALETTE === 'white') { var lt = Math.min(1, Math.max(0, (P - FT[0]) / (FT[N - 1] - FT[0]))); return mixc(WHITE, DARK, 0.5 * lt + 0.5 * sstepG(0, 1, lt)); }
     if (P <= FT[0]) return COURT[0];
     for (var i = 0; i < N - 1; i++) if (P < FT[i + 1]) return mixc(COURT[i], COURT[i + 1], sstepG(FT[i], FT[i + 1], P));
     return mixc(COURT[N - 1], DARK, sstepG(FT[N - 1], CRACK_T1, P));
@@ -610,7 +611,7 @@
       p.el.style.width = p.w.toFixed(1) + 'px';
     });
   }
-  function placePhoto(i, show, th, y, front) {
+  function placePhoto(i, show, th, y, front, past) {
     var p = photos[i], el = p.el;
     if (!show) { el.style.visibility = 'hidden'; return; }
     var k = belt.scale.x;
@@ -618,10 +619,12 @@
     var persp = _ref / camera.position.distanceTo(_v);
     _v.project(camera);
     var sx = (_v.x + 1) / 2 * _sw, sy = (1 - _v.y) / 2 * _sh;
-    var info = i % 2 === 0, g = sstep(0.55, 1, front), w;
+    // once a photo has passed the front it shrinks back quickly and goes on down behind the statue
+    var gone = past > 32, info = i % 2 === 0, g = past > 0 ? sstep(0.84, 1, front) : sstep(0.55, 1, front), w;
     if (info) { w = PW.base * persp + (PW.front - PW.base * persp) * g; sx += (_sw / 2 - sx) * g; }
     else w = PW.base * 0.72 * persp;
-    var layer = front > 0 ? 'f' : 'b';
+    // decor photos cross the front behind the statue too; only the info photo passes in front of it
+    var layer = front > 0 && !gone && (info || past < -30) ? 'f' : 'b';
     if (layer !== p.layer) { photoLayers[layer].appendChild(el); p.layer = layer; }
     el.style.visibility = 'visible';
     el.style.transform = 'translate3d(' + sx.toFixed(1) + 'px,' + sy.toFixed(1) + 'px,0) translate(-50%,-50%) scale(' + (w / p.w).toFixed(4) + ')';
@@ -637,7 +640,7 @@
   var FRONT_GROW = 1.45;                          // size of the front info card vs. the cards on the helix (set in layout)
   function apply(P) {
     // entry: the ring winds in with the stage scrolling up (driven by ent, not by P)
-    var q = P > 0 ? ringAt(P) : Q0 + (FRONT_AT - Q0) * (1 - Math.pow(1 - Math.min(1, Math.max(0, ent)), 2.2)), active = -1;
+    var q = ringAt(P), active = -1;
     for (var i = 0; i < NC; i++) {
       var c = cards[i], u = q - i * SLOT;            // this card's position along the path, in degrees
       var show = u > -2 && u < PATH + 2;
@@ -647,7 +650,7 @@
       c.grp.rotation.y = th;                         // th = -360 deg is the front (z = +R), -90 left, -180 back, -270 right
       c.grp.position.y = Y_IN + (Y_OUT - Y_IN) * (u / PATH);
       var front = Math.cos(th);                      // 1 = facing the viewer, -1 = behind the statue
-      placePhoto(i, true, th, c.grp.position.y, front);
+      placePhoto(i, true, th, c.grp.position.y, front, u - FRONT_AT);
       c.piv.rotation.z = TILT * 0.6 * (1 - 0.75 * Math.pow(Math.max(0, front), 3));   // lean with the helix, level out at the front for reading
       // info cards grow as they come round to the front, so the one being read fills the screen
       c.piv.scale.setScalar(c.info ? 1 + (FRONT_GROW - 1) * sstep(0.55, 1, front) : 1);
@@ -719,7 +722,7 @@
     var wl = sstep(0.72, 0.97, Math.min(bg[0], bg[1], bg[2]) / 255);
     if (lightEl) lightEl.style.opacity = wl.toFixed(3);
     stringsEl.style.opacity = ((1 - cl) * (1 - wl)).toFixed(3); glowEl.style.opacity = ((1 - cl) * (1 - wl)).toFixed(3);
-    var isLight = wl > 0.5;
+    var isLight = (0.2126 * bg[0] + 0.7152 * bg[1] + 0.0722 * bg[2]) / 255 > 0.52;   // type turns light only once the ground is dark enough
     // on white the plaster would disappear: darker ground light and a lower exposure keep its shading readable
     if (wl > 0) {
       var gl = 1 - 0.62 * wl;
