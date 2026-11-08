@@ -123,3 +123,10 @@
 /* white only right behind the card copy (meta line, heading, text), not the empty space under the shorter cards */
 #why-oncourt .why-value{align-self:flex-start}
 #why-oncourt .why-value-meta,#why-oncourt .why-value h3,#why-oncourt .why-value p{background:#fff;box-shadow:0 0 16px 10px #fff}
+
+/* key words in each card heading get the lime highlighter (same mark as 같이 칠 사람이), drawn as the card comes into view */
+.why-hl{background:linear-gradient(rgba(209,235,114,0) 58%,rgba(209,235,114,.9) 58%,rgba(209,235,114,.9) 94%,rgba(209,235,114,0) 94%) no-repeat 0 0 / 100% 100%;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+@media(prefers-reduced-motion:no-preference){
+ .why-hl-ready .why-hl{background-size:0% 100%;transition:background-size .55s cubic-bezier(.55,0,.25,1) .15s}
+ .why-hl-ready .why-value.is-drawn .why-hl{background-size:100% 100%}
+}
