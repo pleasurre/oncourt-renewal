@@ -61,7 +61,10 @@
   function phase(f) { for (var i = 1; i < KEYS.length; i++) if (KEYS[i][f]) return [KEYS[i - 1].t, KEYS[i].t]; return [1, 1]; }
   var PH = { play: phase('play'), flow: phase('flow') };
   // while the cards go round: cracks spread (first half), then the pieces shrink into dots (second half)
-  var CRK = [CRACK_T0, CRACK_T0 + 0.55 * (CRACK_T1 - CRACK_T0)], SHT = [CRACK_T0 + 0.40 * (CRACK_T1 - CRACK_T0), CRACK_T1];
+  // the ball sits on top, so it goes first: it crumbles into dots as CONNECT arrives, then the cracks run
+  // down the statue from the hand
+  var BALL_BRK = [CRACK_T0, CRACK_T0 + 0.1 * (CRACK_T1 - CRACK_T0)];
+  var CRK = [CRACK_T0 + 0.07 * (CRACK_T1 - CRACK_T0), CRACK_T0 + 0.6 * (CRACK_T1 - CRACK_T0)], SHT = [CRACK_T0 + 0.40 * (CRACK_T1 - CRACK_T0), CRACK_T1];
   var SHAT_MAX = 0.98;   // latest piece time (0.74) + its shrink window (0.22)
   function prog(P, ph) { return Math.min(1, Math.max(0, (P - ph[0]) / (ph[1] - ph[0]))); }
   // The ring never stops: it slows down as each info card comes round to the front (to about a third of
@@ -602,7 +605,9 @@
   var photos = [];
   function buildPhotos() {
     for (var i = 0; i < NC; i++) {
-      var info = i % 2 === 0, idx = i >> 1, el = document.createElement('figure');
+      var info = i % 2 === 0, idx = i >> 1;
+      if (!info) { photos.push({ el: null }); continue; }          // only the six keyword photos: nothing in between pulls the eye off the front
+      var el = document.createElement('figure');
       el.className = 'p3d-photo ' + (info ? 'p3d-photo--info' : 'p3d-photo--decor');
       if (!info && idx % 2) el.classList.add('p3d-photo--tall');
       el.innerHTML = '<div class="p3d-photo__img"><img src="img/p3d-photo-0' + PHOTO_IMG[i] + '.webp" alt="" decoding="async"></div>' +
@@ -623,12 +628,14 @@
     stageEl.style.setProperty('--side-x', (w / 2 - PW.front / 2).toFixed(1) + 'px');
     stageEl.style.setProperty('--side-y', ((1 - _v.y) / 2 * h).toFixed(1) + 'px');
     photos.forEach(function (p, i) {
+      if (!p.el) return;
       p.w = i % 2 === 0 ? PW.front : PW.base * 0.72;
       p.el.style.width = p.w.toFixed(1) + 'px';
     });
   }
   function placePhoto(i, show, th, y, front, past) {
     var p = photos[i], el = p.el;
+    if (!el) return;
     if (!show) { el.style.visibility = 'hidden'; return; }
     var k = belt.scale.x;
     _v.set(k * R * Math.sin(th), y, k * R * Math.cos(th));
@@ -708,7 +715,7 @@
     statue.children.forEach(function (o) { if (o !== ball && o !== dust) o.visible = sh < 1; });
     if (dust) {
       dust.visible = sh > 0;
-      var bb = Math.min(1, Math.max(0, (sh * SHAT_MAX - 0.30) / 0.34));
+      var bb = prog(P, BALL_BRK);
       ballU.uB.value = bb;
       ball.userData.mesh.material.visible = bb < 1;
       if (ballDust) ballDust.visible = bb > 0;
