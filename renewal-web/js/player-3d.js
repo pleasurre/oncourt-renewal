@@ -691,16 +691,14 @@
     else sp = 1 - VM * (1 - st) * (1 - st) / (2 * (1 - SA));
     // once it is light it keeps breathing: a slow sway of a few degrees, so it never freezes and stares
     var sway = sstep(0.75, 1, prog(P, SHT)) * (1 - sstep(0.2, 0.7, prog(P, PH.flow)));
-    // idle (alone on screen, before the turn picks up): it breathes, a slow sway of a few degrees, and keeps
-    // tossing the ball: the ball drops onto the palm and goes back up to where it hangs now (the apex)
+    // idle (alone on screen, before the turn picks up): it breathes, a slow sway of a few degrees.
+    // The ball stays quiet (a slow hover, a lazy turn) so the eye stays on the statue and the photos.
     IDLE = 1 - sstep(0, 0.22, st);
     statue.rotation.y = YAW0 - sp * (TURNS * Math.PI * 2 + YAW0) + sway * (0.11 * Math.sin(TNOW * 0.42) + 0.04 * Math.sin(TNOW * 0.97 + 1.3))
       + IDLE * (0.085 * Math.sin(TNOW * 0.55) + 0.025 * Math.sin(TNOW * 1.3 + 0.8));
     if (ball.userData.base !== undefined) {         // ball hovers over the hand, bobs and spins a little with scroll
-      var TP = 1.9, AIR = 1.45, tu = (TNOW % TP) / AIR;                       // toss cycle: 1.45 s in the air, a beat on the palm
-      var toss = tu < 1 ? 1 - 4 * tu * (1 - tu) : 1;                         // 0 at the apex, 1 on the palm
-      ball.position.y = ball.userData.base + (1 - IDLE) * Math.sin(P * 70) * 0.012 / S_SCALE - IDLE * toss * 0.074 / S_SCALE;
-      ball.userData.mesh.rotation.set(P * 9 + IDLE * TNOW * 1.1, P * 14 + IDLE * TNOW * 2.3, P * 5);
+      ball.position.y = ball.userData.base + 0.008 / S_SCALE * Math.sin(TNOW * 0.9 + 0.6);
+      ball.userData.mesh.rotation.set(0.15 * Math.sin(TNOW * 0.3), TNOW * 0.25 + P * 1.5, 0);
     }
     var cr = prog(P, CRK);
     crackU.uCrack.value = cr * cr * (3 - 2 * cr) * 0.35 + cr * 0.65;   // first card at the front -> about halfway
