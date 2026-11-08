@@ -587,10 +587,11 @@
   var lightEl = document.getElementById('p3d-strings-light');
   // line the light tile up with the one in the section above, so the grid runs on unbroken
   function alignLight() {
-    var src = document.querySelector('.declaration-stage'); if (!lightEl || !src) return;
-    var box = src.parentElement; while (box && box !== document.body && getComputedStyle(box).position === 'static') box = box.parentElement;
-    var a = box.getBoundingClientRect(), b = section.getBoundingClientRect();   // the stage starts at the section top
-    var dx = ((a.left - b.left + 16) % 64 + 64) % 64, dy = ((a.top - b.top + 16) % 70 + 70) % 70;   // +16: the layer starts 16px outside the stage
+    if (!lightEl) return;
+    // anchored to the page origin like the .string-bg sections above (js/string-bg.js); the stage starts at
+    // the section top and the layer 16px outside it
+    var b = section.getBoundingClientRect();
+    var dx = ((-(b.left + window.scrollX - 16)) % 64 + 64) % 64, dy = ((-(b.top + window.scrollY - 16)) % 70 + 70) % 70;
     lightEl.style.backgroundPosition = dx.toFixed(1) + 'px ' + dy.toFixed(1) + 'px';
   }
   var stringsEl = document.getElementById('p3d-strings'), glowEl = document.getElementById('p3d-glow'), hudEl = section.querySelector('.p3d-hud'), lineEl = document.getElementById('p3d-flowline');
