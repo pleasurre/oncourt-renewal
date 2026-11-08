@@ -453,6 +453,17 @@
     mouse.tk = 1; mouse.t = performance.now();
   }
   window.addEventListener('pointermove', function (e) { onPoint(e.clientX, e.clientY); }, { passive: true });
+  // desktop: the statue leans a little towards the cursor and the grid shifts the other way
+  var FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var tilt = { x: 0, y: 0, tx: 0, ty: 0 };
+  if (FINE) {
+    window.addEventListener('pointermove', function (e) {
+      var r = stageEl.getBoundingClientRect();
+      if (e.clientY < r.top || e.clientY > r.bottom) { tilt.tx = tilt.ty = 0; return; }
+      tilt.tx = (e.clientX - r.left) / r.width * 2 - 1; tilt.ty = (e.clientY - r.top) / r.height * 2 - 1;
+    }, { passive: true });
+    document.addEventListener('pointerleave', function () { tilt.tx = tilt.ty = 0; });
+  }
   window.addEventListener('pointerdown', function (e) { onPoint(e.clientX, e.clientY); }, { passive: true });
   window.addEventListener('touchmove', function (e) { var t = e.touches[0]; if (t) onPoint(t.clientX, t.clientY); }, { passive: true });
   document.addEventListener('pointerleave', function () { mouse.tk = 0; });
@@ -540,7 +551,7 @@
   }
 
   /* ---- progress / animation (a pure function of one number) ---------- */
-  var target = 0, cur = 0, forced = null, lastActive = -2, INTERACT = 0, TNOW = 0;
+  var target = 0, cur = 0, forced = null, lastActive = -2, INTERACT = 0, TNOW = 0, IDLE = 1;
   for (var s = 0; s <= 2000; s++) { if (ringAt(s / 2000) > 0) { SPIN_T0 = s / 2000; break; } }
   // Court colours: the background changes with the photo at the front, like the reference turns from blue to
   // charcoal. Two versions to compare: ?palette=2 (hard-court blue -> deep green) and the default three
@@ -575,7 +586,7 @@
     var src = document.querySelector('.declaration-stage'); if (!lightEl || !src) return;
     var box = src.parentElement; while (box && box !== document.body && getComputedStyle(box).position === 'static') box = box.parentElement;
     var a = box.getBoundingClientRect(), b = section.getBoundingClientRect();   // the stage starts at the section top
-    var dx = ((a.left - b.left) % 64 + 64) % 64, dy = ((a.top - b.top) % 70 + 70) % 70;
+    var dx = ((a.left - b.left + 16) % 64 + 64) % 64, dy = ((a.top - b.top + 16) % 70 + 70) % 70;   // +16: the layer starts 16px outside the stage
     lightEl.style.backgroundPosition = dx.toFixed(1) + 'px ' + dy.toFixed(1) + 'px';
   }
   var stringsEl = document.getElementById('p3d-strings'), glowEl = document.getElementById('p3d-glow'), hudEl = section.querySelector('.p3d-hud'), lineEl = document.getElementById('p3d-flowline');
@@ -680,10 +691,16 @@
     else sp = 1 - VM * (1 - st) * (1 - st) / (2 * (1 - SA));
     // once it is light it keeps breathing: a slow sway of a few degrees, so it never freezes and stares
     var sway = sstep(0.75, 1, prog(P, SHT)) * (1 - sstep(0.2, 0.7, prog(P, PH.flow)));
-    statue.rotation.y = YAW0 - sp * (TURNS * Math.PI * 2 + YAW0) + sway * (0.11 * Math.sin(TNOW * 0.42) + 0.04 * Math.sin(TNOW * 0.97 + 1.3));
+    // idle (alone on screen, before the turn picks up): it breathes, a slow sway of a few degrees, and keeps
+    // tossing the ball: the ball drops onto the palm and goes back up to where it hangs now (the apex)
+    IDLE = 1 - sstep(0, 0.22, st);
+    statue.rotation.y = YAW0 - sp * (TURNS * Math.PI * 2 + YAW0) + sway * (0.11 * Math.sin(TNOW * 0.42) + 0.04 * Math.sin(TNOW * 0.97 + 1.3))
+      + IDLE * (0.085 * Math.sin(TNOW * 0.55) + 0.025 * Math.sin(TNOW * 1.3 + 0.8));
     if (ball.userData.base !== undefined) {         // ball hovers over the hand, bobs and spins a little with scroll
-      ball.position.y = ball.userData.base + Math.sin(P * 70) * 0.012 / S_SCALE;
-      ball.userData.mesh.rotation.set(P * 9, P * 14, P * 5);
+      var TP = 1.9, AIR = 1.45, tu = (TNOW % TP) / AIR;                       // toss cycle: 1.45 s in the air, a beat on the palm
+      var toss = tu < 1 ? 1 - 4 * tu * (1 - tu) : 1;                         // 0 at the apex, 1 on the palm
+      ball.position.y = ball.userData.base + (1 - IDLE) * Math.sin(P * 70) * 0.012 / S_SCALE - IDLE * toss * 0.074 / S_SCALE;
+      ball.userData.mesh.rotation.set(P * 9 + IDLE * TNOW * 1.1, P * 14 + IDLE * TNOW * 2.3, P * 5);
     }
     var cr = prog(P, CRK);
     crackU.uCrack.value = cr * cr * (3 - 2 * cr) * 0.35 + cr * 0.65;   // first card at the front -> about halfway
@@ -792,7 +809,15 @@
     apply(cur);
     ent += (ENTER - ent) * (1 - Math.exp(-dt * 10));
     var eo = 1 - Math.pow(1 - Math.min(1, Math.max(0, ent)), 3);
-    statue.position.y = BASE_Y - RISE * (1 - eo);
+    statue.position.y = BASE_Y - RISE * (1 - eo) + IDLE * 0.012 * Math.sin(TNOW * 0.9);   // idle: a slight float
+    if (FINE) {
+      tilt.x += (tilt.tx - tilt.x) * (1 - Math.exp(-dt * 3)); tilt.y += (tilt.ty - tilt.y) * (1 - Math.exp(-dt * 3));
+      var tk = 1 - sstep(0.2, 0.7, prog(cur, PH.flow));
+      statue.rotation.y += tilt.x * 0.16 * tk;
+      statue.rotation.x = tilt.y * 0.03 * tk;
+      var gx = (-tilt.x * 10 * tk).toFixed(1) + 'px', gy = (-tilt.y * 7 * tk).toFixed(1) + 'px';
+      stringsEl.style.translate = gx + ' ' + gy; if (lightEl) lightEl.style.translate = gx + ' ' + gy;
+    }
     dustU.uTime.value = now / 1000;
     if (now - mouse.t > 900) mouse.tk = 0;                       // cursor resting: let the points settle back
     mouse.x += (mouse.tx - mouse.x) * (1 - Math.exp(-dt * 10)); mouse.y += (mouse.ty - mouse.y) * (1 - Math.exp(-dt * 10));

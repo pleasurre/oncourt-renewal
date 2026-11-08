@@ -3,6 +3,7 @@
   position:relative;height:1080svh;background:var(--p3d-bg);color:var(--p3d-fg);isolation:isolate}
 .p3d-stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--p3d-bg)}
 .p3d-layer{position:absolute;inset:0;pointer-events:none}
+.p3d-strings,.p3d-strings-light{inset:-16px}   /* room for the cursor shift */
 /* same racket-string tile as the white section above (32 x 35 with ties), lightened for the dark stage;
    the columns line up with the strings above the lime strip */
 /* racket-string tile, same as the section above; the statue stands in a clear pool in the middle,
