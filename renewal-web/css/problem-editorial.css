@@ -151,10 +151,17 @@ html{scrollbar-gutter:stable;}
 /* one tennis-string page from below WHERE'S YOUR PARTNER? down to the connection declaration (and on into the
    player stage): the same tile on every section, anchored to the page so the lines run on unbroken
    (js/string-bg.js sets --sx/--sy) */
-.problem-reserve.string-bg,.problem-detail-reserve.string-bg,#connection.string-bg{background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2270%22%20viewBox%3D%220%200%2064%2070%22%3E%3Cpath%20d%3D%22M0%2012H64M0%2047H64M12%200V70M44%200V70%22%20fill%3D%22none%22%20stroke%3D%22%23789587%22%20stroke-width%3D%22.9%22%20opacity%3D%22.16%22%2F%3E%3Cpath%20d%3D%22M10%2012h4M44%2010v4M12%2045v4M42%2047h4%22%20fill%3D%22none%22%20stroke%3D%22%2391AA9D%22%20opacity%3D%22.15%22%2F%3E%3C%2Fsvg%3E");background-size:64px 70px;background-position:var(--sx,0) var(--sy,0)}
+.problem-reserve.string-bg,.problem-detail-reserve.string-bg,#connection.string-bg{background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2270%22%20viewBox%3D%220%200%2064%2070%22%3E%3Cpath%20d%3D%22M0%2012H64M0%2047H64M12%200V70M44%200V70%22%20fill%3D%22none%22%20stroke%3D%22%23789587%22%20stroke-width%3D%22.9%22%20opacity%3D%22.09%22%2F%3E%3Cpath%20d%3D%22M10%2012h4M44%2010v4M12%2045v4M42%2047h4%22%20fill%3D%22none%22%20stroke%3D%22%2391AA9D%22%20opacity%3D%22.08%22%2F%3E%3C%2Fsvg%3E");background-size:64px 70px;background-position:var(--sx,0) var(--sy,0)}
 /* fades in under the plain white of the WHERE'S YOUR PARTNER? screen */
-.problem-reserve.string-bg--fade{background-image:linear-gradient(#fff,rgba(255,255,255,0) 22svh),url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2270%22%20viewBox%3D%220%200%2064%2070%22%3E%3Cpath%20d%3D%22M0%2012H64M0%2047H64M12%200V70M44%200V70%22%20fill%3D%22none%22%20stroke%3D%22%23789587%22%20stroke-width%3D%22.9%22%20opacity%3D%22.16%22%2F%3E%3Cpath%20d%3D%22M10%2012h4M44%2010v4M12%2045v4M42%2047h4%22%20fill%3D%22none%22%20stroke%3D%22%2391AA9D%22%20opacity%3D%22.15%22%2F%3E%3C%2Fsvg%3E");background-size:100% 100%,64px 70px;background-position:0 0,var(--sx,0) var(--sy,0);background-repeat:no-repeat,repeat}
+.problem-reserve.string-bg--fade{background-image:linear-gradient(#fff,rgba(255,255,255,0) 22svh),url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2270%22%20viewBox%3D%220%200%2064%2070%22%3E%3Cpath%20d%3D%22M0%2012H64M0%2047H64M12%200V70M44%200V70%22%20fill%3D%22none%22%20stroke%3D%22%23789587%22%20stroke-width%3D%22.9%22%20opacity%3D%22.09%22%2F%3E%3Cpath%20d%3D%22M10%2012h4M44%2010v4M12%2045v4M42%2047h4%22%20fill%3D%22none%22%20stroke%3D%22%2391AA9D%22%20opacity%3D%22.08%22%2F%3E%3C%2Fsvg%3E");background-size:100% 100%,64px 70px;background-position:0 0,var(--sx,0) var(--sy,0);background-repeat:no-repeat,repeat}
 /* the declaration used to draw its own tile; the section carries it now */
 .declaration-stage::before{display:none}
 /* the header's parking slot no longer paints a white band over the string grid */
 .problem-nav-dock{background:transparent}
+
+/* the gallery's bottom gap is padding now (not margin), so the string page runs through it */
+.problem-reserve.string-bg{margin-bottom:0;padding-bottom:calc(7svh + 100px)}
+@media(max-width:700px){.problem-reserve.string-bg{padding-bottom:164px}}
+/* no strings behind the heading and copy: a soft white veil keeps them clean */
+.problem-detail-reserve__copy{position:relative;isolation:isolate}
+.problem-detail-reserve__copy::before{content:"";position:absolute;inset:-28px -40px;z-index:-1;pointer-events:none;background:#fff;border-radius:16px;box-shadow:0 0 clamp(28px,4vw,72px) clamp(16px,2.6vw,48px) #fff}
