@@ -35,7 +35,7 @@
 .p3d-cards p{margin:6px 0 0;color:#B3C4BA;word-break:keep-all}
 
 /* flat photos on the ring round the statue (js/player-3d.js): back layer under the canvas, front layer over it */
-.p3d-photos{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.p3d-photos{position:absolute;inset:0;pointer-events:none;overflow:hidden;isolation:isolate}  /* own stacking context: a photo's z-index must not lift it out of its layer (over the statue) */
 .p3d-photo{position:absolute;left:0;top:0;margin:0;visibility:hidden;will-change:transform,opacity;transform-origin:50% 50%}
 .p3d-photo__img{position:relative;aspect-ratio:3/2;overflow:hidden;background:#0d1a15}
 .p3d-photo--decor .p3d-photo__img{aspect-ratio:1}

@@ -735,13 +735,14 @@
     statue.updateMatrixWorld(); crackU.uInv.value.copy(statue.matrixWorld).invert();
     railEl.style.height = Math.round(P * 100) + '%';
     hintEl.style.opacity = P < 0.02 ? 1 : 0;
+    // the keyword stays up between photos and only leaves after the last one
+    if (sideEl) sideEl.classList.toggle('is-on', active >= 0 || (P > FT[0] - 0.005 && P < FT[N - 1] + 0.02));
     if (active !== lastActive) {
       lastActive = active;
       cntEl.style.opacity = active < 0 ? 0 : 1;
       if (active >= 0) cntEl.firstChild.textContent = '0' + (active + 1);
       if (active >= 0) kwEl.textContent = CARDS[active].k;
       if (sideEl) {
-        sideEl.classList.toggle('is-on', active >= 0);
         if (active >= 0) { sideNum.textContent = '0' + (active + 1) + ' / 06'; sideKw.textContent = CARDS[active].k; sideEl.classList.remove('is-swap'); void sideEl.offsetWidth; sideEl.classList.add('is-swap'); }
       }
     }
