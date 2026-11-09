@@ -1,7 +1,6 @@
 // WHY ONCOURT?: draw the highlighter under each card's key words once, when the card is well inside the screen.
 (() => {
  const section = document.getElementById('why-oncourt');
- if (section) section.dataset.why = (location.search.match(/[?&]why=([123])/) || [, '1'])[1];
  if (!section || !('IntersectionObserver' in window)) return;
  section.classList.add('why-hl-ready');
  const io = new IntersectionObserver(entries => {
