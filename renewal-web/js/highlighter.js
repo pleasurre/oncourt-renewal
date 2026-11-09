@@ -19,8 +19,13 @@
  const frame = section && section.querySelector('.hl-frame');
  if (!frame || !('IntersectionObserver' in window)) return;
  section.classList.add('hl-ready');
+ // draw when the photo is half in view; wipe it once it has left the screen completely, so it draws again
+ // every time you come back (the wipe happens off screen, so it is never seen)
  const io = new IntersectionObserver(entries => {
-  if (entries.some(e => e.isIntersecting)) { section.classList.add('is-drawn'); io.disconnect(); }
- }, { threshold: 0.5 });
+  entries.forEach(e => {
+   if (e.intersectionRatio >= 0.5) section.classList.add('is-drawn');
+   else if (!e.isIntersecting) section.classList.remove('is-drawn');
+  });
+ }, { threshold: [0, 0.5] });
  io.observe(frame);
 })();
