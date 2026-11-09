@@ -19,13 +19,16 @@
  const frame = section && section.querySelector('.hl-frame');
  if (!frame || !('IntersectionObserver' in window)) return;
  section.classList.add('hl-ready');
- // draw when the photo is half in view; wipe it once it has left the screen completely, so it draws again
- // every time you come back (the wipe happens off screen, so it is never seen)
+ // frame + title underline draw together when the photo is half in view. They are wiped only when the section
+ // has dropped below the screen (you scrolled back up past it), so they draw again on the way down; scrolling
+ // back up from below finds them already drawn. The wipe happens off screen, so it is never seen.
+ const title = section.querySelector('.hl-mark');
+ const below = el => !el || el.getBoundingClientRect().top >= innerHeight;
  const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
-   if (e.intersectionRatio >= 0.5) section.classList.add('is-drawn');
-   else if (!e.isIntersecting) section.classList.remove('is-drawn');
+   if (e.target === frame && e.intersectionRatio >= 0.5) section.classList.add('is-drawn');
+   else if (!e.isIntersecting && below(frame) && below(title)) section.classList.remove('is-drawn');
   });
  }, { threshold: [0, 0.5] });
- io.observe(frame);
+ io.observe(frame); if (title) io.observe(title);
 })();
