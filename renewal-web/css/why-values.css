@@ -130,3 +130,9 @@
  .why-hl-ready .why-hl{background-size:0% 100%;transition:background-size .55s cubic-bezier(.55,0,.25,1) .15s}
  .why-hl-ready .why-value.is-drawn .why-hl{background-size:100% 100%}
 }
+
+/* WHY in its own face (compare with ?why=1 marker, ?why=2 italic serif, ?why=3 condensed sport; default 1) */
+#why-oncourt .why-word{display:inline-block;letter-spacing:0;color:#1E5A40}
+#why-oncourt[data-why="1"] .why-word{font-family:"Permanent Marker",cursive;font-weight:400;font-size:.92em;rotate:-4deg;translate:0 -.02em}
+#why-oncourt[data-why="2"] .why-word{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400;font-size:1.08em;letter-spacing:-.02em;margin-right:.02em}
+#why-oncourt[data-why="3"] .why-word{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:800;font-size:1.16em;letter-spacing:.005em}
